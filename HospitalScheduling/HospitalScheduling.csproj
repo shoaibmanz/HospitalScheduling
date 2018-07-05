@@ -54,6 +54,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddToOpenList.xaml.cs">
+      <DependentUpon>AddToOpenList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VisitHistory.xaml.cs">
+      <DependentUpon>VisitHistory.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AddToOpenList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FrontDeskView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -73,6 +83,10 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="PatientScheduling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VisitHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
