@@ -1,0 +1,117 @@
+﻿<Window x:Class="SchedulingSystem.FrontDeskView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchedulingSystem"
+        mc:Ignorable="d"
+        Title="FrontDeskView" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="10 10 10 10"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="10 10 10 10"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10 10 10 10"/>
+            <Setter Property="Width" Value="60"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Margin" Value="5 5 35 5"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="15*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Front Desk View"/>
+
+        <TabControl Grid.Row="1">
+          
+            <!-- Patient Schedule Queue View -->
+            <TabItem Header="Schedule Queue">
+                <StackPanel>
+
+                    <TextBlock Text="Patient List (To be scheduled)" Margin="10 5 0 10"/>
+                    <DataGrid Padding="15">
+                        
+                    </DataGrid>
+                </StackPanel>
+                
+            </TabItem>
+            
+            <TabItem Header="Appointments">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="8*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Filter Options Row-->
+                    <WrapPanel Grid.Row="0">
+                        
+                        <TextBlock Text="Speciality"/>
+                        <ComboBox Name="SpecialityFilterAppointments"/>
+                        <TextBlock Text="Doctor"/>
+                        <ComboBox Name="DoctorFilterAppointments"/>
+                        <TextBlock Text="Clinic"/>
+                        <ComboBox Name="ClinicFilterAppointments"/>
+                        <TextBlock Text="Date"/>
+                        <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </WrapPanel>
+                    
+                    <!-- Show ups checkbox-->
+                    <WrapPanel Grid.Row="1" Margin="10 0 0 0">
+                        
+                        <CheckBox Name="ShowUpsOnly" VerticalAlignment="Center"/>
+                        <TextBlock Text="No show ups only"/>
+
+                    </WrapPanel>
+                    <DataGrid Grid.Row="2" Padding="10">
+                        
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Open List">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="8*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Filter Options Row-->
+                    <WrapPanel Grid.Row="0">
+
+                        <TextBlock Text="Speciality"/>
+                        <ComboBox Name="SpecialityFilterOpenList"/>
+                        <TextBlock Text="Doctor"/>
+                        <ComboBox Name="DoctorFilterOpenList"/>
+                        <TextBlock Text="Clinic"/>
+                        <ComboBox Name="ClinicFilterOpenList"/>
+                        <TextBlock Text="Date"/>
+                        <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </WrapPanel>
+
+                    <DataGrid Grid.Row="2" Padding="10">
+
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+       
+        </TabControl>
+    </Grid>
+
+</Window>
