@@ -38,104 +38,108 @@
         </Style>
     </Window.Resources>
     <Border Padding="30">
-        <Grid>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            
-            <!-- Left Half of the window-->
-            <StackPanel Grid.Column="0">
-                <WrapPanel>
-                    <TextBlock Text="Patient Name:"/>
-                    <TextBox Text="" Width="90" Background="DarkGray"/>
-                </WrapPanel>
+        <StackPanel>
+            <Grid>
 
-                <WrapPanel>
-                    <CheckBox Name="NewPatient" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBlock Text="New Patient"/>
-                </WrapPanel>
-                <WrapPanel>
-                    <CheckBox Name="ReturningPatient"/>
-                    <TextBlock Text="Returning Patient"/>
-                </WrapPanel>
-                <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="History"/>
-                        <Button Name="VisitDetails" Click="VisitDetails_Click" Content="Visit Details" Width="Auto"/>
-                    </StackPanel>
-                    
-                    <StackPanel Grid.Column="1">
-                        <TextBlock Text="Visits Remaining"/>
-                        <Button Name="CurrApointments" Click="CurrApointments_Click" Content="Current Appointments" Width="Auto"/>
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
-
-            <StackPanel Grid.Column="1">
-                                
-                <Grid>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <WrapPanel Grid.Row="0">
-                        <TextBlock Text="Speciality:"/>
-                        <ComboBox Width="100"/>
-                        <TextBlock Text="Doctor:"/>
-                        <ComboBox Width="100"/>
+                <!-- Left Half of the window-->
+                <StackPanel Grid.Column="0">
+                    <WrapPanel>
+                        <TextBlock Text="Patient Name:"/>
+                        <TextBox Text="" Width="90" Background="DarkGray"/>
                     </WrapPanel>
 
-                    <WrapPanel Grid.Row="1">
-                        <TextBlock Text="Clinic:"/>
-                        <ComboBox Width="100" Margin="10 10 10 10"/>
+                    <WrapPanel>
+                        <CheckBox Name="NewPatient" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="New Patient"/>
                     </WrapPanel>
-
-                    <WrapPanel Grid.Row="2">
-                        
-                        <TextBlock Text="Appointment Type"/>
-                        
-                        <ComboBox Name="AppointmentType" Width="100" SelectedIndex="0">
-                            <ComboBoxItem>First/ New</ComboBoxItem>
-                            <ComboBoxItem>Follow Up</ComboBoxItem>
-                        </ComboBox>
-
-                        <Button Content="Doctor Notes" Margin="20 0 0 0" Visibility="{Binding ElementName=AppointmentType, Path=SelectedItem, Converter={StaticResource ComboBoxtoVisibility}}"/>
+                    <WrapPanel>
+                        <CheckBox Name="ReturningPatient"/>
+                        <TextBlock Text="Returning Patient"/>
                     </WrapPanel>
+                    <Grid>
 
-                    <WrapPanel Grid.Row="3">
-                        <Button>
-                            <TextBlock>Find Best<LineBreak/>Appointment</TextBlock>
-                        </Button>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                        <Button>
-                            <TextBlock>Manual<LineBreak/>Appointment</TextBlock>
-                        </Button>
-                        
-                        <Button>
-                            <TextBlock>Add to<LineBreak/>Open List</TextBlock>
-                        </Button>
-                         
-                    </WrapPanel>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="History"/>
+                            <Button Name="VisitDetails" Click="VisitDetails_Click" Content="Visit Details" Width="Auto"/>
+                        </StackPanel>
 
-                    <StackPanel Grid.Row="4">
-                        <TextBlock Text="Appointment Details:"/>
-                        <TextBlock/>
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
-        </Grid>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Visits Remaining"/>
+                            <Button Name="CurrApointments" Click="CurrApointments_Click" Content="Current Appointments" Width="Auto"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <WrapPanel Grid.Row="0">
+                            <TextBlock Text="Speciality:"/>
+                            <ComboBox Width="100"/>
+                            <TextBlock Text="Doctor:"/>
+                            <ComboBox Width="100"/>
+                        </WrapPanel>
+
+                        <WrapPanel Grid.Row="1">
+                            <TextBlock Text="Clinic:"/>
+                            <ComboBox Width="100" Margin="10 10 10 10"/>
+                        </WrapPanel>
+
+                        <WrapPanel Grid.Row="2">
+
+                            <TextBlock Text="Appointment Type"/>
+
+                            <ComboBox Name="AppointmentType" Width="100" SelectedIndex="0">      
+                                <ComboBoxItem>First/ New</ComboBoxItem>
+                                <ComboBoxItem>Follow Up</ComboBoxItem>
+                            </ComboBox>
+
+                            <Button Content="Doctor Notes" Margin="20 0 0 0" Visibility="{Binding ElementName=AppointmentType, Path=SelectedItem, Converter={StaticResource ComboBoxtoVisibility}}"/>
+                        </WrapPanel>
+
+                        <WrapPanel Grid.Row="3">
+                            <Button>
+                                <TextBlock>Find Best<LineBreak/>Appointment</TextBlock>
+                            </Button>
+
+                            <Button>
+                                <TextBlock>Manual<LineBreak/>Appointment</TextBlock>
+                            </Button>
+
+                            <Button>
+                                <TextBlock>Add to<LineBreak/>Open List</TextBlock>
+                            </Button>
+
+                        </WrapPanel>
+
+                        <StackPanel Grid.Row="4">
+                            <TextBlock Text="Appointment Details:"/>
+                            <TextBlock/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+            <Button Content="Confirm" Width="100" Padding="5"/>
+        </StackPanel>
+        
     </Border>
 </Window>

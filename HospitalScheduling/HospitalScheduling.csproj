@@ -57,6 +57,15 @@
     <Compile Include="AddToOpenList.xaml.cs">
       <DependentUpon>AddToOpenList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PatientPreferences.xaml.cs">
+      <DependentUpon>PatientPreferences.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopupNotification.xaml.cs">
+      <DependentUpon>PopupNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PossibleAppointments.xaml.cs">
+      <DependentUpon>PossibleAppointments.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VisitHistory.xaml.cs">
       <DependentUpon>VisitHistory.xaml</DependentUpon>
     </Compile>
@@ -82,7 +91,19 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="PatientPreferences.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PatientScheduling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopupNotification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PossibleAppointments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
