@@ -8,6 +8,9 @@
         Title="FrontDeskView" Height="450" Width="800">
 
     <Window.Resources>
+        
+        <Image Source="Icons/DetailsButtonIcon.png" x:Key="DetailsIcon"/>
+        
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="10 10 10 10"/>
         </Style>
@@ -26,6 +29,15 @@
             <Setter Property="Width" Value="90"/>
             <Setter Property="Margin" Value="5 5 35 5"/>
         </Style>
+
+        <DataGridTemplateColumn Header="Details" x:Key="ButtonColumn">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Button Click="Button_Click" Content="{StaticResource DetailsIcon}"/>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
     </Window.Resources>
     
     <Grid>
@@ -43,9 +55,15 @@
                 <StackPanel>
 
                     <TextBlock Text="Patient List (To be scheduled)" Margin="10 5 0 10"/>
-                    <DataGrid Padding="15">
+                    
+                    <DataGrid Name="PatientSchedulingGrid" Padding="15">
+
+                        <DataGrid.Columns>
+
+                        </DataGrid.Columns>
                         
                     </DataGrid>
+               
                 </StackPanel>
                 
             </TabItem>
