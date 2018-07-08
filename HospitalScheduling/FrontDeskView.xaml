@@ -9,7 +9,7 @@
 
     <Window.Resources>
         
-        <Image Source="Icons/DetailsButtonIcon.png" x:Key="DetailsIcon"/>
+        <!--<Image Source="Icons/DetailsButtonIcon.PNG"-->
         
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="10 10 10 10"/>
@@ -30,14 +30,14 @@
             <Setter Property="Margin" Value="5 5 35 5"/>
         </Style>
 
-        <DataGridTemplateColumn Header="Details" x:Key="ButtonColumn">
-            <DataGridTemplateColumn.CellTemplate>
-                <DataTemplate>
-                    <Button Click="Button_Click" Content="{StaticResource DetailsIcon}"/>
-                </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>
-        
+
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextBlock.IsManipulationEnabled" Value="False"/>
+        </Style>
+
     </Window.Resources>
     
     <Grid>
@@ -55,13 +55,35 @@
                 <StackPanel>
 
                     <TextBlock Text="Patient List (To be scheduled)" Margin="10 5 0 10"/>
-                    
-                    <DataGrid Name="PatientSchedulingGrid" Padding="15">
 
+                    <DataGrid Name="PatientSchedulingGrid" Padding="15" CanUserAddRows="false" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Header="ChartNumber" Binding="{Binding ChartNumber}"/>
+                            <DataGridTextColumn Header="PatientName" Binding="{Binding PatientName}"/>
+                            <DataGridTextColumn Header="AccidentDate" Binding="{Binding AccidentDate}"/>
+                            <DataGridTextColumn Header="InsuranceName" Binding="{Binding InsuranceName}"/>
+                            <DataGridTextColumn Header="CaseType" Binding="{Binding CaseType}"/>
+                            <DataGridTextColumn Header="CaseStatus" Binding="{Binding CaseStatus}"/>
+                            <DataGridTextColumn Header="AttorneyName" Binding="{Binding AttorneyName}"/>
+                            <DataGridTextColumn Header="PatientStatus" Binding="{Binding PatientStatus}"/>
+                            <DataGridTemplateColumn Header="Details">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="Button_Click">
+                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <ContentPresenter Content="{TemplateBinding Content}"/>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
 
                         </DataGrid.Columns>
-                        
+
                     </DataGrid>
                
                 </StackPanel>

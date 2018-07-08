@@ -30,7 +30,9 @@ namespace SchedulingSystem
 
             this.ClerkName = ClerkName;
 
-            PatientList.Add(new PatientToBeScheduled()
+
+            #region Creating Dummy Data
+            PatientToBeScheduled P1 = new PatientToBeScheduled()
             {
                 ChartNumber = "1224124",
                 PatientName = "Ruben",
@@ -40,7 +42,67 @@ namespace SchedulingSystem
                 CaseStatus = "Open",
                 AttorneyName = "JKL",
                 PatientStatus = "Walk in",
+                OldNew = true
+            };
+
+            P1.Insurance.Add(new InsuranceRecord()
+            {
+                Speciality = "Medical",
+                VisitsRemaining = 3
             });
+
+            P1.Insurance.Add(new InsuranceRecord()
+            {
+                Speciality = "ACCU",
+                VisitsRemaining = 0
+            });
+
+            P1.Insurance.Add(new InsuranceRecord()
+            {
+                Speciality = "Physician",
+                VisitsRemaining = 1
+            });
+
+            P1.VisitHistory.Add(new Visit()
+            {
+                Date = "12-01-2017",
+                Time = "9:00am",
+                Duration = 15,
+                Speciality = "Medical",
+                DoctorName = "Dr. Adam",
+                ClinicName = "Gun Hill",
+            });
+
+            P1.VisitHistory.Add(new Visit()
+            {
+                Date = "12-06-2016",
+                Time = "11:00am",
+                Duration = 30,
+                Speciality = "Medical",
+                DoctorName = "Dr. Steele",
+                ClinicName = "Jamaica",
+            });
+            P1.VisitHistory.Add(new Visit()
+            {
+                Date = "12-9-2017",
+                Time = "3:00pm",
+                Duration = 15,
+                Speciality = "Medical",
+                DoctorName = "Dr. Adam",
+                ClinicName = "Gun Hill",
+            });
+            P1.VisitHistory.Add(new Visit()
+            {
+                Date = "12-01-2018",
+                Time = "12:00am",
+                Duration = 15,
+                Speciality = "Medical",
+                DoctorName = "Dr. Steele",
+                ClinicName = "ABC",
+            });
+
+            PatientList.Add(P1);
+
 
             PatientList.Add(new PatientToBeScheduled()
             {
@@ -52,46 +114,44 @@ namespace SchedulingSystem
                 CaseStatus = "Open",
                 AttorneyName = "JKL",
                 PatientStatus = "Follow Up",
+                OldNew = true
             });
 
+
+            PatientList.Add(new PatientToBeScheduled()
+            {
+                ChartNumber = "231432",
+                PatientName = "Shoaib",
+                AccidentDate = "12-06-2017",
+                InsuranceName = "XYZ",
+                CaseType = "NoFault",
+                CaseStatus = "Open",
+                AttorneyName = "JKL",
+                PatientStatus = "Rescheduled",
+                OldNew = false
+            });
+            #endregion
+
             this.PatientSchedulingGrid.ItemsSource = PatientList;
-            
-
-            DataGridTemplateColumn ButtonColumn = new DataGridTemplateColumn();
-
-            ButtonColumn = (DataGridTemplateColumn)this.Resources["ButtonColumn"];
-            
-            this.PatientSchedulingGrid.Columns.Add(ButtonColumn);
         }
         
+
         public string ClerkName { get; set; }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            // collect the patient object the user has selected
+            PatientToBeScheduled Patient = ((FrameworkElement)sender).DataContext as PatientToBeScheduled;
 
+            // creating and displaying a new scheduling window based on the object
+            Window SchedulingWindow = new PatientScheduling(Patient);
+
+           
+            this.Hide();
+            SchedulingWindow.ShowDialog();
+            this.Show();
         }
     }
 
-    public class PatientToBeScheduled
-    {
-        public PatientToBeScheduled() {
 
-        }
-
-        public string ChartNumber { get; set; }
-
-        public string PatientName { get; set; }
-
-        public string AccidentDate { get; set; }
-        
-        public string InsuranceName { get; set; }
-
-        public string CaseType { get; set; }
-
-        public string CaseStatus { get; set; }
-
-        public string AttorneyName { get; set; }
-
-        public string PatientStatus { get; set; }
-    }
 }

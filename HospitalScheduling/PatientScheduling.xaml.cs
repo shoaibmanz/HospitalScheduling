@@ -19,18 +19,50 @@ namespace SchedulingSystem
     /// </summary>
     public partial class PatientScheduling : Window
     {
-        public PatientScheduling()
+
+        PatientToBeScheduled CurrentPatient;
+        public PatientScheduling(PatientToBeScheduled CurrentPatient)
         {
             InitializeComponent();
+            this.CurrentPatient = CurrentPatient;
+            this.DataContext = this.CurrentPatient;
+
+            if (CurrentPatient.OldNew) {
+                NewPatient.IsChecked = true;
+            }
+            else {
+                ReturningPatient.IsChecked = true;
+            }
+
+            InsuranceInfo.ItemsSource = CurrentPatient.Insurance;
         }
 
         private void CurrApointments_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void VisitDetails_Click(object sender, RoutedEventArgs e)
         {
+            VisitHistory VisitHistoryWindow = new VisitHistory(CurrentPatient);
+
+            VisitHistoryWindow.ShowDialog();
+
+        }
+
+        private void AddToOpenList_Click(object sender, RoutedEventArgs e)
+        {
+            AddToOpenList OpenListWindow = new AddToOpenList(CurrentPatient);
+
+            OpenListWindow.ShowDialog();
+
+        }
+
+        private void FindBestAppointment_Click(object sender, RoutedEventArgs e)
+        {
+            PatientPreferences PatientPreferencesWindow = new PatientPreferences(CurrentPatient);
+
+            PatientPreferencesWindow.ShowDialog();
 
         }
     }

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HospitalScheduling
+namespace SchedulingSystem
 {
     /// <summary>
     /// Interaction logic for PopupNotification.xaml
@@ -22,6 +22,11 @@ namespace HospitalScheduling
         public PopupNotification()
         {
             InitializeComponent();
+        }
+
+        private void GoToPanel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

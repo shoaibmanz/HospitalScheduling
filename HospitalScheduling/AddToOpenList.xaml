@@ -1,11 +1,11 @@
-﻿<Window x:Class="HospitalScheduling.AddToOpenList"
+﻿<Window x:Class="SchedulingSystem.AddToOpenList"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HospitalScheduling"
+        xmlns:local="clr-namespace:SchedulingSystem"
         mc:Ignorable="d"
-        Title="AddToOpenList" Height="450" Width="800">
+        Title="AddToOpenList" Height="200" Width="400">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="10 10 10 10"/>
@@ -43,7 +43,7 @@
         
         <WrapPanel Grid.Row="0" Grid.Column="0">
             <TextBlock Text="Patient:"/>
-            <TextBlock Name="TextBoxPatientName" Text=""/>
+            <TextBlock Name="TextBoxPatientName" Text="{Binding PatientName}"/>
         </WrapPanel>
 
         <WrapPanel Grid.Row="1" Grid.Column="0">

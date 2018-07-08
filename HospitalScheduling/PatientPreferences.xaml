@@ -1,9 +1,9 @@
-﻿<Window x:Class="HospitalScheduling.PatientPreferences"
+﻿<Window x:Class="SchedulingSystem.PatientPreferences"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HospitalScheduling"
+        xmlns:local="clr-namespace:SchedulingSystem"
         mc:Ignorable="d"
         Title="PatientPreferences" Height="450" Width="800">
 
@@ -26,56 +26,62 @@
 
             <WrapPanel>
                 <TextBlock Text="Patient Name:" Margin="0 0 10 0"/>
-                <TextBox Text="" Name="PatientName" IsReadOnly="True" Background="#eee" Margin="0 0 30 0"/>
+                <TextBox Text="{Binding PatientName}" Name="PatientName" IsEnabled="False" Background="#eee" Margin="0 0 30 0"/>
                 <TextBlock Text="Clinic:" Margin="0 0 10 0"/>
-                <ComboBox SelectedItem="0" Width="60"/>
+                <ComboBox SelectedIndex="0" Width="60">
+                    <ComboBoxItem>Any</ComboBoxItem>
+                </ComboBox>
             </WrapPanel>
 
             <WrapPanel>
                 <TextBlock Text="Doctor:" Margin="0 0 10 0"/>
-                <ComboBox SelectedIndex="0" Margin="0 0 30 0" Width="70"/>
+                <ComboBox SelectedIndex="0" Margin="0 0 30 0" Width="70">
+                    <ComboBoxItem>Any</ComboBoxItem>
+                </ComboBox>
                 <TextBlock Text="Speciality:" Margin="0 0 15 0"/>
-                <ComboBox SelectedIndex="0" Width="70"/>
+                <ComboBox SelectedIndex="0" Width="70">
+                    <ComboBoxItem>Any</ComboBoxItem>
+                </ComboBox>
             </WrapPanel>
 
             <TextBlock Text="Appointment Date" Margin="0 10 0 5"/>
 
-            <RadioButton GroupName="AppointmentDate" VerticalAlignment="Center">
+            <RadioButton GroupName="AppointmentDate" Name="SelectDateRange" VerticalAlignment="Center">
                 <WrapPanel>
-                    <DatePicker VerticalAlignment="Center"/>
-                    <TextBlock Text="to" VerticalAlignment="Center" Margin="5 0 5 0"/>
-                    <DatePicker VerticalAlignment="Center"/>
+                    <DatePicker VerticalAlignment="Center" IsEnabled="{Binding ElementName=SelectDateRange, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
+                    <TextBlock Text="to" VerticalAlignment="Center" Margin="5 0 5 0" IsEnabled="{Binding ElementName=SelectDateRange, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
+                    <DatePicker VerticalAlignment="Center" IsEnabled="{Binding ElementName=SelectDateRange, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
                 </WrapPanel> 
             </RadioButton>
 
-            <RadioButton GroupName="AppointmentDate" Margin="0 2 0 2">
+            <RadioButton GroupName="AppointmentDate" Name="ScheduleIn" Margin="0 2 0 2">
                 <WrapPanel>
-                    <TextBlock Text="Schedule in"/>
-                    <TextBox Name="ScheduleInTextBox" Width="40" Margin="5 0 5 0"/>
-                    <DatePicker/>
+                    <TextBlock Text="Schedule in" IsEnabled="{Binding ElementName=ScheduleIn, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
+                    <TextBox Name="ScheduleInTextBox" Width="40" Margin="5 0 5 0" IsEnabled="{Binding ElementName=ScheduleIn, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
+                    <DatePicker IsEnabled="{Binding ElementName=ScheduleIn, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
                 </WrapPanel>
             </RadioButton>
 
-            <RadioButton GroupName="AppointmentDate" Margin="0 2 0 2">
+            <RadioButton GroupName="AppointmentDate" Name="DayRestriction" Margin="0 2 0 2">
                 <WrapPanel>
-                    <TextBlock Text="Day Restriction"/>
+                    <TextBlock Text="Day Restriction" IsEnabled="{Binding ElementName=DayRestriction, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
                 </WrapPanel>
             </RadioButton>
 
             <TextBlock Text="Appointment Time" Margin="0 10 0 5"/>
-            <RadioButton GroupName="AppointmentTime" Margin="0 2 0 2">
+            <RadioButton GroupName="AppointmentTime" Name="TimeRange" Margin="0 2 0 2">
                 <WrapPanel>
-                    <TextBlock Text="Time range"/>
-                    <TextBox Width="40" Margin="5 0 5 0"/>
-                    <TextBlock Text="to"/>
-                    <TextBox Width="40" Margin="5 0 5 0"/>
+                    <TextBlock Text="Time range" IsEnabled="{Binding ElementName=TimeRange, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
+                    <TextBox Width="40" Margin="5 0 5 0" IsEnabled="{Binding ElementName=TimeRange, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
+                    <TextBlock Text="to" IsEnabled="{Binding ElementName=TimeRange, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
+                    <TextBox Width="40" Margin="5 0 5 0" IsEnabled="{Binding ElementName=TimeRange, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
                 </WrapPanel>
             </RadioButton>
 
-            <RadioButton GroupName="AppointmentTime" Margin="0 2 0 2">
+            <RadioButton GroupName="AppointmentTime" Name="TimeRestriction" Margin="0 2 0 2">
                 <WrapPanel>
-                    <TextBlock Text="Time Restriction"/>
-                    <ComboBox SelectedIndex="0">
+                    <TextBlock Text="Time Restriction" IsEnabled="{Binding ElementName=TimeRestriction, Path=IsChecked, NotifyOnSourceUpdated=True}"/>
+                    <ComboBox SelectedIndex="0" IsEnabled="{Binding ElementName=TimeRestriction, Path=IsChecked, NotifyOnSourceUpdated=True}">
                         <ComboBoxItem>AM</ComboBoxItem>
                         <ComboBoxItem>PM</ComboBoxItem>
                     </ComboBox>

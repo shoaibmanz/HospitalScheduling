@@ -12,15 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HospitalScheduling
+namespace SchedulingSystem
 {
     /// <summary>
     /// Interaction logic for PatientPreferences.xaml
     /// </summary>
     public partial class PatientPreferences : Window
     {
-        public PatientPreferences()
+        public PatientPreferences(PatientToBeScheduled CurrentPatient)
         {
+            this.DataContext = CurrentPatient;
             InitializeComponent();
         }
     }

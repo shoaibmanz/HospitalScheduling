@@ -57,6 +57,7 @@
     <Compile Include="AddToOpenList.xaml.cs">
       <DependentUpon>AddToOpenList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes.cs" />
     <Compile Include="PatientPreferences.xaml.cs">
       <DependentUpon>PatientPreferences.xaml</DependentUpon>
     </Compile>

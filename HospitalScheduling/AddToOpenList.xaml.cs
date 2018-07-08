@@ -12,16 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HospitalScheduling
+namespace SchedulingSystem
 {
     /// <summary>
     /// Interaction logic for AddToOpenList.xaml
     /// </summary>
     public partial class AddToOpenList : Window
     {
-        public AddToOpenList()
+        public AddToOpenList(PatientToBeScheduled CurrentPatient)
         {
             InitializeComponent();
+            this.DataContext = CurrentPatient;
         }
     }
 }

@@ -15,7 +15,7 @@
             <Setter Property="Margin" Value="10 10 10 10"/>
         </Style>
         
-        <Style TargetType="CheckBox">
+        <Style TargetType="RadioButton">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="10 0 0 0"/>
@@ -50,34 +50,34 @@
                 <StackPanel Grid.Column="0">
                     <WrapPanel>
                         <TextBlock Text="Patient Name:"/>
-                        <TextBox Text="" Width="90" Background="DarkGray"/>
+                        <TextBox Name="PatientName" Text="{Binding PatientName}" Background="DarkGray" IsEnabled="False"/>
                     </WrapPanel>
 
-                    <WrapPanel>
-                        <CheckBox Name="NewPatient" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Text="New Patient"/>
+                    <RadioButton Name="NewPatient" Content="New Patient" HorizontalAlignment="Left" IsEnabled="False"/>
+                    <RadioButton Name="ReturningPatient" Content="Returning Patient" HorizontalAlignment="Left" IsEnabled="False"/>
+
+
+                    <DataGrid Name="InsuranceInfo" AutoGenerateColumns="False" Margin="10 10 10 10" Padding="10" CanUserAddRows="False" IsReadOnly="True">
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="History">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Content="{Binding Speciality}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Visits Remaining" Binding="{Binding VisitsRemaining}"/>
+
+                        </DataGrid.Columns>
+                        
+                    </DataGrid>
+
+                    <WrapPanel HorizontalAlignment="Center">
+                        <Button Name="VisitDetails" Click="VisitDetails_Click" Content="Visit Details" Width="85" Margin="10 10 30 10"/>
+                        <Button Name="CurrApointments" Click="CurrApointments_Click" Content="Current Appointments" Width="135" Margin="30 10 10 10"/>
                     </WrapPanel>
-                    <WrapPanel>
-                        <CheckBox Name="ReturningPatient"/>
-                        <TextBlock Text="Returning Patient"/>
-                    </WrapPanel>
-                    <Grid>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Text="History"/>
-                            <Button Name="VisitDetails" Click="VisitDetails_Click" Content="Visit Details" Width="Auto"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="Visits Remaining"/>
-                            <Button Name="CurrApointments" Click="CurrApointments_Click" Content="Current Appointments" Width="Auto"/>
-                        </StackPanel>
-                    </Grid>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
@@ -94,14 +94,20 @@
 
                         <WrapPanel Grid.Row="0">
                             <TextBlock Text="Speciality:"/>
-                            <ComboBox Width="100"/>
+                            <ComboBox Width="100" SelectedIndex="0">
+                                <ComboBoxItem>Any</ComboBoxItem>
+                            </ComboBox>
                             <TextBlock Text="Doctor:"/>
-                            <ComboBox Width="100"/>
+                            <ComboBox Width="100" SelectedIndex="0">
+                                <ComboBoxItem>Any</ComboBoxItem>
+                            </ComboBox>
                         </WrapPanel>
 
                         <WrapPanel Grid.Row="1">
                             <TextBlock Text="Clinic:"/>
-                            <ComboBox Width="100" Margin="10 10 10 10"/>
+                            <ComboBox Width="100" Margin="10 10 10 10" SelectedIndex="0">
+                                <ComboBoxItem>Any</ComboBoxItem>
+                            </ComboBox>
                         </WrapPanel>
 
                         <WrapPanel Grid.Row="2">
@@ -117,7 +123,7 @@
                         </WrapPanel>
 
                         <WrapPanel Grid.Row="3">
-                            <Button>
+                            <Button Click="FindBestAppointment_Click">
                                 <TextBlock>Find Best<LineBreak/>Appointment</TextBlock>
                             </Button>
 
@@ -125,7 +131,8 @@
                                 <TextBlock>Manual<LineBreak/>Appointment</TextBlock>
                             </Button>
 
-                            <Button>
+                            <Button Click="AddToOpenList_Click">
+                                
                                 <TextBlock>Add to<LineBreak/>Open List</TextBlock>
                             </Button>
 

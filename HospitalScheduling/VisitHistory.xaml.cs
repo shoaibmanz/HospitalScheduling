@@ -12,16 +12,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HospitalScheduling
+namespace SchedulingSystem
 {
     /// <summary>
     /// Interaction logic for VisitHistory.xaml
     /// </summary>
     public partial class VisitHistory : Window
     {
-        public VisitHistory()
+
+        public PatientToBeScheduled CurrentPatient;
+        public VisitHistory(PatientToBeScheduled CurrentPatient)
         {
             InitializeComponent();
+            this.CurrentPatient = CurrentPatient;
+            this.DataContext = CurrentPatient;
+
+            HistoryTable.ItemsSource = CurrentPatient.VisitHistory;
+        }
+
+        private void OK_Click(object sender, RoutedEventArgs e)
+        {
+
+            this.Close();
+
         }
     }
 }
