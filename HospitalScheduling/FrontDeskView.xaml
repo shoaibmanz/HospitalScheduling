@@ -10,7 +10,9 @@
     <Window.Resources>
         
         <!--<Image Source="Icons/DetailsButtonIcon.PNG"-->
-        
+
+        <local:CheckBoxToVisiblityConverter x:Key="CheckBoxtoVisibility"/>
+
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="10 10 10 10"/>
         </Style>
@@ -91,37 +93,79 @@
             </TabItem>
             
             <TabItem Header="Appointments">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="8*"/>
-                    </Grid.RowDefinitions>
-                    
+                <StackPanel>
+
                     <!-- Filter Options Row-->
-                    <WrapPanel Grid.Row="0">
+                    <WrapPanel>
                         
                         <TextBlock Text="Speciality"/>
-                        <ComboBox Name="SpecialityFilterAppointments"/>
+                        <ComboBox Name="SpecialityFilterAppointments" SelectedIndex="0">
+                            <ComboBoxItem>Any</ComboBoxItem>
+                        </ComboBox>
+                        
                         <TextBlock Text="Doctor"/>
-                        <ComboBox Name="DoctorFilterAppointments"/>
+                        <ComboBox Name="DoctorFilterAppointments" SelectedIndex="0">
+                            <ComboBoxItem>Any</ComboBoxItem>
+                        </ComboBox>
+
                         <TextBlock Text="Clinic"/>
-                        <ComboBox Name="ClinicFilterAppointments"/>
+                        <ComboBox Name="ClinicFilterAppointments" SelectedIndex="0">
+                            <ComboBoxItem>Any</ComboBoxItem>
+                        </ComboBox>
+                        
                         <TextBlock Text="Date"/>
                         <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </WrapPanel>
                     
                     <!-- Show ups checkbox-->
-                    <WrapPanel Grid.Row="1" Margin="10 0 0 0">
-                        
-                        <CheckBox Name="ShowUpsOnly" VerticalAlignment="Center"/>
-                        <TextBlock Text="No show ups only"/>
-
+                    <WrapPanel Margin="10 0 0 0">
+                        <CheckBox Name="ShowUpsOnly" VerticalAlignment="Center" Content="No show ups only" Checked="ShowUpsOnly_Checked" Unchecked="ShowUpsOnly_Unchecked"/>
                     </WrapPanel>
-                    <DataGrid Grid.Row="2" Padding="10">
+                    <DataGrid Padding="10" Margin="10 10 10 10" Name="AppointmentsGrid" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Chart Number" Binding="{Binding ChartNumber}"/>
+                            <DataGridTextColumn Header="Patient Name" Binding="{Binding PatientName}"/>
+                            <DataGridTextColumn Header="Doctor Name" Binding="{Binding DoctorName}"/>
+                            <DataGridTextColumn Header="Speciality" Binding="{Binding Speciality}"/>
+                            <DataGridTextColumn Header="No Show Ups" Binding="{Binding NoShowUps}"/>
+                            <DataGridTextColumn Header="Patient Status" Binding="{Binding PatientStatus}"/>
+                            <DataGridTextColumn Header="Slot" Binding="{Binding SlotTime}"/>
+                            <DataGridTextColumn Header="Delayed By" Binding="{Binding DelayedBy}"/>
+
+                            <DataGridTemplateColumn Header="Add to Open List" Visibility="{Binding Source={x:Reference ShowUpsOnly}, Path=IsChecked, Converter={StaticResource CheckBoxtoVisibility}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="Button_Click">
+                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <ContentPresenter Content="{TemplateBinding Content}"/>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Reschedule"  Visibility="{Binding Source={x:Reference ShowUpsOnly}, Path=IsChecked, Converter={StaticResource CheckBoxtoVisibility}}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="Button_Click">
+                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <ContentPresenter Content="{TemplateBinding Content}"/>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
                         
                     </DataGrid>
-                </Grid>
+                </StackPanel>
             </TabItem>
             
             <TabItem Header="Open List">
@@ -136,11 +180,20 @@
                     <WrapPanel Grid.Row="0">
 
                         <TextBlock Text="Speciality"/>
-                        <ComboBox Name="SpecialityFilterOpenList"/>
+                        <ComboBox Name="SpecialityFilterOpenList" SelectedIndex="0">
+                            <ComboBoxItem>Any</ComboBoxItem>
+                        </ComboBox>
+                        
                         <TextBlock Text="Doctor"/>
-                        <ComboBox Name="DoctorFilterOpenList"/>
+                        <ComboBox Name="DoctorFilterOpenList" SelectedIndex="0">
+                            <ComboBoxItem>Any</ComboBoxItem>
+                        </ComboBox>
+                        
                         <TextBlock Text="Clinic"/>
-                        <ComboBox Name="ClinicFilterOpenList"/>
+                        <ComboBox Name="ClinicFilterOpenList" SelectedIndex="0">
+                            <ComboBoxItem>Any</ComboBoxItem>
+                        </ComboBox>
+                        
                         <TextBlock Text="Date"/>
                         <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </WrapPanel>

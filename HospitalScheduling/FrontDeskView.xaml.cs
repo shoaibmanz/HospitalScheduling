@@ -151,7 +151,38 @@ namespace SchedulingSystem
             SchedulingWindow.ShowDialog();
             this.Show();
         }
+
+        private void ShowUpsOnly_Checked(object sender, RoutedEventArgs e)
+        {
+
+            //https://stackoverflow.com/questions/5843537/filtering-datagridview-without-changing-datasource
+        }
+
+        private void ShowUpsOnly_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+            //https://stackoverflow.com/questions/5843537/filtering-datagridview-without-changing-datasource
+        }
     }
 
+    public class CheckBoxToVisiblityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
 
+            if (value is bool && (bool)value == true)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Hidden;
+            }       
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return new object();
+        }
+    }
 }
