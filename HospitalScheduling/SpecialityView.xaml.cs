@@ -63,7 +63,7 @@ namespace HospitalScheduling
                 DataGridTextColumn textColumn = new DataGridTextColumn();
                 textColumn.Header = item.Name;
                 textColumn.Binding = new Binding(item.Name);
-
+                textColumn.Visibility = Visibility.Hidden;
 
                 dg_dayView.Columns.Add(textColumn);
 
@@ -71,17 +71,18 @@ namespace HospitalScheduling
 
 
 
-                Binding binding = new Binding();        // <----
+                //Binding binding = new Binding
+                //{
+                //    Source = clinicsListBox.Last().IS_ClinicCheckBoxEnabled,
 
-                binding.Source = clinicsListBox.Last().IS_ClinicCheckBoxEnabled;
-
-                //binding.Path = new PropertyPath(clinicsListBox.Last().IS_ClinicCheckBoxEnabled);
+                //    //binding.Path = new PropertyPath(clinicsListBox.Last().IS_ClinicCheckBoxEnabled);
 
 
-                binding.Converter = new BoolToVisibleOrHidden();
-                binding.Mode = BindingMode.OneWay;
+                //    Converter = new BoolToVisibleOrHidden(),
+                //    Mode = BindingMode.OneWay
+                //};        // <----
 
-                SetBinding(DataGridColumn.VisibilityProperty, binding);
+                //SetBinding(DataGridColumn.VisibilityProperty, binding);
 
 
 
@@ -101,7 +102,7 @@ namespace HospitalScheduling
                 //addDataGridColumn(item.Name, false);
 
                 // ADD COLUMN
-                addDataGridColumn(item.Name, false);
+                //addDataGridColumn(item.Name, false);
             }
 
             lb_clinicsListBox.ItemsSource = clinicsListBox;
@@ -227,11 +228,31 @@ namespace HospitalScheduling
 
         private void CheckBox_Checked_ShowClinic(object sender, RoutedEventArgs e)
         {
-
+            if (sender is CheckBox)
+            {
+                foreach (DataGridTextColumn Column in dg_dayView.Columns)
+                {
+                    if (Column.Header == ((CheckBox)sender).Content)
+                    {
+                        Column.Visibility = Visibility.Visible;
+                        return;
+                    }
+                }
+            }
         }
         private void CheckBox_Checked_HideClinic(object sender, RoutedEventArgs e)
         {
-
+            if (sender is CheckBox)
+            {
+                foreach (DataGridTextColumn Column in dg_dayView.Columns)
+                {
+                    if (Column.Header == ((CheckBox)sender).Content)
+                    {
+                        Column.Visibility = Visibility.Hidden;
+                        return;
+                    }
+                }
+            }
         }
     }
 

@@ -13,6 +13,7 @@
 
         <local:CheckBoxToVisiblityConverter x:Key="CheckBoxtoVisibility"/>
         <local:RowBackGroundConverter x:Key="RowBackGroundConverter"/>
+        
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="10 10 10 10"/>
         </Style>

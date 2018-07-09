@@ -54,23 +54,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddToOpenList.xaml.cs">
+    <Compile Include="FrontDeskViews\AddToOpenList.xaml.cs">
       <DependentUpon>AddToOpenList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes.cs" />
+    <Compile Include="HospitalSystem\Classes.cs" />
     <Compile Include="Doctor.xaml.cs">
       <DependentUpon>Doctor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Doctor_openList.xaml.cs">
       <DependentUpon>Doctor_openList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PatientPreferences.xaml.cs">
+    <Compile Include="FrontDeskViews\PatientPreferences.xaml.cs">
       <DependentUpon>PatientPreferences.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PopupNotification.xaml.cs">
+    <Compile Include="FrontDeskViews\PopupNotification.xaml.cs">
       <DependentUpon>PopupNotification.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PossibleAppointments.xaml.cs">
+    <Compile Include="FrontDeskViews\PossibleAppointments.xaml.cs">
       <DependentUpon>PossibleAppointments.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReportUnavailability.xaml.cs">
@@ -79,10 +79,10 @@
     <Compile Include="SpecialityView.xaml.cs">
       <DependentUpon>SpecialityView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VisitHistory.xaml.cs">
+    <Compile Include="FrontDeskViews\VisitHistory.xaml.cs">
       <DependentUpon>VisitHistory.xaml</DependentUpon>
     </Compile>
-    <Page Include="AddToOpenList.xaml">
+    <Page Include="FrontDeskViews\AddToOpenList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -94,7 +94,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FrontDeskView.xaml">
+    <Page Include="FrontDeskViews\FrontDeskView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,25 +106,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FrontDeskView.xaml.cs">
+    <Compile Include="FrontDeskViews\FrontDeskView.xaml.cs">
       <DependentUpon>FrontDeskView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="PatientPreferences.xaml">
+    <Page Include="FrontDeskViews\PatientPreferences.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PatientScheduling.xaml">
+    <Page Include="FrontDeskViews\PatientScheduling.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PopupNotification.xaml">
+    <Page Include="FrontDeskViews\PopupNotification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PossibleAppointments.xaml">
+    <Page Include="FrontDeskViews\PossibleAppointments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,13 +136,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VisitHistory.xaml">
+    <Page Include="FrontDeskViews\VisitHistory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PatientScheduling.xaml.cs">
+    <Compile Include="FrontDeskViews\PatientScheduling.xaml.cs">
       <DependentUpon>PatientScheduling.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -171,10 +171,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\DeleteButtonIcon.jpg" />
+    <Resource Include="FrontDeskViews\Icons\DeleteButtonIcon.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\DetailsButtonIcon.PNG" />
+    <Resource Include="FrontDeskViews\Icons\DetailsButtonIcon.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DoctorViews\" />
+    <Folder Include="SupervisorViews\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

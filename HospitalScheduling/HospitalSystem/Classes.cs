@@ -55,6 +55,14 @@ namespace SchedulingSystem
         public int PatientsAhead { get; set; }
 
         public PatientToBeScheduled SchedulingInfo { get; set; }
+
+        
+        //public static ObservableCollection<Appointment> GetAppointments()
+        //{
+        //    #region Query Appointment data from database
+        //    return new ObservableCollection<Appointment>();
+        //    #endregion
+        //}
     }
 
     public class Visit

@@ -235,8 +235,8 @@
 
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding IS_ClinicCheckBoxEnabled}" Checked="CheckBox_Checked_ShowClinic" Unchecked="CheckBox_Checked_HideClinic"></CheckBox>
-                                        <TextBox Text="{Binding  Name}" BorderThickness="0" ></TextBox>
+                                        <CheckBox IsChecked="{Binding IS_ClinicCheckBoxEnabled}" Content="{Binding Name}" Checked="CheckBox_Checked_ShowClinic" Unchecked="CheckBox_Checked_HideClinic"></CheckBox>
+                 
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
