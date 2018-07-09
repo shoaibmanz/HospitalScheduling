@@ -59,6 +59,47 @@ namespace HospitalScheduling
             {
                 clinicsListBox.Add(new ClinicList(false, item));
 
+                /* Bind each bool to visibility in DataGrid */
+                DataGridTextColumn textColumn = new DataGridTextColumn();
+                textColumn.Header = item.Name;
+                textColumn.Binding = new Binding(item.Name);
+
+
+                dg_dayView.Columns.Add(textColumn);
+
+
+
+
+
+                Binding binding = new Binding();        // <----
+
+                binding.Source = clinicsListBox.Last().IS_ClinicCheckBoxEnabled;
+
+                //binding.Path = new PropertyPath(clinicsListBox.Last().IS_ClinicCheckBoxEnabled);
+
+
+                binding.Converter = new BoolToVisibleOrHidden();
+                binding.Mode = BindingMode.OneWay;
+
+                SetBinding(DataGridColumn.VisibilityProperty, binding);
+
+
+
+                //dg_dayView.Columns.Last.SetBinding(UIElement.VisibilityProperty, binding);
+
+                //comboBox.SetBinding(UIElement.VisibilityProperty, binding);
+
+
+
+                /*
+                if (!visibility)
+                    textColumn.Visibility = System.Windows.Visibility.Collapsed;
+                */
+
+
+                // ADD COLUMN
+                //addDataGridColumn(item.Name, false);
+
                 // ADD COLUMN
                 addDataGridColumn(item.Name, false);
             }
@@ -79,6 +120,8 @@ namespace HospitalScheduling
                 if (specialityListBox.Any(p => p.specialityName == selectedSpec) == false)
                 {
                     specialityListBox.Insert(0, (new SpecialityList(true, selectedSpec)));
+
+
 
                     // -----------------------------
                     //addDataGridColumn(selectedSpec);
@@ -168,7 +211,7 @@ namespace HospitalScheduling
                     if (item.Name.Contains(txt_filterName.Text) == false)
                     {
                         foreach (var item2 in clinicsListBox)
-                            if (item.Name == item2.Name && item2.isEnabled == false)
+                            if (item.Name == item2.Name && item2.IS_ClinicCheckBoxEnabled == false)
                             {
                                 clinicsListBox.Remove(item2);
                                 break;
@@ -264,7 +307,21 @@ namespace HospitalScheduling
 
     public class ClinicList : INotifyPropertyChanged
     {
-        public bool isEnabled { get; set; }
+        private bool isEnabled = false;
+        public bool IS_ClinicCheckBoxEnabled
+        {
+            get
+            {
+                return isEnabled;
+            }
+            set
+            {
+                isEnabled = value;
+                NotifyPropertyChanged("IsEnabled Clinic Changed");
+            }
+        }
+
+
         Clinic clinic;
 
         public string Name
