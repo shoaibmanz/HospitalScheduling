@@ -58,6 +58,12 @@
       <DependentUpon>AddToOpenList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes.cs" />
+    <Compile Include="Doctor.xaml.cs">
+      <DependentUpon>Doctor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Doctor_openList.xaml.cs">
+      <DependentUpon>Doctor_openList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PatientPreferences.xaml.cs">
       <DependentUpon>PatientPreferences.xaml</DependentUpon>
     </Compile>
@@ -67,6 +73,9 @@
     <Compile Include="PossibleAppointments.xaml.cs">
       <DependentUpon>PossibleAppointments.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReportUnavailability.xaml.cs">
+      <DependentUpon>ReportUnavailability.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SpecialityView.xaml.cs">
       <DependentUpon>SpecialityView.xaml</DependentUpon>
     </Compile>
@@ -74,6 +83,14 @@
       <DependentUpon>VisitHistory.xaml</DependentUpon>
     </Compile>
     <Page Include="AddToOpenList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Doctor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Doctor_openList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PossibleAppointments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReportUnavailability.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

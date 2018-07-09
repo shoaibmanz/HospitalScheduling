@@ -1,0 +1,104 @@
+﻿<Window x:Class="SchedulingSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchedulingSystem"
+        mc:Ignorable="d"
+        Title="Doctor" Height="537.6" Width="829.6">
+    <Grid>
+        <StackPanel>
+            <GroupBox HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="3">
+                <GroupBox.Header>
+                    Open List
+                </GroupBox.Header>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Clinic"/>
+                        <TextBox  Background="Gray" Margin="1 1 1 1" Width="80"/>
+                    </StackPanel>
+                    <Button Name="OpenList" Content="Open List" Margin="0 1 0 1" Click="OpenList_Click"/>
+                    <Button Name="GetNext" Content="Get Next" Margin="0 1 0 2"/>
+                </StackPanel>
+            </GroupBox>
+            <ComboBox Name="AddClinic"  HorizontalAlignment="Right" Width="120" Margin="0 0 4 0" VerticalAlignment="Center" SelectionChanged="AddClinic_SelectionChanged">
+
+            </ComboBox>
+            <ListBox x:Name="ClinicListBox" HorizontalAlignment="Right" Width="120" Height="120" Margin="0 3 4 0" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="ClinicListBox_SelectionChanged_1"/>
+            <Button Name="DoctorRemove" Content="Remove"  HorizontalAlignment="Right" Width="125" Margin="0 3 0 0" Click="DoctorRemove_Click"/>
+            <Button Name="DoctorReport" Content="Report Unavailability"  HorizontalAlignment="Right" Width="125" Margin="0 3 0 0" Click="DoctorReport_Click"/>
+            <Button Name="DoctorLogout" Content="Logout"  HorizontalAlignment="Right" Width="125" Margin="0 3 0 0"/>
+        </StackPanel>
+        <TabControl x:Name="DoctorTab" Margin="0,0,129,0" SelectionChanged="DoctorTab_SelectionChanged"  >
+            <!--for daily-->
+            <TabItem x:Name="DailyTab" Header="Daily">
+                <Grid >
+                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Label Content="Dr. Adam" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 40 0 0" Background="Gray" Width="650" FontWeight="Bold" HorizontalContentAlignment="Center" />
+
+                </Grid>
+            </TabItem>
+            <!--for weekly-->
+
+            <TabItem x:Name="WeeklyTab" Header="Weekly" Height="22" VerticalAlignment="Bottom">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="14*"/>
+                        <ColumnDefinition Width="69*"/>
+                    </Grid.ColumnDefinitions>
+                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Margin="169,0,281,0"/>
+                    <Label Content="Dr. Adam" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="7,40,7,0" Background="Gray" Width="650" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
+                    <DataGrid x:Name="WeeklyGrid" Margin="0 70 0 0 " Grid.ColumnSpan="2" SelectionChanged="WeeklyGrid_SelectionChanged" AutoGenerateColumns="False" SelectionUnit="Cell" ClipboardCopyMode="IncludeHeader">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+
+                        </DataGrid.Resources>
+
+                        <DataGrid.ItemContainerStyle>
+                            <Style TargetType="DataGridRow">
+                                <EventSetter Event="MouseDoubleClick" Handler="DoubleClickHandler" />
+                                <EventSetter Event="MouseDown" Handler="MouseDownHandler" />
+                                <EventSetter Event="MouseLeftButtonDown" Handler="MouseDownHandler"/>
+                                <EventSetter Event="MouseRightButtonDown" Handler="MouseDownHandler"/>
+
+                            </Style>
+                        </DataGrid.ItemContainerStyle>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="Copy" Click="MenuItemClick"  />
+                                <MenuItem Header="Cut" Click="MenuItemClick"  />
+                                <MenuItem Header="Paste" Click="MenuItemClick"  />
+
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Time" Width="*" Binding="{Binding time}"/>
+                            <DataGridTextColumn Header="Mon 22" Width="*"  Binding="{Binding c1}" />
+                            <DataGridTextColumn Header="Tue 23"  Width="*"   Binding="{Binding c2}"/>
+                            <DataGridTextColumn Header="Wed 24"  Width="*"  Binding="{Binding c3}"/>
+                            <DataGridTextColumn Header="Thu 25" Width="*"   Binding="{Binding c4}"/>
+                            <DataGridTextColumn Header="Fri 26"  Width="*"  Binding="{Binding c5}"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </Grid>
+
+
+            </TabItem>
+            <!--for monthly-->
+            <TabItem x:Name="MonthlyTab" Header="Monthly">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Top" Margin="281,0"/>
+                    <Label Content="Dr. Adam" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="7,40,7,0" Background="Gray" Width="650" FontWeight="Bold" HorizontalContentAlignment="Center" />
+                    <DataGrid x:Name="MonthlyGrid" Margin="0 70 0 0 "/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
