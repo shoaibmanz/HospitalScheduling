@@ -52,10 +52,10 @@ namespace SchedulingSystem
         public string PatientStatus { get; set; }
         public string SlotTime      { get; set; }
         public int DelayedBy     { get; set; }
+        public int PatientsAhead { get; set; }
 
         public PatientToBeScheduled SchedulingInfo { get; set; }
     }
-
 
     public class Visit
     {

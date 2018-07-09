@@ -23,11 +23,13 @@ namespace SchedulingSystem
 
         ObservableCollection<PatientToBeScheduled> PatientList;
         ObservableCollection<Appointment> Appointments;
+        ObservableCollection<Appointment> OpenList;
 
         public FrontDeskView(/*string ClerkName*/)
         {
             PatientList = new ObservableCollection<PatientToBeScheduled>();
             Appointments = new ObservableCollection<Appointment>();
+            OpenList = new ObservableCollection<Appointment>();
 
             InitializeComponent();
 
@@ -103,6 +105,57 @@ namespace SchedulingSystem
 
             });
 
+            OpenList.Add(new Appointment()
+            {
+                ChartNumber = "6434233",
+                PatientName = "Kurt",
+                DoctorName = "Dr. Adam",
+                Speciality = "Medical",
+                NoShowUps = 2,
+                PatientStatus = "Checked in",
+                SlotTime = "09:00 AM",
+                DelayedBy = 45,
+                PatientsAhead = 0     
+            });
+
+            OpenList.Add(new Appointment()
+            {
+                ChartNumber = "6434453",
+                PatientName = "David",
+                DoctorName = "Any",
+                Speciality = "Medical",
+                NoShowUps = 2,
+                PatientStatus = "Checked in",
+                SlotTime = "09:45 AM",
+                DelayedBy = 15,
+                PatientsAhead = 1
+            });
+
+            OpenList.Add(new Appointment()
+            {
+                ChartNumber = "6453433",
+                PatientName = "John",
+                DoctorName = "Dr. Azeem",
+                Speciality = "PT",
+                NoShowUps = 2,
+                PatientStatus = "Checked in",
+                SlotTime = "09:30 AM",
+                DelayedBy = 30,
+                PatientsAhead = 1
+            });
+
+            OpenList.Add(new Appointment()
+            {
+                ChartNumber = "343234233",
+                PatientName = "Richard",
+                DoctorName = "Dr. Hattab",
+                Speciality = "ACCU",
+                NoShowUps = 2,
+                PatientStatus = "Offline",
+                SlotTime = "08:30 AM",
+                DelayedBy = 90,
+                PatientsAhead = 10
+            });
 
             P1.Insurance.Add(new InsuranceRecord()
             {
@@ -193,6 +246,7 @@ namespace SchedulingSystem
 
             this.AppointmentsGrid.ItemsSource = Appointments;
             this.PatientSchedulingGrid.ItemsSource = PatientList;
+            this.OpenListGrid.ItemsSource = OpenList;
         }
         
 
@@ -242,7 +296,22 @@ namespace SchedulingSystem
             PopupWindow.ShowDialog();
 
         }
+
+        private void RemoveFromOpenList(object sender, RoutedEventArgs e)
+        {
+            Appointment ToRemove = ((FrameworkElement)sender).DataContext as Appointment;
+            
+            foreach(Appointment appointment in OpenList)
+            {
+                if (ToRemove.ChartNumber == appointment.ChartNumber)
+                {
+                    OpenList.Remove(appointment);
+                    break;
+                }
+            }
+        }
     }
+
 
     public class CheckBoxToVisiblityConverter : IValueConverter
     {
