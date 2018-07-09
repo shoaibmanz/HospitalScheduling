@@ -44,14 +44,16 @@ namespace SchedulingSystem
         public Appointment() {
 
         }
-        public string ChartNumber { get; set; }
-        public string PatientName { get; set; }
-        public string DoctorName { get; set; }
-        public string Speciality { get; set; }
-        public int NoShowUps { get; set; }
+        public string ChartNumber   { get; set; }
+        public string PatientName   { get; set; }
+        public string DoctorName    { get; set; }
+        public string Speciality    { get; set; }
+        public int    NoShowUps     { get; set; }
         public string PatientStatus { get; set; }
-        public string SlotTime { get; set; }
-        public string DelayedBy { get; set; }
+        public string SlotTime      { get; set; }
+        public int DelayedBy     { get; set; }
+
+        public PatientToBeScheduled SchedulingInfo { get; set; }
     }
 
 

@@ -22,16 +22,20 @@ namespace SchedulingSystem
     {
 
         ObservableCollection<PatientToBeScheduled> PatientList;
+        ObservableCollection<Appointment> Appointments;
 
         public FrontDeskView(/*string ClerkName*/)
         {
             PatientList = new ObservableCollection<PatientToBeScheduled>();
+            Appointments = new ObservableCollection<Appointment>();
+
             InitializeComponent();
 
             this.ClerkName = ClerkName;
 
 
             #region Creating Dummy Data
+
             PatientToBeScheduled P1 = new PatientToBeScheduled()
             {
                 ChartNumber = "1224124",
@@ -44,6 +48,61 @@ namespace SchedulingSystem
                 PatientStatus = "Walk in",
                 OldNew = true
             };
+
+            Appointments.Add(new Appointment()
+            {
+                ChartNumber = "12321423",
+                PatientName = "Ruben",
+                DoctorName = "Dr. Adam",
+                Speciality = "Medical",
+                NoShowUps = 0,
+                PatientStatus = "Checked in",
+                SlotTime = "10:45 AM",
+                DelayedBy = 0,
+                SchedulingInfo = P1
+
+            });
+
+            Appointments.Add(new Appointment()
+            {
+                ChartNumber = "64321423",
+                PatientName = "Marina",
+                DoctorName = "Dr. Adam",
+                Speciality = "Medical",
+                NoShowUps = 2,
+                PatientStatus = "Checked in",
+                SlotTime = "09:00 AM",
+                DelayedBy = 15,
+                SchedulingInfo = P1
+            }); 
+
+            Appointments.Add(new Appointment()
+            {
+                ChartNumber = "65321423",
+                PatientName = "David",
+                DoctorName = "Dr. Azeem",
+                Speciality = "PT",
+                NoShowUps = 1,
+                PatientStatus = "Offline",
+                SlotTime = "09:30 AM",
+                DelayedBy = 0,
+                SchedulingInfo = P1
+            });
+
+            Appointments.Add(new Appointment()
+            {
+                ChartNumber = "12321423",
+                PatientName = "Thomas",
+                DoctorName = "Dr. Hattab",
+                Speciality = "ACCU",
+                NoShowUps = 2,
+                PatientStatus = "Offline",
+                SlotTime = "08:30 AM",
+                DelayedBy = 45,
+                SchedulingInfo = P1
+
+            });
+
 
             P1.Insurance.Add(new InsuranceRecord()
             {
@@ -132,21 +191,30 @@ namespace SchedulingSystem
             });
             #endregion
 
+            this.AppointmentsGrid.ItemsSource = Appointments;
             this.PatientSchedulingGrid.ItemsSource = PatientList;
         }
         
 
         public string ClerkName { get; set; }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DetailsView_Click(object sender, RoutedEventArgs e)
         {
+            PatientToBeScheduled Patient = new PatientToBeScheduled();
+
             // collect the patient object the user has selected
-            PatientToBeScheduled Patient = ((FrameworkElement)sender).DataContext as PatientToBeScheduled;
+            if (((FrameworkElement)sender).DataContext is PatientToBeScheduled)
+            {
+                Patient = ((FrameworkElement)sender).DataContext as PatientToBeScheduled;
+            }
+            else if (((FrameworkElement)sender).DataContext is Appointment)
+            {
+                Patient = (((FrameworkElement)sender).DataContext as Appointment).SchedulingInfo;
+            } 
 
             // creating and displaying a new scheduling window based on the object
             Window SchedulingWindow = new PatientScheduling(Patient);
 
-           
             this.Hide();
             SchedulingWindow.ShowDialog();
             this.Show();
@@ -154,14 +222,25 @@ namespace SchedulingSystem
 
         private void ShowUpsOnly_Checked(object sender, RoutedEventArgs e)
         {
-
-            //https://stackoverflow.com/questions/5843537/filtering-datagridview-without-changing-datasource
+            AppointmentsGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).DelayedBy > 0);
         }
 
         private void ShowUpsOnly_Unchecked(object sender, RoutedEventArgs e)
         {
+            AppointmentsGrid.Items.Filter = null;
+        }
 
-            //https://stackoverflow.com/questions/5843537/filtering-datagridview-without-changing-datasource
+        private void AddAppointmentToOpenList(object sender, RoutedEventArgs e)
+        {
+            Appointment Patient = ((FrameworkElement)sender).DataContext as Appointment;
+
+            PatientToBeScheduled ToAdd = new PatientToBeScheduled();
+            ToAdd.PatientName = Patient.PatientName;
+            ToAdd.OldNew = false;
+
+            AddToOpenList PopupWindow = new AddToOpenList(ToAdd);
+            PopupWindow.ShowDialog();
+
         }
     }
 
@@ -178,6 +257,23 @@ namespace SchedulingSystem
             {
                 return Visibility.Hidden;
             }       
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return new object();
+        }
+    }
+
+    public class RowBackGroundConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is int && (int)value == 0)
+            {
+                return Colors.LightGreen;
+            }
+            return Colors.Red;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

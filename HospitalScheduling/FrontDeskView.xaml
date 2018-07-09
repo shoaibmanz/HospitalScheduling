@@ -12,7 +12,7 @@
         <!--<Image Source="Icons/DetailsButtonIcon.PNG"-->
 
         <local:CheckBoxToVisiblityConverter x:Key="CheckBoxtoVisibility"/>
-
+        <local:RowBackGroundConverter x:Key="RowBackGroundConverter"/>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="10 10 10 10"/>
         </Style>
@@ -32,14 +32,12 @@
             <Setter Property="Margin" Value="5 5 35 5"/>
         </Style>
 
-
-
         <Style TargetType="DataGridCell">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="TextBlock.IsManipulationEnabled" Value="False"/>
+            <Setter Property="BorderBrush" Value="White"/>
         </Style>
-
+       
     </Window.Resources>
     
     <Grid>
@@ -58,7 +56,7 @@
 
                     <TextBlock Text="Patient List (To be scheduled)" Margin="10 5 0 10"/>
 
-                    <DataGrid Name="PatientSchedulingGrid" Padding="15" CanUserAddRows="false" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid Name="PatientSchedulingGrid" Padding="15" CanUserAddRows="false" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="None">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ChartNumber" Binding="{Binding ChartNumber}"/>
                             <DataGridTextColumn Header="PatientName" Binding="{Binding PatientName}"/>
@@ -71,7 +69,7 @@
                             <DataGridTemplateColumn Header="Details">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Click="Button_Click">
+                                        <Button Click="DetailsView_Click">
                                             <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
@@ -121,22 +119,63 @@
                     <WrapPanel Margin="10 0 0 0">
                         <CheckBox Name="ShowUpsOnly" VerticalAlignment="Center" Content="No show ups only" Checked="ShowUpsOnly_Checked" Unchecked="ShowUpsOnly_Unchecked"/>
                     </WrapPanel>
-                    <DataGrid Padding="10" Margin="10 10 10 10" Name="AppointmentsGrid" AutoGenerateColumns="False">
+                    <DataGrid Padding="10" Margin="10 10 10 10" Name="AppointmentsGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" GridLinesVisibility="None">
                         <DataGrid.Columns>
+                            
+                            
+                            <DataGridTextColumn Binding="{Binding ChartNumber}">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="Chart" Margin="0 0 0 0"/>
+                                        <TextBlock Text="Number" Margin="0 0 0 0"/>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
 
-                            <DataGridTextColumn Header="Chart Number" Binding="{Binding ChartNumber}"/>
-                            <DataGridTextColumn Header="Patient Name" Binding="{Binding PatientName}"/>
-                            <DataGridTextColumn Header="Doctor Name" Binding="{Binding DoctorName}"/>
+                            <DataGridTextColumn Binding="{Binding PatientName}">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="Patient" Margin="0 0 0 0"/>
+                                        <TextBlock Text="Name" Margin="0 0 0 0"/>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Binding="{Binding DoctorName}">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="Doctor" Margin="0 0 0 0"/>
+                                        <TextBlock Text="Name" Margin="0 0 0 0"/>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            
                             <DataGridTextColumn Header="Speciality" Binding="{Binding Speciality}"/>
-                            <DataGridTextColumn Header="No Show Ups" Binding="{Binding NoShowUps}"/>
+                            
+                            <DataGridTextColumn Binding="{Binding NoShowUps}">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="No Show" Margin="0 0 0 0"/>
+                                        <TextBlock Text="Ups" Margin="0 0 0 0"/>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            
                             <DataGridTextColumn Header="Patient Status" Binding="{Binding PatientStatus}"/>
                             <DataGridTextColumn Header="Slot" Binding="{Binding SlotTime}"/>
                             <DataGridTextColumn Header="Delayed By" Binding="{Binding DelayedBy}"/>
 
-                            <DataGridTemplateColumn Header="Add to Open List" Visibility="{Binding Source={x:Reference ShowUpsOnly}, Path=IsChecked, Converter={StaticResource CheckBoxtoVisibility}}">
+                            <DataGridTemplateColumn  Visibility="{Binding Source={x:Reference ShowUpsOnly}, Path=IsChecked, Converter={StaticResource CheckBoxtoVisibility}}">
+                                <DataGridTemplateColumn.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="Add to" Margin="0 0 0 0"/>
+                                        <TextBlock Text="Open List" Margin="0 0 0 0"/>
+                                    </StackPanel>
+                                </DataGridTemplateColumn.Header>
+
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Click="Button_Click">
+                                        <Button Click="AddAppointmentToOpenList">
                                             <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
@@ -151,7 +190,7 @@
                             <DataGridTemplateColumn Header="Reschedule"  Visibility="{Binding Source={x:Reference ShowUpsOnly}, Path=IsChecked, Converter={StaticResource CheckBoxtoVisibility}}">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Click="Button_Click">
+                                        <Button Click="DetailsView_Click">
                                             <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
@@ -163,7 +202,17 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
-                        
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <!--<Setter Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding DelayedBy, Converter={StaticResource RowBackGroundConverter}}"/>
+                                    </Setter.Value>
+                                </Setter>-->
+                                <Setter Property="Margin" Value="10 10 10 10"/>
+                            </Style>
+                        </DataGrid.RowStyle>
                     </DataGrid>
                 </StackPanel>
             </TabItem>
@@ -198,8 +247,41 @@
                         <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </WrapPanel>
 
-                    <DataGrid Grid.Row="2" Padding="10">
+                    <DataGrid Grid.Row="2" Padding="10" Margin="10 10 10 10" Name="OpenListGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" GridLinesVisibility="None">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding ChartNumber}">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="Chart" Margin="0 0 0 0"/>
+                                        <TextBlock Text="Number" Margin="0 0 0 0"/>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
 
+                            <DataGridTextColumn Binding="{Binding PatientName}">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="Patient" Margin="0 0 0 0"/>
+                                        <TextBlock Text="Name" Margin="0 0 0 0"/>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Binding="{Binding DoctorName}">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel>
+                                        <TextBlock Text="Doctor" Margin="0 0 0 0"/>
+                                        <TextBlock Text="Name" Margin="0 0 0 0"/>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Speciality" Binding="{Binding Speciality}"/>
+                            <DataGridTextColumn Header="Patient Status" Binding="{Binding PatientStatus}"/>
+                            <DataGridTextColumn Header="Checked In Time" Binding="{Binding CheckedIn}"/>
+                            <DataGridTextColumn Header="Speciality" Binding="{Binding Speciality}"/>
+
+                        </DataGrid.Columns>                        
                     </DataGrid>
                 </Grid>
             </TabItem>
