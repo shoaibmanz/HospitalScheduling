@@ -15,17 +15,12 @@ using System.Windows.Shapes;
 namespace SchedulingSystem
 {
     /// <summary>
-    /// Interaction logic for PatientPreferences.xaml
+    /// Interaction logic for PatientCalender.xaml
     /// </summary>
-    public partial class PatientPreferences : Window
+    public partial class PatientCalender : Window
     {
-        public PatientPreferences(PatientToBeScheduled CurrentPatient)
+        public PatientCalender()
         {
-            this.DataContext = CurrentPatient;
-
-            this.ComboBox_Clinic.ItemsSource = Data.GetClinicNames();
-            this.ComboBox_Speciality.ItemsSource = Data.GetSpecialities();
-
             InitializeComponent();
         }
     }

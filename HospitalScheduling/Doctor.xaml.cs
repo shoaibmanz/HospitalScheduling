@@ -190,11 +190,6 @@ namespace SchedulingSystem
 
                 var cell = WeeklyGrid.SelectedCells[0];
                 Clipboard.SetDataObject(cell);
-
-
-
-
-
             }
             else if (header == "Paste")
             {

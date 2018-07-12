@@ -28,18 +28,18 @@
                 <TextBlock Text="Patient Name:" Margin="0 0 10 0"/>
                 <TextBox Text="{Binding PatientName}" Name="PatientName" IsEnabled="False" Background="#eee" Margin="0 0 30 0"/>
                 <TextBlock Text="Clinic:" Margin="0 0 10 0"/>
-                <ComboBox SelectedIndex="0" Width="60">
+                <ComboBox Name="ComboBox_Clinic" SelectedIndex="0" Width="60">
                     <ComboBoxItem>Any</ComboBoxItem>
                 </ComboBox>
             </WrapPanel>
 
             <WrapPanel>
                 <TextBlock Text="Doctor:" Margin="0 0 10 0"/>
-                <ComboBox SelectedIndex="0" Margin="0 0 30 0" Width="70">
+                <ComboBox Name="ComboBox_Doctor" SelectedIndex="0" Margin="0 0 30 0" Width="70">
                     <ComboBoxItem>Any</ComboBoxItem>
                 </ComboBox>
                 <TextBlock Text="Speciality:" Margin="0 0 15 0"/>
-                <ComboBox SelectedIndex="0" Width="70">
+                <ComboBox Name="ComboBox_Speciality" SelectedIndex="0" Width="70">
                     <ComboBoxItem>Any</ComboBoxItem>
                 </ComboBox>
             </WrapPanel>

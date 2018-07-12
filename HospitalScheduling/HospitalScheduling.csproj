@@ -57,6 +57,9 @@
     <Compile Include="FrontDeskViews\AddToOpenList.xaml.cs">
       <DependentUpon>AddToOpenList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FrontDeskViews\PatientCalender.xaml.cs">
+      <DependentUpon>PatientCalender.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HospitalSystem\Classes.cs" />
     <Compile Include="Doctor.xaml.cs">
       <DependentUpon>Doctor.xaml</DependentUpon>
@@ -95,6 +98,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FrontDeskViews\FrontDeskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FrontDeskViews\PatientCalender.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +186,10 @@
   <ItemGroup>
     <Folder Include="DoctorViews\" />
     <Folder Include="SupervisorViews\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FrontDeskViews\Icons\PageLeftButtonIcon.PNG" />
+    <Resource Include="FrontDeskViews\Icons\PageRightButtonIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

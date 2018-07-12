@@ -1,0 +1,30 @@
+﻿<Window x:Class="SchedulingSystem.PatientCalender"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        xmlns:local="clr-namespace:SchedulingSystem"
+        mc:Ignorable="d"
+        Title="PatientCalender" Height="450" Width="800">
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <Label Grid.Row="0" Content="Front Desk View"/>
+
+            <WrapPanel Grid.Row="1" HorizontalAlignment="Center">
+                
+                <Button Margin="10 0 10 0" Image="Icons\PageLeftButtonIcon.PNG"/>
+                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, Mode=OneWay,  StringFormat='MMMM dd, yyyy'}"/>
+                <Button Margin="10 0 10 0"/>
+            
+            </WrapPanel>
+                      
+        </Grid>
+    </Border>
+</Window>
