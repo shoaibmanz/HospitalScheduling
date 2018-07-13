@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:SchedulingSystem"
         mc:Ignorable="d"
         Title="Doctor" Height="537.6" Width="829.6">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute" />
+    </Window.CommandBindings>
+    
     <Grid>
         <StackPanel>
             <GroupBox HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="3">
@@ -48,7 +52,7 @@
                     </Grid.ColumnDefinitions>
                     <DatePicker HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Margin="169,0,281,0"/>
                     <Label Content="Dr. Adam" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="7,40,7,0" Background="Gray" Width="650" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
-                    <DataGrid x:Name="WeeklyGrid" Margin="0 70 0 0 " Grid.ColumnSpan="2" SelectionChanged="WeeklyGrid_SelectionChanged" AutoGenerateColumns="False" SelectionUnit="Cell" ClipboardCopyMode="IncludeHeader">
+                    <DataGrid x:Name="WeeklyGrid" Margin="0 70 0 0 " Grid.ColumnSpan="2" SelectionChanged="WeeklyGrid_SelectionChanged" AutoGenerateColumns="False" SelectionUnit="Cell" CanUserAddRows="False">
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="FontWeight" Value="Bold"/>
@@ -58,18 +62,14 @@
 
                         <DataGrid.ItemContainerStyle>
                             <Style TargetType="DataGridRow">
-                                <EventSetter Event="MouseDoubleClick" Handler="DoubleClickHandler" />
-                                <EventSetter Event="MouseDown" Handler="MouseDownHandler" />
-                                <EventSetter Event="MouseLeftButtonDown" Handler="MouseDownHandler"/>
-                                <EventSetter Event="MouseRightButtonDown" Handler="MouseDownHandler"/>
-
+                             
                             </Style>
                         </DataGrid.ItemContainerStyle>
                         <DataGrid.ContextMenu>
                             <ContextMenu >
-                                <MenuItem Header="Copy" Click="MenuItemClick"  />
-                                <MenuItem Header="Cut" Click="MenuItemClick"  />
-                                <MenuItem Header="Paste" Click="MenuItemClick"  />
+                                <MenuItem Header="Copy" Click="MenuItemClick"/>
+                                <MenuItem Header="Cut" Click="MenuItemClick" />
+                                <MenuItem Header="Paste" Click="MenuItemClick" />
 
                             </ContextMenu>
                         </DataGrid.ContextMenu>
@@ -77,7 +77,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Time" Width="*" Binding="{Binding time}"/>
                             <DataGridTextColumn Header="Mon 22" Width="*"  Binding="{Binding c1}" />
-                            <DataGridTextColumn Header="Tue 23"  Width="*"   Binding="{Binding c2}"/>
+                            <DataGridTextColumn Header="Tue 23"  Width="*"   Binding="{Binding c2, NotifyOnSourceUpdated=True}"/>
                             <DataGridTextColumn Header="Wed 24"  Width="*"  Binding="{Binding c3}"/>
                             <DataGridTextColumn Header="Thu 25" Width="*"   Binding="{Binding c4}"/>
                             <DataGridTextColumn Header="Fri 26"  Width="*"  Binding="{Binding c5}"/>

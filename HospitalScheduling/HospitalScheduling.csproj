@@ -76,6 +76,7 @@
     <Compile Include="FrontDeskViews\PossibleAppointments.xaml.cs">
       <DependentUpon>PossibleAppointments.xaml</DependentUpon>
     </Compile>
+    <Compile Include="iNotifiyPropertyChanged.cs" />
     <Compile Include="ReportUnavailability.xaml.cs">
       <DependentUpon>ReportUnavailability.xaml</DependentUpon>
     </Compile>
