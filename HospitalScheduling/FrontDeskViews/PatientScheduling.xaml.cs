@@ -39,7 +39,10 @@ namespace SchedulingSystem
 
         private void CurrApointments_Click(object sender, RoutedEventArgs e)
         {
-            
+            PatientCalender CalandarWindow = new PatientCalender(this.CurrentPatient);
+            this.Hide();
+            CalandarWindow.ShowDialog();
+            this.Show();
         }
 
         private void VisitDetails_Click(object sender, RoutedEventArgs e)
@@ -63,7 +66,24 @@ namespace SchedulingSystem
             PatientPreferences PatientPreferencesWindow = new PatientPreferences(CurrentPatient);
 
             PatientPreferencesWindow.ShowDialog();
+            this.Close();
 
+        }
+
+        private void ManualAppointment_Click(object sender, RoutedEventArgs e)
+        {
+            PatientCalender CalandarWindow = new PatientCalender(CurrentPatient);
+            this.Hide();
+            CalandarWindow.ShowDialog();
+            this.Show();
+        }
+
+        private void AppointmentConfirmed(object sender, RoutedEventArgs e)
+        {
+            PopupNotification PopupWindow = new PopupNotification();
+            this.Hide();
+            PopupWindow.ShowDialog();
+            this.Close();
         }
     }
 

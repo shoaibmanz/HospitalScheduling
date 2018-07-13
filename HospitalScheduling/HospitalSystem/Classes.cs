@@ -8,6 +8,28 @@ using System.Collections.ObjectModel;
 namespace SchedulingSystem
 {
 
+    public static class Data
+    {
+
+        public static ObservableCollection<string> GetSpecialities()
+        {
+            return new ObservableCollection<string>() { "Medical", "PT", "ACCU", "Cardiology", "Chiro" };
+        }
+        public static ObservableCollection<string> GetClinicNames()
+        {
+            return new ObservableCollection<string>() { "Gun Hill", "Jamaica", "Islamabad Diagnostic Center" };
+        }
+
+        //public static ObservableCollection<Doctor> GetDoctors() {
+            
+         
+        //}
+    }
+
+    public class Doctor
+    {
+        public string Name { get; set; }
+    }
 
     public class PatientToBeScheduled
     {
@@ -53,6 +75,7 @@ namespace SchedulingSystem
         public string SlotTime      { get; set; }
         public int DelayedBy     { get; set; }
         public int PatientsAhead { get; set; }
+        public string ClinicName { get; set; }
 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

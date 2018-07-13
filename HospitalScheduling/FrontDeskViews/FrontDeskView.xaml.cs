@@ -247,6 +247,18 @@ namespace SchedulingSystem
             this.AppointmentsGrid.ItemsSource = Appointments;
             this.PatientSchedulingGrid.ItemsSource = PatientList;
             this.OpenListGrid.ItemsSource = OpenList;
+
+            var ClinicItems = Data.GetClinicNames();
+            ClinicItems.Add("Any");
+
+            var SpecItems = Data.GetSpecialities();
+            SpecItems.Add("Any");
+
+            this.ClinicFilterAppointments.ItemsSource = ClinicItems;
+            this.SpecialityFilterAppointments.ItemsSource = SpecItems;
+
+            this.ClinicFilterOpenList.ItemsSource = ClinicItems;
+            this.SpecialityFilterOpenList.ItemsSource = SpecItems;
         }
         
 
@@ -294,7 +306,6 @@ namespace SchedulingSystem
 
             AddToOpenList PopupWindow = new AddToOpenList(ToAdd);
             PopupWindow.ShowDialog();
-
         }
 
         private void RemoveFromOpenList(object sender, RoutedEventArgs e)
@@ -308,6 +319,48 @@ namespace SchedulingSystem
                     OpenList.Remove(appointment);
                     break;
                 }
+            }
+        }
+
+        private void SpecialityFilterAppointments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox Changed = (sender as ComboBox);
+
+            if ((string)Changed.SelectedItem != "Any")
+            {
+                AppointmentsGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).Speciality == (string)Changed.SelectedItem);
+            }
+            else
+            {
+                AppointmentsGrid.Items.Filter = null;
+            }
+        }
+
+        private void SpecialityFilterOpenList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox Changed = (sender as ComboBox);
+
+            if ((string)Changed.SelectedItem != "Any")
+            {
+                OpenListGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).Speciality == (string)Changed.SelectedItem);
+            }
+            else
+            {
+                OpenListGrid.Items.Filter = null;
+            }
+        }
+
+        private void ClinicFilterOpenList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox Changed = (sender as ComboBox);
+
+            if ((string)Changed.SelectedItem != "Any")
+            {
+                OpenListGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).ClinicName == (string)Changed.SelectedItem);
+            }
+            else
+            {
+                OpenListGrid.Items.Filter = null;
             }
         }
     }

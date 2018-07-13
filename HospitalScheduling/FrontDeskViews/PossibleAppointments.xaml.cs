@@ -26,7 +26,11 @@ namespace SchedulingSystem
 
         private void AppointmentSelected_Click(object sender, RoutedEventArgs e)
         {
+            PopupNotification PopupWindow = new PopupNotification();
 
+            this.Hide();
+            PopupWindow.ShowDialog();
+            this.Close();
         }
     }
 }
