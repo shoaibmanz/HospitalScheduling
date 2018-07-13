@@ -119,6 +119,9 @@ namespace SchedulingSystem
         public int PatientsAhead { get; set; }
         public string ClinicName { get; set; }
 
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+
         public PatientToBeScheduled SchedulingInfo { get; set; }
 
         
@@ -139,4 +142,56 @@ namespace SchedulingSystem
         public string DoctorName { get; set; }      // should be reference to existing doctor object
         public string ClinicName { get; set; }      // should be reference to existing clinic object
     }
+
+    public class Event
+    {
+        Clinic clinic;
+        Doc doctor;
+        DateTime startTime, endTime;
+        List<Appointment> appointments;
+        
+        Event()
+        {
+
+        }
+    }
+
+    public class Calender
+    {
+        public DateTime startDate;
+        public DateTime endDate;
+
+        Dictionary<DateTime, List<int>> eventsDictionary;
+
+        public Calender()
+        {
+            //startDate = new DateTime(1990, 1, 1);
+            //endDate = new DateTime(2050, 12, 31);
+
+            // one Year for validation purpose
+            startDate = new DateTime(2018, 1, 1);
+            endDate = new DateTime(2018, 12, 31);
+
+            initalizeCalender();
+        }
+        public Calender(DateTime _start , DateTime _end )
+        {
+            startDate = _start;
+            endDate = _end;
+
+            initalizeCalender();
+        }
+
+        private void initalizeCalender()
+        {
+            double daysCount = (endDate - startDate).TotalDays;
+
+            for (double i = 0; i < daysCount; ++i)
+                eventsDictionary.Add(startDate.AddDays(i), new List<int>());
+
+
+
+        }
+    }
+
 }
