@@ -20,6 +20,48 @@ namespace SchedulingSystem
             return new ObservableCollection<string>() { "Gun Hill", "Jamaica", "Islamabad Diagnostic Center" };
         }
 
+        public static List<string> GetTimeStrings(int MorningTime, int EveningTime)
+        {
+            List<string> dayView_Time = new List<string>();
+            int currHour = MorningTime;
+            int currMin = 0;
+            string suffix = "AM";
+
+            while (true)
+            {
+                if (currHour == 12 && currMin == 0)
+                    suffix = "PM";
+                else if (suffix == "PM" && currHour == EveningTime)
+                    break;
+
+                string TimeString = "";
+
+                if (currHour < 10)
+                    TimeString += "0";
+
+                TimeString += currHour.ToString() + ":";
+
+                if (currMin < 10)
+                    TimeString += "0";
+
+                TimeString += currMin.ToString() + " " + suffix;
+                dayView_Time.Add(TimeString);
+
+                currMin += 15;
+
+                if (currMin == 60)
+                {
+                    if (currHour == 12)
+                        currHour = 1;
+                    else
+                        currHour += 1;
+
+                    currMin = 0;
+                }
+            }
+            return dayView_Time;
+        }
+
         //public static ObservableCollection<Doctor> GetDoctors() {
             
          
