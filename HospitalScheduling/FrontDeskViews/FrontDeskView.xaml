@@ -98,18 +98,18 @@
                     <WrapPanel>
                         
                         <TextBlock Text="Speciality"/>
-                        <ComboBox Name="SpecialityFilterAppointments" SelectedIndex="0">
-                            <ComboBoxItem>Any</ComboBoxItem>
+                        <ComboBox Name="SpecialityFilterAppointments" SelectedItem="Any" SelectionChanged="SpecialityFilterAppointments_SelectionChanged">
+                          
                         </ComboBox>
                         
                         <TextBlock Text="Doctor"/>
-                        <ComboBox Name="DoctorFilterAppointments" SelectedIndex="0">
-                            <ComboBoxItem>Any</ComboBoxItem>
+                        <ComboBox Name="DoctorFilterAppointments" SelectedItem="Any" SelectedIndex="0">
+                          
                         </ComboBox>
 
                         <TextBlock Text="Clinic"/>
-                        <ComboBox Name="ClinicFilterAppointments" SelectedIndex="0">
-                            <ComboBoxItem>Any</ComboBoxItem>
+                        <ComboBox Name="ClinicFilterAppointments" SelectedItem="Any">
+                          
                         </ComboBox>
                         
                         <TextBlock Text="Date"/>
@@ -230,18 +230,18 @@
                     <WrapPanel Grid.Row="0">
 
                         <TextBlock Text="Speciality"/>
-                        <ComboBox Name="SpecialityFilterOpenList" SelectedIndex="0">
-                            <ComboBoxItem>Any</ComboBoxItem>
+                        <ComboBox Name="SpecialityFilterOpenList" SelectedItem="Any" SelectionChanged="SpecialityFilterOpenList_SelectionChanged">
+                      
                         </ComboBox>
                         
                         <TextBlock Text="Doctor"/>
-                        <ComboBox Name="DoctorFilterOpenList" SelectedIndex="0">
-                            <ComboBoxItem>Any</ComboBoxItem>
+                        <ComboBox Name="DoctorFilterOpenList" SelectedItem="Any">
+                      
                         </ComboBox>
                         
                         <TextBlock Text="Clinic"/>
-                        <ComboBox Name="ClinicFilterOpenList" SelectedIndex="0">
-                            <ComboBoxItem>Any</ComboBoxItem>
+                        <ComboBox Name="ClinicFilterOpenList" SelectedItem="Any" SelectionChanged="ClinicFilterOpenList_SelectionChanged">
+                      
                         </ComboBox>
                         
                         <TextBlock Text="Date"/>

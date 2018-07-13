@@ -127,10 +127,10 @@
                                 <TextBlock>Find Best<LineBreak/>Appointment</TextBlock>
                             </Button>
 
-                            <Button>
+                            <Button Click="ManualAppointment_Click">
                                 <TextBlock>Manual<LineBreak/>Appointment</TextBlock>
                             </Button>
-
+         
                             <Button Click="AddToOpenList_Click">
                                 
                                 <TextBlock>Add to<LineBreak/>Open List</TextBlock>
@@ -145,7 +145,7 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-            <Button Content="Confirm" Width="100" Padding="5"/>
+            <Button Content="Confirm" Width="100" Padding="5" Click="AppointmentConfirmed"/>
         </StackPanel>
         
     </Border>

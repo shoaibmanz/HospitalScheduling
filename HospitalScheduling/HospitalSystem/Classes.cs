@@ -75,6 +75,7 @@ namespace SchedulingSystem
         public string SlotTime      { get; set; }
         public int DelayedBy     { get; set; }
         public int PatientsAhead { get; set; }
+        public string ClinicName { get; set; }
 
         public PatientToBeScheduled SchedulingInfo { get; set; }
 

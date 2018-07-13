@@ -21,12 +21,22 @@ namespace SchedulingSystem
     {
         public PatientPreferences(PatientToBeScheduled CurrentPatient)
         {
-            this.DataContext = CurrentPatient;
-
-            this.ComboBox_Clinic.ItemsSource = Data.GetClinicNames();
-            this.ComboBox_Speciality.ItemsSource = Data.GetSpecialities();
 
             InitializeComponent();
+            this.DataContext = CurrentPatient;
+
+            
+            this.ComboBox_Clinic.ItemsSource = Data.GetClinicNames();
+
+            this.ComboBox_Speciality.ItemsSource = Data.GetSpecialities();
+        }
+
+        private void Suggest_Click(object sender, RoutedEventArgs e)
+        {
+            PossibleAppointments OptionsWindow = new PossibleAppointments();
+            this.Hide();
+            OptionsWindow.ShowDialog();
+            this.Close();
         }
     }
 }
