@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,17 +75,104 @@ namespace SchedulingSystem
 
     public partial class MainWindow : Window
     {
-        public class GridData
+        public class GridData : INotifyPropertyChanged
         {
             public string time { get; set; }
-            public string c1 { get; set; }
-            public string c2 { get; set; }
-            public string c3 { get; set; }
-            public string c4 { get; set; }
-            public string c5 { get; set; }
 
 
+            private string _c1;
+            public string c1
+            {
+                get
+                {
+                    return _c1;
+                }
+                set
+                {
+                    if (this._c1 != value)
+                    {
+                        this._c1 = value;
+                        this.NotifyPropertyChanged("c1");
+                    }
+                }
+            }
+
+            private string _c2;
+
+            public string c2
+            {
+                get
+                {
+                    return _c2;
+                }
+                set
+                {
+                    if (this._c2 != value)
+                    {
+                        this._c2 = value;
+                        this.NotifyPropertyChanged("c2");
+                    }
+                }
+            }
+            private string _c3 { get; set; }
+            public string c3
+            {
+                get
+                {
+                    return _c3;
+                }
+                set
+                {
+                    if (this._c3 != value)
+                    {
+                        this._c3 = value;
+                        this.NotifyPropertyChanged("c3");
+                    }
+                }
+            }
+            public string _c4 { get; set; }
+            public string c4
+            {
+                get
+                {
+                    return _c4;
+                }
+                set
+                {
+                    if (this._c4 != value)
+                    {
+                        this._c4 = value;
+                        this.NotifyPropertyChanged("c4");
+                    }
+                }
+            }
+            public string _c5 { get; set; }
+            public string c5
+            {
+                get
+                {
+                    return _c5;
+                }
+                set
+                {
+                    if (this._c5 != value)
+                    {
+                        this._c5 = value;
+                        this.NotifyPropertyChanged("c5");
+                    }
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            public void NotifyPropertyChanged(string propName)
+            {
+                if (this.PropertyChanged != null)
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
         }
+        ObservableCollection<GridData> AppointmentInfo;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -117,47 +206,63 @@ namespace SchedulingSystem
             AddClinic.Items.Add(Global.Clinic_list[10].name);
 
 
-            GridData d1 = new GridData();
-            GridData d2 = new GridData();
-            GridData d3 = new GridData();
-            GridData d4 = new GridData();
-            GridData d5 = new GridData();
-            GridData d6 = new GridData();
-            GridData d7 = new GridData();
-            GridData d8 = new GridData();
-            GridData d9 = new GridData();
-            GridData d10 = new GridData();
-            GridData d11 = new GridData();
+            AppointmentInfo = new ObservableCollection<GridData>();
 
+            AppointmentInfo.Add(new GridData() {time = "7:00 AM", c1 = "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "8:00 AM",
+                c5 = "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "9:00 AM",
+                c1 = "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "10:00 AM",
+                c1 = "Available"
+            });
 
-            d1.time = "7:00 AM"; d1.c1 = "Available";
-            d2.time = "8:00 AM"; d2.c5 = "Available";
-            d3.time = "9:00 AM"; d3.c4 = "Available";
-            d4.time = "10:00 AM"; d4.c5 = "Available";
-            d5.time = "11:00 AM"; d5.c2 = "Available";
-            d6.time = "12:00 PM"; d6.c3 = "Available";
-            d7.time = "01:00 PM"; d7.c1 = "Available";
-            d8.time = "02:00 PM"; d8.c3 = "Available";
-            d9.time = "03:00 PM"; d9.c5 = "Available";
-            d10.time = "04:00 PM"; d10.c4 = "Available";
-            d11.time = "05:00 PM"; d11.c1 = "Available";
-
-
-
-            WeeklyGrid.Items.Add(d1);
-            WeeklyGrid.Items.Add(d2);
-            WeeklyGrid.Items.Add(d3);
-            WeeklyGrid.Items.Add(d4);
-            WeeklyGrid.Items.Add(d5);
-            WeeklyGrid.Items.Add(d6);
-            WeeklyGrid.Items.Add(d7);
-            WeeklyGrid.Items.Add(d8);
-            WeeklyGrid.Items.Add(d9);
-            WeeklyGrid.Items.Add(d10);
-            WeeklyGrid.Items.Add(d11);
-            WeeklyGrid.IsReadOnly = true;
-
-            // WeeklyGrid.ClipboardCopyMode = DataGridClipboardCopyMode.ExcludeHeade
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "11:00 AM",
+                c5 = "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "12:00 PM",
+                c3 = "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "1:00 PM",
+                c1 = "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "2:00 PM",
+                c5 = "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "3:00 PM",
+                c4 = "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "4:00 PM",
+                c2= "Available"
+            });
+            AppointmentInfo.Add(new GridData()
+            {
+                time = "5:00 PM",
+                c1 = "Available"
+            });
+            WeeklyGrid.ItemsSource = AppointmentInfo;
+           
 
         }
 
@@ -178,27 +283,70 @@ namespace SchedulingSystem
 
         }
 
-        public void MenuItemClick(object sender, System.EventArgs e)
+        public void MenuItemClick(object sender, RoutedEventArgs e)
         {
             RoutedEventArgs args = e as RoutedEventArgs;
             MenuItem item = args.OriginalSource as MenuItem;
             string header = item.Header.ToString();
-            if (header == "Copy")
+
+            //WeeklyGrid.CurrentCell
+            if (header == "Copy" || header=="Cut")
             {
-                int cell_count = WeeklyGrid.SelectedCells.Count();
-                Clipboard.Clear();
+                int i = WeeklyGrid.CurrentCell.Column.DisplayIndex;
+                switch (i)
+                {
+                    case 1:
+                        Global.arg1= ((GridData)WeeklyGrid.CurrentCell.Item).c1  ;
+                        break;
+                    case 2:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c2;
+                        break;
 
-                var cell = WeeklyGrid.SelectedCells[0];
-                Clipboard.SetDataObject(cell);
-
-
-
-
+                    case 3:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c3;
+                        break;
+                    case 4:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c4;
+                        break;
+                    case 5:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c5;
+                        break;
+                }
+                if (header == "Cut")
+                {
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c1 = "";
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c2 = "";
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c3 = "";
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c4 = "";
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c5 = "";
+                }
 
             }
             else if (header == "Paste")
             {
-                WeeklyGrid.CurrentCell = WeeklyGrid.SelectedCells[0];
+
+             
+                int i = WeeklyGrid.CurrentCell.Column.DisplayIndex;
+
+                switch (i)
+                {
+                    case 1:
+                        ((GridData)WeeklyGrid.CurrentCell.Item).c1 = Global.arg1;
+                        break;
+                    case 2:
+                        ((GridData)WeeklyGrid.CurrentCell.Item).c2 = Global.arg1;
+                        break;
+
+                    case 3:
+                        ((GridData)WeeklyGrid.CurrentCell.Item).c3 = Global.arg1;
+                        break;
+                    case 4:
+                        ((GridData)WeeklyGrid.CurrentCell.Item).c4 = Global.arg1;
+                        break;
+                    case 5:
+                        ((GridData)WeeklyGrid.CurrentCell.Item).c5 = Global.arg1;
+                        break;
+                }
 
             }
             else if (header == "Cut")
@@ -276,6 +424,17 @@ namespace SchedulingSystem
         private void DataGridRow_MouseEnter(object sender, MouseEventArgs e)
         {
 
+        }
+
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+           
         }
     }
 }
