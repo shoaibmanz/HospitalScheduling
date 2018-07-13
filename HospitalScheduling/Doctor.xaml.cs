@@ -43,12 +43,15 @@ namespace SchedulingSystem
         public string email { get; set; }
         public string phone { get; set; }
 
-        public Doc(string name, string address, string email, string phone)
+        public string Speciality { get; set; }
+
+        public Doc(string name, string address, string email, string phone, string speciality)
         {
             this.address = address;
             this.email = email;
             this.name = name;
             this.phone = phone;
+            this.Speciality = speciality;
         }
     };
 
@@ -92,11 +95,11 @@ namespace SchedulingSystem
             Global.arg1 = Global.arg2 = Global.arg3 = "";
             Global.status = false;
 
-            Global.Docs.Add(new Doc("John", "", "", ""));
-            Global.Docs.Add(new Doc("Shoaib", "", "", ""));
-            Global.Docs.Add(new Doc("Ahsan", "", "", ""));
-            Global.Docs.Add(new Doc("Haris", "", "", ""));
-            Global.Docs.Add(new Doc("Tom", "", "", ""));
+            Global.Docs.Add(new Doc("John", "", "", "","ACCU"));
+            Global.Docs.Add(new Doc("Shoaib", "", "", "","Medical"));
+            Global.Docs.Add(new Doc("Ahsan", "", "","", "Medical"));
+            Global.Docs.Add(new Doc("Haris", "", "", "", "PT"));
+            Global.Docs.Add(new Doc("Tom", "", "", "", "Chiro"));
 
 
             Global.Clinic_list.Add(new Clinic("clinic1", "Islamabad", "051-231256", "infoclinic1.com"));
