@@ -94,18 +94,18 @@
 
                         <WrapPanel Grid.Row="0">
                             <TextBlock Text="Speciality:"/>
-                            <ComboBox Width="100" SelectedIndex="0">
+                            <ComboBox Name="ComboBox_Speciality" Width="100" SelectedIndex="0">
                                 <ComboBoxItem>Any</ComboBoxItem>
                             </ComboBox>
                             <TextBlock Text="Doctor:"/>
-                            <ComboBox Width="100" SelectedIndex="0">
+                            <ComboBox Name="ComboBox_Doctor" Width="100" SelectedIndex="0">
                                 <ComboBoxItem>Any</ComboBoxItem>
                             </ComboBox>
                         </WrapPanel>
 
                         <WrapPanel Grid.Row="1">
                             <TextBlock Text="Clinic:"/>
-                            <ComboBox Width="100" Margin="10 10 10 10" SelectedIndex="0">
+                            <ComboBox Name="ComboBox_Clinic" Width="100" Margin="10 10 10 10" SelectedIndex="0">
                                 <ComboBoxItem>Any</ComboBoxItem>
                             </ComboBox>
                         </WrapPanel>

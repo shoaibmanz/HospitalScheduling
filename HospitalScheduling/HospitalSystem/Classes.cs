@@ -8,6 +8,28 @@ using System.Collections.ObjectModel;
 namespace SchedulingSystem
 {
 
+    public static class Data
+    {
+
+        public static ObservableCollection<string> GetSpecialities()
+        {
+            return new ObservableCollection<string>() { "Medical", "PT", "ACCU", "Cardiology", "Chiro" };
+        }
+        public static ObservableCollection<string> GetClinicNames()
+        {
+            return new ObservableCollection<string>() { "Gun Hill", "Jamaica", "Islamabad Diagnostic Center" };
+        }
+
+        //public static ObservableCollection<Doctor> GetDoctors() {
+            
+         
+        //}
+    }
+
+    public class Doctor
+    {
+        public string Name { get; set; }
+    }
 
     public class PatientToBeScheduled
     {

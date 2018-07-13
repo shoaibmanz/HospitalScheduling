@@ -27,7 +27,7 @@
                     <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
                         <TextBlock Text="Clinics:" FontSize="20" Margin="0 0 15 0"/>
 
-                        <ComboBox HorizontalAlignment="Right" Width="70" SelectedIndex="0">
+                        <ComboBox Name="ComboBox_Clinic" HorizontalAlignment="Right" Width="70" SelectedIndex="0">
                             <ComboBoxItem>All</ComboBoxItem>
                         </ComboBox>
                     </WrapPanel>
