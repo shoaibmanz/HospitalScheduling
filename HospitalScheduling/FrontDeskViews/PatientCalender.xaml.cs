@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +20,27 @@ namespace SchedulingSystem
     /// </summary>
     public partial class PatientCalender : Window
     {
+        public DataTable PatientTable;
         public PatientCalender(PatientToBeScheduled Patient)
         {
             InitializeComponent();
+            
+            PatientTable = new DataTable();
+            PatientTable.Columns.Add("Time", typeof(string));
 
-            DataGridTemplateColumn PatientNameColumn = new DataGridTemplateColumn();
-            PatientNameColumn.Header = Patient.PatientName;
+            PatientTable.Columns.Add(Patient.PatientName, typeof(string));
 
+            var TimeStrings = Data.GetTimeStrings(9, 2);
 
-            dg_dayView.Columns.Add(PatientNameColumn);
-            //Console.WriteLine(dayView_Time.Count);
+            foreach (string tStr in TimeStrings)
+            {
+                DataRow dRow = PatientTable.NewRow();
+                dRow["Time"] = tStr;
+                PatientTable.Rows.Add(dRow);
+            }
+
+            dg_dayView.DataContext = PatientTable.DefaultView;
         }
+        
     }
 }

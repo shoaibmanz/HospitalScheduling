@@ -50,10 +50,12 @@
                 <TabControl Grid.Column="0" Margin="5" TabStripPlacement="Left" SelectedIndex="0">
                     <!-- Day -->
                     <TabItem Header="Day" Height="50" TabIndex="0">
-                        <DataGrid x:Name="dg_dayView" AutoGenerateColumns="False" Padding="5" GridLinesVisibility="None" IsReadOnly="True">
-                            <DataGrid.Columns>
+                        <DataGrid x:Name="dg_dayView"  Padding="5" GridLinesVisibility="None" IsReadOnly="True" ItemsSource="{Binding}">
+                            <!--<DataGrid.Columns>
                                 <DataGridTextColumn Width="60"  Binding="{Binding Time}"/>
-                            </DataGrid.Columns>
+                                <DataGridTextColumn Width="60"  Binding="{Binding}"/>
+                            </DataGrid.Columns>-->
+                            
                         </DataGrid>
                     </TabItem>
                     <!-- Week -->
@@ -70,7 +72,7 @@
                     
                     <ListBox Name="lb_SelectedSpec" Height="80"/>
 
-                    <Button Margin="0 60 0 0">
+                    <Button Margin="0 60 0 0" Click="Button_Click">
                         <StackPanel>
                             <TextBlock Text="Cancel" HorizontalAlignment="Center"/>
                             <TextBlock Text="Appointment"/>
