@@ -28,7 +28,7 @@
                     </Button.Template>
                 </Button>
 
-                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, Mode=OneWay,  StringFormat='MMMM dd, yyyy'}" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, Mode=OneTime,  StringFormat='MMMM dd, yyyy'}" VerticalAlignment="Center"/>
                 <Button Margin="10 0 10 0">
                     <Image Source="Icons\PageRightButtonIcon.png"/>
                     <Button.Template>
@@ -51,12 +51,9 @@
                     <!-- Day -->
                     <TabItem Header="Day" Height="50" TabIndex="0">
                         <DataGrid x:Name="dg_dayView"  Padding="5" GridLinesVisibility="None" IsReadOnly="True" ItemsSource="{Binding}">
-                            <!--<DataGrid.Columns>
-                                <DataGridTextColumn Width="60"  Binding="{Binding Time}"/>
-                                <DataGridTextColumn Width="60"  Binding="{Binding}"/>
-                            </DataGrid.Columns>-->
                             
                         </DataGrid>
+                        
                     </TabItem>
                     <!-- Week -->
                     <TabItem Header="Week" Height="50" TabIndex="1"/>
@@ -66,13 +63,24 @@
                 </TabControl>
 
                 <StackPanel Grid.Column="1" Margin="10 0 10 0">
-                    <ComboBox SelectedIndex="0">
-                        <ComboBoxItem>Select Speciality</ComboBoxItem>
-                    </ComboBox>
-                    
-                    <ListBox Name="lb_SelectedSpec" Height="80"/>
+                    <ComboBox Name="cb_DaySpeciality" SelectionChanged="cb_DaySpeciality_SelectionChanged" Text="Select Speciality" IsReadOnly="True" IsEditable="True" />
 
-                    <Button Margin="0 60 0 0" Click="Button_Click">
+
+                    <ListBox Name="lb_SelectedSpec" Height="120" ItemsSource="{Binding}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding}" >
+                                    <Label.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Remove" Click="MenuItem_Remove_Click"/>
+                                        </ContextMenu>
+                                    </Label.ContextMenu>
+                                </Label>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Button Margin="0 60 0 0">
                         <StackPanel>
                             <TextBlock Text="Cancel" HorizontalAlignment="Center"/>
                             <TextBlock Text="Appointment"/>

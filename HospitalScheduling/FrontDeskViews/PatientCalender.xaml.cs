@@ -39,8 +39,47 @@ namespace SchedulingSystem
                 PatientTable.Rows.Add(dRow);
             }
 
+            this.cb_DaySpeciality.ItemsSource = Data.GetSpecialities();
+
             dg_dayView.DataContext = PatientTable.DefaultView;
+            
+            
+            
         }
         
+
+        // Adds an item in the specialty list box upon combobox selection
+        private void cb_DaySpeciality_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {         
+            ComboBox SpecBox = (sender as ComboBox);
+
+            if (SpecBox.SelectedItem != null)
+            {
+                foreach (string item in lb_SelectedSpec.Items)
+                {
+                    if (item == (string)SpecBox.SelectedItem)
+                        return;
+                }
+
+                lb_SelectedSpec.Items.Add(SpecBox.SelectedItem);
+            }
+        }
+
+        // Removes an item from the specialty list box upon right click
+        private void MenuItem_Remove_Click(object sender, RoutedEventArgs e)
+        {
+            
+            string ToRemove = (string)(sender as MenuItem).DataContext;
+
+            for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
+            {
+                if (ToRemove == (string)lb_SelectedSpec.Items[i])
+                {
+                    lb_SelectedSpec.Items.RemoveAt(i);
+                    break;
+                }
+            }
+
+        }
     }
 }

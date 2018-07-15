@@ -5,8 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
+
+namespace TestDesign {
+
+    public class Doctor
+    {
+        public string Name { get; set; }
+        public string Specialty { get; set; }       // 1 doctor = 1 specialty?          specialty = enum?
+    }
+
+    public class Clinic
+    {
+        public string Name { get; set; }
+    }
+
+    public class ScheduledDoctor
+    {
+        public Clinic ClinicInfo { get; set; }
+        public Doctor DoctorInfo { get; set; }
+
+    }
+}
+
 namespace SchedulingSystem
 {
+
+
 
     public static class Data
     {
@@ -15,6 +39,7 @@ namespace SchedulingSystem
         {
             return new ObservableCollection<string>() { "Medical", "PT", "ACCU", "Cardiology", "Chiro" };
         }
+
         public static ObservableCollection<string> GetClinicNames()
         {
             return new ObservableCollection<string>() { "Gun Hill", "Jamaica", "Islamabad Diagnostic Center" };
@@ -31,9 +56,7 @@ namespace SchedulingSystem
             {
                 if (currHour == 12 && currMin == 0)
                     suffix = "PM";
-                else if (suffix == "PM" && currHour == EveningTime)
-                    break;
-
+                
                 string TimeString = "";
 
                 if (currHour < 10)
@@ -46,6 +69,9 @@ namespace SchedulingSystem
 
                 TimeString += currMin.ToString() + " " + suffix;
                 dayView_Time.Add(TimeString);
+
+                if (suffix == "PM" && currHour == EveningTime)
+                    break;
 
                 currMin += 15;
 
