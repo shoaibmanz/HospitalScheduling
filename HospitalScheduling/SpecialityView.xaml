@@ -84,6 +84,7 @@
                     <TabItem Header="Day" Height="50" TabIndex="0">
 
                         <DataGrid x:Name="dg_dayView" AutoGenerateColumns="True" CanUserAddRows="False" ItemsSource="{Binding}">
+                            
                             <!--
                             <DataGrid.Resources>
 

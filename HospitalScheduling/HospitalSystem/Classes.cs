@@ -8,22 +8,228 @@ using System.Collections.ObjectModel;
 
 namespace TestDesign {
 
+    public static class Query
+    {
+        public static List<string> GetDoctorNames()
+        {
+            List<string> names = Doctor.Data.Select(Doc => Doc.Name).ToList();
+            return names;
+        }
+
+        public static List<string> GetClinicNames()
+        {
+            List<string> names = Clinic.Data.Select(Clinic => Clinic.Name).ToList();
+            return names;
+        }
+
+        public static List<string> GetSpecialties()
+        {
+            return Doctor.Specialties;
+        }
+        
+    }
+
     public class Doctor
     {
+        public Doctor(string Name, string Specialty)
+        {
+            this.Name = Name;
+            this.Specialty = Specialty;
+        }
+
         public string Name { get; set; }
         public string Specialty { get; set; }       // 1 doctor = 1 specialty?          specialty = enum?
+
+
+        public static ObservableCollection<Doctor> Data { get; set; }
+
+        public static List<string> Specialties { get; set; }
+
+        static public void GenerateData()
+        {
+
+            Data = new ObservableCollection<Doctor>();
+            Specialties = new List<string>() { "Medical", "Cardiologist", "ACCU", "Chiro", "PT", "Physician", "Neurologist"};
+
+            string[] DoctorNames = { "Dr. John", "Dr. Amitabh", "Dr. Azeem", "Dr. Adam", "Dr. Khattak", "Dr. Hattab", "Dr. Waseem" };
+
+            Random random = new Random();
+            foreach (string name in DoctorNames)
+            {
+                Data.Add(new Doctor(name, Specialties[random.Next(0, Specialties.Count)]));
+            }
+        }
     }
 
     public class Clinic
     {
+        public static ObservableCollection<Clinic> Data { get; set; }
+        static public void GenerateData()
+        {
+            Data = new ObservableCollection<Clinic>();
+            
+            Data.Add(new Clinic()
+            {
+                Name = "Gun Hill"
+            });
+
+            Data.Add(new Clinic()
+            {
+                Name = "Jamaica"
+            });
+
+            Data.Add(new Clinic()
+            {
+                Name = "Islamabad Diagnostic Center"
+            });
+        }
+
         public string Name { get; set; }
     }
 
     public class ScheduledDoctor
     {
-        public Clinic ClinicInfo { get; set; }
-        public Doctor DoctorInfo { get; set; }
 
+        ScheduledDoctor(Doctor doctor, Clinic clinic, DateTime from, DateTime to)
+        {
+            this.ClinicInfo = clinic;
+            this.DoctorInfo = doctor;
+            this.From = from;
+            this.To = to;
+        }
+
+        public Doctor DoctorInfo { get; set; }
+        public Clinic ClinicInfo { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+
+        public static ObservableCollection<ScheduledDoctor> Data { get; set; }
+        public static void GenerateData()
+        {
+            Data = new ObservableCollection<ScheduledDoctor>();
+
+            Random random = new Random();
+
+            DateTime now = DateTime.Now.AddDays(-15);
+            
+            // creating 30 random entries
+            for (int i = 0; i < 30; ++i)
+            {
+                int docIndex = random.Next(0, Doctor.Data.Count);
+                int clinicIndex = random.Next(0, Clinic.Data.Count);
+
+                Clinic _Clinic = Clinic.Data[clinicIndex];
+                Doctor _Doctor = Doctor.Data[docIndex];
+
+                Data.Add(new ScheduledDoctor(_Doctor, _Clinic, now, now.AddHours(6)));
+                now = now.AddDays(1);
+            }
+        }
+    }
+
+    public class Patient
+    {
+        public Patient(string Name, string ChartNumber, string InsuranceName, string AttorneyName)
+        {
+            this.Name = Name;
+            this.ChartNumber = ChartNumber;
+            this.InsuranceName = InsuranceName;
+            this.AttorneyName = AttorneyName;
+            this.InsuranceInfo = new List<InsuranceRecord>();
+        }
+
+        public string Name { get; set; }
+        public string ChartNumber { get; set; }
+        public string InsuranceName { get; set; }
+        public string AttorneyName { get; set; }
+        public List<InsuranceRecord> InsuranceInfo { get; set; }
+
+        public static ObservableCollection<Patient> Data;
+        public static void GenerateData()
+        {
+            Data = new ObservableCollection<Patient>();
+            string[] PatientNames = { "Ruben", "Mirana", "David", "Thomas", "Kurt", "John", "Richard" };
+
+            Random random = new Random();
+            foreach (string name in PatientNames)
+            {
+                Patient P1 = new Patient(name, "xxx-xxx-xxx", "XYZ", "JKL");
+
+                P1.InsuranceInfo.Add(new InsuranceRecord("Medical", random.Next(0, 4)));
+                P1.InsuranceInfo.Add(new InsuranceRecord("ACCU", random.Next(0, 4)));
+                P1.InsuranceInfo.Add(new InsuranceRecord("Physician", random.Next(0, 4)));
+                P1.InsuranceInfo.Add(new InsuranceRecord("Cardiologist", random.Next(0, 4)));
+
+                Data.Add(P1);
+            }
+
+        }
+    }
+
+    public class InsuranceRecord
+    {
+        public InsuranceRecord(string Spec, int Visits)
+        {
+            this.Speciality = Spec;
+            this.VisitsRemaining = Visits;
+        }
+
+        public string Speciality { get; set; }
+        public int VisitsRemaining { get; set; }
+    }
+
+    public class PatientAppointment {
+
+        public PatientAppointment(Patient PatientInfo, ScheduledDoctor slot, DateTime date, int duration, string status, string type, string PatientStatus, bool ToBeScheduled)
+        {
+            this.PatientInfo = PatientInfo;
+            this.Slot = slot;
+            this.Date = date;
+            this.Duration = duration;
+            this.CaseStatus = status;
+            this.CaseType = type;
+            this.PatientStatus = PatientStatus;
+            this.ToBeScheduled = ToBeScheduled;
+        }
+
+        public Patient PatientInfo { get; set; }
+        public ScheduledDoctor Slot { get; set; }
+        public DateTime Date { get; set; }
+        public int Duration { get; set; }
+        public string CaseStatus { get; set; }
+        public string CaseType { get; set; }
+        public string PatientStatus { get; set; }
+        public bool ToBeScheduled { get; set; }
+
+        public static ObservableCollection<PatientAppointment> Data { get; set; }
+
+        public static void GenerateData()
+        {
+            Data = new ObservableCollection<PatientAppointment>();
+            string[] CaseStatusStrings = { "Open" };
+            string[] CaseTypeStrings = { "NoFault" };
+            string[] PatientStatusStrings = { "Walk in", "Follow Up", "Rescheduled" };
+
+
+            Random random = new Random();
+
+            for (int i = 0; i < 30; ++i)
+            {
+                Patient P = Patient.Data[random.Next(0, Patient.Data.Count)];
+                ScheduledDoctor Slot = ScheduledDoctor.Data[random.Next(0, ScheduledDoctor.Data.Count)];
+
+                DateTime Date = Slot.From;
+                int Duration = random.Next(0, 30);
+
+                string CaseStatus = CaseStatusStrings[random.Next(0, CaseStatusStrings.Length)];
+                string CaseType = CaseTypeStrings[random.Next(0, CaseTypeStrings.Length)];
+                string PatientStatus = PatientStatusStrings[random.Next(0, PatientStatusStrings.Length)];
+
+                bool ToBeScheduled = random.Next(0, 2) == 0 ? true : false;
+
+                Data.Add(new PatientAppointment(P, Slot, Date, Duration, CaseStatus, CaseType, PatientStatus, ToBeScheduled));
+            }
+        }
     }
 }
 

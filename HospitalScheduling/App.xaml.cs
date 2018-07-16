@@ -13,9 +13,16 @@ namespace HospitalScheduling
     /// </summary>
     public partial class App : Application
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        App()
         {
-            
+            // generating random test data
+
+            TestDesign.Clinic.GenerateData();
+            TestDesign.Doctor.GenerateData();
+            TestDesign.Patient.GenerateData();
+            TestDesign.ScheduledDoctor.GenerateData();
+            TestDesign.PatientAppointment.GenerateData();
+
         }
     }
 }
