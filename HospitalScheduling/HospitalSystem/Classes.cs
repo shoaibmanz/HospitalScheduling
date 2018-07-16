@@ -8,6 +8,46 @@ using System.Collections.ObjectModel;
 namespace SchedulingSystem
 {
 
+    /* classes for dummy data
+  * added on 5th junly, 2018 11:30 AM
+ */
+    public partial class Clinic
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+
+        public Clinic(string name, string address, string phone, string email)
+        {
+            this.Name = name;
+            this.Address = address;
+            this.Email = email;
+            this.Phone = phone;
+
+        }
+    };
+
+    public class Doc
+    {
+        public string name { get; set; }
+        public string address { get; set; }
+
+        public string email { get; set; }
+        public string phone { get; set; }
+
+        public string Speciality { get; set; }
+
+        public Doc(string name, string address, string email, string phone, string speciality)
+        {
+            this.address = address;
+            this.email = email;
+            this.name = name;
+            this.phone = phone;
+            this.Speciality = speciality;
+        }
+    };
+
     public static class Data
     {
 
@@ -103,15 +143,18 @@ namespace SchedulingSystem
 
     public class Event
     {
-        Clinic clinic;
-        Doc doctor;
-        DateTime startTime, endTime;
+        public Clinic Clinicc { get; set; }
+        public Doc Doctor { get; set; }
+        public DateTime StartTime { get; set; } 
+        public DateTime EndTime { get; set; }
+
         List<Appointment> appointments;
         
         Event()
         {
 
         }
+
     }
 
     public class Calender
@@ -119,7 +162,7 @@ namespace SchedulingSystem
         public DateTime startDate;
         public DateTime endDate;
 
-        Dictionary<DateTime, List<int>> eventsDictionary;
+        Dictionary<DateTime, List<Event>> eventsDictionary = new Dictionary<DateTime, List<Event>>();
 
         public Calender()
         {
@@ -145,10 +188,13 @@ namespace SchedulingSystem
             double daysCount = (endDate - startDate).TotalDays;
 
             for (double i = 0; i < daysCount; ++i)
-                eventsDictionary.Add(startDate.AddDays(i), new List<int>());
+                eventsDictionary.Add(startDate.AddDays(i), new List<Event>());
+            
+        }
 
-
-
+        public void AddEvent(DateTime date , Event newEvent)
+        {
+            eventsDictionary[date].Add(newEvent);
         }
     }
 

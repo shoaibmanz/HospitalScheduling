@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"   
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"       
         xmlns:local="clr-namespace:HospitalScheduling"
         mc:Ignorable="d"
         Title="SpecialityView" Height="600" Width="800" Background="Tan">
     <Window.Resources>
-        
+
         <!--
         
         <local:ComboBoxtoVisibilityConverter x:Key="ComboBoxtoVisibility"/>
@@ -83,7 +83,7 @@
                     <!-- Day -->
                     <TabItem Header="Day" Height="50" TabIndex="0">
 
-                        <DataGrid x:Name="dg_dayView" AutoGenerateColumns="False">
+                        <DataGrid x:Name="dg_dayView" AutoGenerateColumns="False" ItemsSource="{Binding}">
                             <!--
                             <DataGrid.Resources>
 
@@ -162,7 +162,7 @@
                             <ListBox.DataContext>
                                 <SchedulingSystem:MainWindow/>
                             </ListBox.DataContext>
-                            --> 
+                            -->
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -236,7 +236,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox IsChecked="{Binding IS_ClinicCheckBoxEnabled}" Content="{Binding Name}" Checked="CheckBox_Checked_ShowClinic" Unchecked="CheckBox_Checked_HideClinic"></CheckBox>
-                 
+
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

@@ -17,45 +17,7 @@ using System.Windows.Shapes;
 
 namespace SchedulingSystem
 {
-    /* classes for dummy data
-     * added on 5th junly, 2018 11:30 AM
-    */
-    public partial class Clinic
-    {
-        public string name;
-        public string address;
-        public string phone;
-        public string email;
-
-        public Clinic(string name, string address, string phone, string email)
-        {
-            this.name = name;
-            this.address = address;
-            this.email = email;
-            this.phone = phone;
-
-        }
-    };
-
-    public partial class Doc
-    {
-        public string name { get; set; }
-        public string address { get; set; }
-
-        public string email { get; set; }
-        public string phone { get; set; }
-
-        public string Speciality { get; set; }
-
-        public Doc(string name, string address, string email, string phone, string speciality)
-        {
-            this.address = address;
-            this.email = email;
-            this.name = name;
-            this.phone = phone;
-            this.Speciality = speciality;
-        }
-    };
+ 
 
     static class Global
     {
@@ -204,9 +166,9 @@ namespace SchedulingSystem
             Global.Clinic_list.Add(new Clinic("Gun Hill", "Islamabad", "051-2563254", "info@clinic6.com"));
             Global.Clinic_list.Add(new Clinic("Brazil", "Islamabad", "051-2563254", "info@clinic6.com"));
 
-            AddClinic.Items.Add(Global.Clinic_list[8].name);
-            AddClinic.Items.Add(Global.Clinic_list[9].name);
-            AddClinic.Items.Add(Global.Clinic_list[10].name);
+            AddClinic.Items.Add(Global.Clinic_list[8].Name);
+            AddClinic.Items.Add(Global.Clinic_list[9].Name);
+            AddClinic.Items.Add(Global.Clinic_list[10].Name);
 
 
             AppointmentInfo = new ObservableCollection<GridData>();
