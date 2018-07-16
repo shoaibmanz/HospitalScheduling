@@ -169,6 +169,15 @@ namespace HospitalScheduling
         }
 
 
+        private void DataGridCell_PreviewMouseLeftButtonDown(object sender , MouseButtonEventArgs e)
+        {
+            DataGridCell cell = sender as DataGridCell;
+            if (cell == null || cell.IsEditing || cell.IsReadOnly)
+                return;
+
+            MessageBox.Show(cell.Content.ToString());
+        }
+
 
         private void btn_nextDay_Click(object sender, RoutedEventArgs e)
         {

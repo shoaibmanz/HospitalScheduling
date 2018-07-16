@@ -1,0 +1,188 @@
+﻿<Window x:Class="HospitalScheduling.SupervisorViews.AssignDoctor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HospitalScheduling.SupervisorViews"
+        mc:Ignorable="d"
+        Title="AssignDoctor" Height="500" Width="450" >
+
+    <Window.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="0 5 5 5" ></Setter>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Margin" Value="0 5 5 5" ></Setter>
+        </Style>
+
+
+    </Window.Resources>
+    <Grid>
+        <GroupBox Header="Assign Speciality">
+            <Border Padding="0,10,0,0">
+                <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Speciality Name -->
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Speciality: " Padding="30,0,0,0" />
+                            <TextBox Grid.Column="1"  Width="100"/>
+                        </Grid>
+
+                        <!-- Clinic Name -->
+                        <Grid Grid.Row="1" Grid.Column="0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Clinic Name: " Padding="30,0,0,0"/>
+                            <TextBox Grid.Column="1" Width="100"/>
+                        </Grid>
+
+                        <!-- Start Time -->
+                        <Grid Grid.Row="0" Grid.Column="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Start: " Padding="60,0,0,0"/>
+                            <TextBox Grid.Column="1" Width="100"/>
+                        </Grid>
+
+                        <!-- End Time -->
+                        <Grid Grid.Row="1" Grid.Column="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="End: " Padding="60,0,0,0"/>
+                            <TextBox Grid.Column="1" Width="100"/>
+                        </Grid>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Number of Doctors: " Margin="30,0,0,0"/>
+                        <TextBox Width="25" Margin="4,0,0,0" />
+
+                    </StackPanel>
+
+                    <Grid Margin="0,15,5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <CheckBox Content="Automatically Assign" HorizontalAlignment="Center" />
+                        <Button Grid.Column="1" Content="Manual Assign" Width="150"/>
+
+
+                    </Grid>
+
+                    <StackPanel Margin="0,10,0,0">
+                        <CheckBox Content="Recurrence Pattern" IsChecked="True" Margin="15,0,0,0" />
+
+                        <Grid Margin="0,10,5,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderBrush="#FF0E0D0D" BorderThickness="0,0,1,0" Margin="0,0,20,0">
+                                <StackPanel Margin="15,5,0,0">
+                                    <RadioButton Content="Daily"/>
+                                    <RadioButton Content="Weekly"/>
+                                    <RadioButton Content="Monthly"/>
+                                </StackPanel>
+                            </Border>
+                            <Grid Grid.Column="1">
+                                <Grid>
+                                    <Border Panel.ZIndex="0"  >
+
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <CheckBox Grid.Row="0" Grid.Column="0" Content="Monday"/>
+                                            <CheckBox Grid.Row="0" Grid.Column="1" Content="Tuesday"/>
+                                            <CheckBox Grid.Row="0" Grid.Column="2" Content="Wednesday"/>
+                                            <CheckBox Grid.Row="1" Grid.Column="0" Content="Thursday"/>
+                                            <CheckBox Grid.Row="1" Grid.Column="1" Content="Friday"/>
+                                            <CheckBox Grid.Row="1" Grid.Column="2" Content="Saturday"/>
+                                            <CheckBox Grid.Row="2" Grid.Column="0" Content="Sunday"/>
+                                        </Grid>
+
+                                    </Border>
+                                    <Border Panel.ZIndex="1" Visibility="Collapsed">
+                                        <ComboBox Width="150" Height="25" SelectedIndex="0">
+                                            <ComboBoxItem Content="Monthly on day 16"></ComboBoxItem>
+                                            <ComboBoxItem Content="Monthly on third Monday "></ComboBoxItem>
+                                        </ComboBox>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <Border Padding="20,10,0,10">
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <TextBlock Text="Range of Recurrence"/>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                <StackPanel  Orientation="Horizontal">
+                                    <TextBlock Text="Start: "/>
+                                    <DatePicker ></DatePicker>
+                                </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <StackPanel  Orientation="Horizontal">
+                                        <RadioButton Content="Repeat for  "/>
+                                        <TextBox Width="25"/>
+                                        <TextBlock Text="  occurances" />
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="3">
+                                <StackPanel  Orientation="Horizontal">
+                                        <RadioButton Content="Ends on "/>
+                                        <DatePicker />
+                                    </StackPanel>
+                                </Grid>
+                                <Grid  Grid.Row="4">
+                                <Button Content="Confirm" Width="100"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </GroupBox>
+    </Grid>
+</Window>
