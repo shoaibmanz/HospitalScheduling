@@ -5,48 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
-namespace SchedulingSystem
-{
 
-    /* classes for dummy data
-  * added on 5th junly, 2018 11:30 AM
- */
-    public partial class Clinic
+namespace TestDesign {
+
+    public class Doctor
     {
         public string Name { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
+        public string Specialty { get; set; }       // 1 doctor = 1 specialty?          specialty = enum?
+    }
 
-        public Clinic(string name, string address, string phone, string email)
-        {
-            this.Name = name;
-            this.Address = address;
-            this.Email = email;
-            this.Phone = phone;
-
-        }
-    };
-
-    public class Doc
+    public class Clinic
     {
-        public string name { get; set; }
-        public string address { get; set; }
+        public string Name { get; set; }
+    }
 
-        public string email { get; set; }
-        public string phone { get; set; }
+    public class ScheduledDoctor
+    {
+        public Clinic ClinicInfo { get; set; }
+        public Doctor DoctorInfo { get; set; }
 
-        public string Speciality { get; set; }
+    }
+}
 
-        public Doc(string name, string address, string email, string phone, string speciality)
-        {
-            this.address = address;
-            this.email = email;
-            this.name = name;
-            this.phone = phone;
-            this.Speciality = speciality;
-        }
-    };
+namespace SchedulingSystem
+{
 
     public static class Data
     {
@@ -55,9 +37,53 @@ namespace SchedulingSystem
         {
             return new ObservableCollection<string>() { "Medical", "PT", "ACCU", "Cardiology", "Chiro" };
         }
+
         public static ObservableCollection<string> GetClinicNames()
         {
             return new ObservableCollection<string>() { "Gun Hill", "Jamaica", "Islamabad Diagnostic Center" };
+        }
+
+        public static List<string> GetTimeStrings(int MorningTime, int EveningTime)
+        {
+            List<string> dayView_Time = new List<string>();
+            int currHour = MorningTime;
+            int currMin = 0;
+            string suffix = "AM";
+
+            while (true)
+            {
+                if (currHour == 12 && currMin == 0)
+                    suffix = "PM";
+                
+                string TimeString = "";
+
+                if (currHour < 10)
+                    TimeString += "0";
+
+                TimeString += currHour.ToString() + ":";
+
+                if (currMin < 10)
+                    TimeString += "0";
+
+                TimeString += currMin.ToString() + " " + suffix;
+                dayView_Time.Add(TimeString);
+
+                if (suffix == "PM" && currHour == EveningTime)
+                    break;
+
+                currMin += 15;
+
+                if (currMin == 60)
+                {
+                    if (currHour == 12)
+                        currHour = 1;
+                    else
+                        currHour += 1;
+
+                    currMin = 0;
+                }
+            }
+            return dayView_Time;
         }
 
         //public static ObservableCollection<Doctor> GetDoctors() {

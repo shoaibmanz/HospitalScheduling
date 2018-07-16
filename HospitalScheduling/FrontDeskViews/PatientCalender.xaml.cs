@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,46 +20,66 @@ namespace SchedulingSystem
     /// </summary>
     public partial class PatientCalender : Window
     {
+        public DataTable PatientTable;
         public PatientCalender(PatientToBeScheduled Patient)
         {
             InitializeComponent();
+            
+            PatientTable = new DataTable();
+            PatientTable.Columns.Add("Time", typeof(string));
 
-            DataGridTemplateColumn PatientNameColumn = new DataGridTemplateColumn();
-            PatientNameColumn.Header = Patient.PatientName;
+            PatientTable.Columns.Add(Patient.PatientName, typeof(string));
 
+            var TimeStrings = Data.GetTimeStrings(9, 2);
 
-            dg_dayView.Columns.Add(PatientNameColumn);
-
-            List<string> dayView_Time = new List<string>();
-            int currHour = 12;
-            int currMin = 0;
-            string suffix = "AM";
-
-            while (true)
+            foreach (string tStr in TimeStrings)
             {
-                if (currHour == 12 && currMin == 0)
-                    suffix = "PM";
-                else if (suffix == "PM" && currHour == 2)
-                    break;
+                DataRow dRow = PatientTable.NewRow();
+                dRow["Time"] = tStr;
+                PatientTable.Rows.Add(dRow);
+            }
 
-                if (currHour < 10)
-                    dayView_Time.Add("0" + Convert.ToString(currHour) + ":" + currMin.ToString() + suffix);
-                else
-                    dayView_Time.Add(Convert.ToString(currHour) + ":" + currMin.ToString() + suffix);
+            this.cb_DaySpeciality.ItemsSource = Data.GetSpecialities();
 
-                currMin += 15;
-                if (currMin == 60)
+            dg_dayView.DataContext = PatientTable.DefaultView;
+            
+            
+            
+        }
+        
+
+        // Adds an item in the specialty list box upon combobox selection
+        private void cb_DaySpeciality_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {         
+            ComboBox SpecBox = (sender as ComboBox);
+
+            if (SpecBox.SelectedItem != null)
+            {
+                foreach (string item in lb_SelectedSpec.Items)
                 {
-                    if (currHour == 12)
-                        currHour = 1;
-                    else
-                        currHour += 1;
+                    if (item == (string)SpecBox.SelectedItem)
+                        return;
+                }
 
-                    currMin = 0;
+                lb_SelectedSpec.Items.Add(SpecBox.SelectedItem);
+            }
+        }
+
+        // Removes an item from the specialty list box upon right click
+        private void MenuItem_Remove_Click(object sender, RoutedEventArgs e)
+        {
+            
+            string ToRemove = (string)(sender as MenuItem).DataContext;
+
+            for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
+            {
+                if (ToRemove == (string)lb_SelectedSpec.Items[i])
+                {
+                    lb_SelectedSpec.Items.RemoveAt(i);
+                    break;
                 }
             }
 
-            Console.WriteLine(dayView_Time.Count);
         }
     }
 }
