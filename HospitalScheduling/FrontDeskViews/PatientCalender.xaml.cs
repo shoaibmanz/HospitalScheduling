@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TestDesign;
 
 namespace SchedulingSystem
 {
@@ -21,14 +22,16 @@ namespace SchedulingSystem
     public partial class PatientCalender : Window
     {
         public DataTable PatientTable;
-        public PatientCalender(PatientToBeScheduled Patient)
+
+        public PatientAppointment CurrentPatient;
+        public PatientCalender(PatientAppointment CurrentPatient)
         {
             InitializeComponent();
             
             PatientTable = new DataTable();
             PatientTable.Columns.Add("Time", typeof(string));
 
-            PatientTable.Columns.Add(Patient.PatientName, typeof(string));
+            PatientTable.Columns.Add(CurrentPatient.PatientInfo.Name, typeof(string));
 
             var TimeStrings = Data.GetTimeStrings(9, 2);
 

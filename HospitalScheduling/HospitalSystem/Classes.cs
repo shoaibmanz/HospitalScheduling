@@ -26,7 +26,49 @@ namespace TestDesign {
         {
             return Doctor.Specialties;
         }
-        
+
+        public static List<PatientAppointment> GetToBeScheduledPatients()
+        {
+            List<PatientAppointment> Patients = new List<PatientAppointment>();
+
+            foreach (PatientAppointment P in PatientAppointment.Data)
+            {
+                if (P.ToBeScheduled)
+                {
+                    Patients.Add(P);
+                }
+            }
+
+            return Patients;
+        }
+
+        public static List<PatientAppointment> GetAppointments()
+        {
+
+            List<PatientAppointment> Patients = new List<PatientAppointment>();
+
+            foreach (PatientAppointment P in PatientAppointment.Data)
+            {
+                if (!P.ToBeScheduled)
+                {
+                    Patients.Add(P);
+                }
+            }
+
+            return Patients;
+        }
+
+        public static bool IsOldPatient(PatientAppointment Patient)
+        {
+            foreach(PatientAppointment P in PatientAppointment.Data)
+            {
+                if (P.PatientInfo.Name == Patient.PatientInfo.Name && P.Slot != Patient.Slot)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public class Doctor
