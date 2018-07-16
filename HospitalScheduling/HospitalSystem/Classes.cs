@@ -30,6 +30,47 @@ namespace TestDesign {
 namespace SchedulingSystem
 {
 
+    /* classes for dummy data
+* added on 5th junly, 2018 11:30 AM
+*/
+    public partial class Clinic
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+
+        public Clinic(string name, string address, string phone, string email)
+        {
+            this.Name = name;
+            this.Address = address;
+            this.Email = email;
+            this.Phone = phone;
+
+        }
+    };
+
+    public class Doc
+    {
+        public string name { get; set; }
+        public string address { get; set; }
+
+        public string email { get; set; }
+        public string phone { get; set; }
+
+        public string Speciality { get; set; }
+
+        public Doc(string name, string address, string email, string phone, string speciality)
+        {
+            this.address = address;
+            this.email = email;
+            this.name = name;
+            this.phone = phone;
+            this.Speciality = speciality;
+        }
+    };
+
+
     public static class Data
     {
 

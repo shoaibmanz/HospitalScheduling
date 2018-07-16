@@ -53,10 +53,12 @@ namespace HospitalScheduling
         };
 
 
+        public bool SPECIALITYvsCLINIC = true ;
+
         DateTime currentDate = System.DateTime.Now;
 
 
-        DataTable Calender_DataTable = new DataTable();
+        public DataTable Calender_DataTable = new DataTable();
        
 
         public ObservableCollection<SpecialityList> specialityListBox = new ObservableCollection<SpecialityList>();
@@ -73,25 +75,25 @@ namespace HospitalScheduling
             cmb_SpecialityDropdown.ItemsSource = specialities;
             lb_SpecialityList.ItemsSource = specialityListBox;
 
-            //dg_dayView.DataContext = Calender_DataTable.DefaultView;
+            Calender_DataTable.Columns.Add("INDEX");
+            
 
+            // Add Clinics to Clinic List Box
             foreach (var item in clinics)
             {
                 clinicsListBox.Add(new ClinicList(false, item));
 
 
-                //dataTable.Columns.Add(item.Name);
+                
 
-                // ADD COLUMN
-                addDataGridColumn(item.Name);
+        }
 
-                // ADD COLUMN
-                //addDataGridColumn(item.Name, false);
-            }
 
-            dg_dayView.ItemsSource = null;
+
+            
             dg_dayView.DataContext = Calender_DataTable.DefaultView;
 
+            
 
             lb_clinicsListBox.ItemsSource = clinicsListBox;
         }
@@ -111,7 +113,10 @@ namespace HospitalScheduling
                     specialityListBox.Insert(0, (new SpecialityList(true, selectedSpec)));
 
                     // -----------------------------
-                    //addDataGridColumn(selectedSpec);
+                    if (SPECIALITYvsCLINIC)
+                        addDataGridRow(selectedSpec);
+                    else
+                        addDataGridColumn(selectedSpec);
                 }
 
 
@@ -124,14 +129,43 @@ namespace HospitalScheduling
 
         private void addDataGridColumn(string header)
         {
-            Calender_DataTable.Columns.Add(header);
+            if (Calender_DataTable.Columns.Contains(header) == false)
+                Calender_DataTable.Columns.Add(header, typeof(string));
 
-            
+            // Refresh context of dataGrid
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
         }
 
-        private void addDataGridRow()
+        private void removeDataGridColumn(string header)
         {
+            if (Calender_DataTable.Columns.Contains(header))
+                Calender_DataTable.Columns.Remove(header);
 
+            // Refresh context of dataGrid
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
+        }
+
+        private void addDataGridRow(string rowString)
+        {
+            DataRow dRow = Calender_DataTable.NewRow();
+            dRow["INDEX"] = rowString;
+            Calender_DataTable.Rows.Add(dRow);
+
+            // Refresh context of dataGrid
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
+        }
+
+        private void removeDataGridRow(string header)
+        {
+            if (Calender_DataTable.Columns.Contains(header))
+                Calender_DataTable.Columns.Remove(header);
+
+            // Refresh context of dataGrid
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
         }
 
 
@@ -175,6 +209,13 @@ namespace HospitalScheduling
         {
             if (sender is CheckBox)
             {
+                // Add to DataTable
+                if (SPECIALITYvsCLINIC)
+                    addDataGridColumn( ((CheckBox)sender).Content.ToString()  );
+                else
+                    addDataGridRow( ((CheckBox)sender).Content.ToString() );
+
+                /*
                 foreach (DataGridTextColumn Column in dg_dayView.Columns)
                 {
                     if (Column.Header == ((CheckBox)sender).Content)
@@ -183,12 +224,22 @@ namespace HospitalScheduling
                         return;
                     }
                 }
+                */
             }
+
+           
         }
-        private void CheckBox_Checked_HideClinic(object sender, RoutedEventArgs e)
+        private void CheckBox_Unchecked_HideClinic(object sender, RoutedEventArgs e)
         {
             if (sender is CheckBox)
             {
+                // Remove from DataTable
+                if (SPECIALITYvsCLINIC)
+                    removeDataGridColumn(((CheckBox)sender).Content.ToString());
+                else
+                    removeDataGridRow(((CheckBox)sender).Content.ToString());
+
+                /*
                 foreach (DataGridTextColumn Column in dg_dayView.Columns)
                 {
                     if (Column.Header == ((CheckBox)sender).Content)
@@ -196,8 +247,20 @@ namespace HospitalScheduling
                         Column.Visibility = Visibility.Hidden;
                         return;
                     }
-                }
+                }*/
             }
+
+            
+        }
+
+        private void CheckBox_Checked_ShowSpeciality(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Unchecked_HideSpeciality(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

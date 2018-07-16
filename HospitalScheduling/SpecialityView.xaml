@@ -83,7 +83,7 @@
                     <!-- Day -->
                     <TabItem Header="Day" Height="50" TabIndex="0">
 
-                        <DataGrid x:Name="dg_dayView" AutoGenerateColumns="False" ItemsSource="{Binding}">
+                        <DataGrid x:Name="dg_dayView" AutoGenerateColumns="True" CanUserAddRows="False" ItemsSource="{Binding}">
                             <!--
                             <DataGrid.Resources>
 
@@ -166,8 +166,7 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding isEnabled}"/>
-                                        <TextBlock Text="{Binding specialityName}"/>
+                                        <CheckBox IsChecked="{Binding isEnabled}" Content="{Binding specialityName}" Checked="CheckBox_Checked_ShowSpeciality" Unchecked="CheckBox_Unchecked_HideSpeciality"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
@@ -234,10 +233,10 @@
                             <ListBox.ItemTemplate>
 
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="{Binding IS_ClinicCheckBoxEnabled}" Content="{Binding Name}" Checked="CheckBox_Checked_ShowClinic" Unchecked="CheckBox_Checked_HideClinic"></CheckBox>
+                                    <!--<StackPanel Orientation="Horizontal">-->
+                                        <CheckBox IsChecked="{Binding IS_ClinicCheckBoxEnabled}" Content="{Binding Name}" Checked="CheckBox_Checked_ShowClinic" Unchecked="CheckBox_Unchecked_HideClinic"></CheckBox>
 
-                                    </StackPanel>
+                                    <!--</StackPanel>-->
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
