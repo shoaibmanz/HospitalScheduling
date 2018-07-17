@@ -51,7 +51,7 @@
             <ComboBox SelectedIndex="0" Text="Any" Name="cb_Doctor"/>
         </WrapPanel>
 
-        <Button Grid.Row="2" Grid.Column="0" Content="Cancel" Width="70" HorizontalAlignment="Right"  VerticalAlignment="Center"/>
+        <Button Grid.Row="2" Grid.Column="0" Content="Cancel" Width="70" HorizontalAlignment="Right"  VerticalAlignment="Center" Click="Cancel_Click"/>
 
         <WrapPanel Grid.Row="0" Grid.Column="1">
             <TextBlock Text="Speciality"/>
@@ -64,7 +64,7 @@
             <ComboBox SelectedIndex="0" Text="Any" Name="cb_Clinic"/>
         </WrapPanel>
 
-        <Button Grid.Row="2" Grid.Column="1" Content="Add" Width="70" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Button Grid.Row="2" Grid.Column="1" Content="Add" Width="70" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Add_Click"/>
         
     </Grid>
 </Window>

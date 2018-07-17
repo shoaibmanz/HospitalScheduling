@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-
+using System.Data;
 
 namespace TestDesign {
 
     public static class Query
-    {
+    { 
         public static List<string> GetDoctorNames()
         {
             List<string> names = Doctor.Data.Select(Doc => Doc.Name).ToList();
@@ -72,6 +72,11 @@ namespace TestDesign {
             return nAppointments > 1;
         }
         
+        /// <summary>
+        /// Fetches the appointment history for a given patient
+        /// </summary>
+        /// <param name="ChartNumber"> Unique identifier for the patient </param>
+        /// <returns> History of appointments </returns>
         public static List<PatientAppointment> GetAppointments(string ChartNumber)
         {
             List<PatientAppointment> Appointments = new List<PatientAppointment>();
@@ -85,6 +90,24 @@ namespace TestDesign {
             }
 
             return Appointments;
+        }
+
+        /// <summary>
+        /// Searches for and returns an appointment given the appointment ID
+        /// </summary>
+        /// <param name="ID"> ID of the appointment to fetch </param>
+        /// <returns> Appointment object of the required ID.. returns NULL if not found </returns>
+        public static PatientAppointment GetAppointment(int ID)
+        {
+            foreach (PatientAppointment Appointment in PatientAppointment.Data)
+            {
+                if (Appointment.ID == ID)
+                {
+                    return Appointment;
+                }
+            }
+
+            return null;
         }
     }
 
@@ -212,7 +235,8 @@ namespace TestDesign {
             Data = new ObservableCollection<Patient>();
             string[] PatientNames = { "Ruben", "Mirana", "David", "Thomas", "Kurt", "John", "Richard" };
 
-            Random random = new Random();
+            Random random = new Random(DateTime.Now.Second);
+
             foreach (string name in PatientNames)
             {
                 int ChartNumber = random.Next(0, 1000000);
@@ -243,7 +267,7 @@ namespace TestDesign {
 
     public class PatientAppointment {
 
-        public PatientAppointment(Patient PatientInfo, ScheduledDoctor slot, DateTime date, int duration, string status, string type, string PatientStatus, bool ToBeScheduled)
+        public PatientAppointment(int ID, Patient PatientInfo, ScheduledDoctor slot, DateTime date, int duration, string status, string type, string PatientStatus, bool ToBeScheduled)
         {
             this.PatientInfo = PatientInfo;
             this.Slot = slot;
@@ -253,8 +277,10 @@ namespace TestDesign {
             this.CaseType = type;
             this.PatientStatus = PatientStatus;
             this.ToBeScheduled = ToBeScheduled;
+            this.ID = ID;
         }
-        
+
+        public int ID { get; set; }
         public Patient PatientInfo { get; set; }
         public ScheduledDoctor Slot { get; set; }
         public DateTime Date { get; set; }
@@ -274,7 +300,7 @@ namespace TestDesign {
             string[] PatientStatusStrings = { "Walk in", "Follow Up", "Rescheduled" };
 
 
-            Random random = new Random();
+            Random random = new Random(DateTime.Now.Second);
 
             for (int i = 0; i < 30; ++i)
             {
@@ -290,7 +316,7 @@ namespace TestDesign {
 
                 bool ToBeScheduled = random.Next(0, 2) == 0 ? true : false;
 
-                Data.Add(new PatientAppointment(P, Slot, Date, Duration, CaseStatus, CaseType, PatientStatus, ToBeScheduled));
+                Data.Add(new PatientAppointment(random.Next(0, 10000000), P, Slot, Date, Duration, CaseStatus, CaseType, PatientStatus, ToBeScheduled));
             }
         }
     }
