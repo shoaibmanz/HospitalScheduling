@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TestDesign;
 
 namespace SchedulingSystem
 {
@@ -19,16 +20,18 @@ namespace SchedulingSystem
     /// </summary>
     public partial class PatientPreferences : Window
     {
-        public PatientPreferences(PatientToBeScheduled CurrentPatient)
+        public PatientAppointment CurrentPatient { get; set; }
+        public PatientPreferences(PatientAppointment CurrentPatient)
         {
 
             InitializeComponent();
             this.DataContext = CurrentPatient;
+            this.CurrentPatient = CurrentPatient;
 
             
-            this.ComboBox_Clinic.ItemsSource = Data.GetClinicNames();
-
-            this.ComboBox_Speciality.ItemsSource = Data.GetSpecialities();
+            this.ComboBox_Clinic.ItemsSource = Query.GetClinicNames();
+            this.ComboBox_Doctor.ItemsSource = Query.GetDoctorNames();
+            this.ComboBox_Speciality.ItemsSource = Query.GetSpecialties();
         }
 
         private void Suggest_Click(object sender, RoutedEventArgs e)

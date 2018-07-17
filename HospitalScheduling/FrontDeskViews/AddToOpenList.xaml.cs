@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TestDesign;
 
 namespace SchedulingSystem
 {
@@ -19,10 +20,15 @@ namespace SchedulingSystem
     /// </summary>
     public partial class AddToOpenList : Window
     {
-        public AddToOpenList(PatientToBeScheduled CurrentPatient)
+        public AddToOpenList(PatientAppointment CurrentPatient)
         {
             InitializeComponent();
             this.DataContext = CurrentPatient;
+
+            cb_Clinic.ItemsSource = Query.GetClinicNames();
+            cb_Doctor.ItemsSource = Query.GetDoctorNames();
+            cb_Specialty.ItemsSource = Query.GetSpecialties();
+
         }
     }
 }

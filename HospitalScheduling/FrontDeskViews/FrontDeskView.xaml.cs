@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TestDesign;
 
+
 namespace SchedulingSystem
 {
     /// <summary>
@@ -23,8 +25,9 @@ namespace SchedulingSystem
     {
         
         ObservableCollection<PatientAppointment> OpenList;
-
+        DataTable Appointments_DT;
         public string ClerkName { get; set; }
+
 
         public FrontDeskView(/*string ClerkName*/)
         {
@@ -36,7 +39,39 @@ namespace SchedulingSystem
             this.ClerkName = ClerkName;
 
             // set data source for DataGrids by querying from view model
-            this.AppointmentsGrid.ItemsSource = Query.GetAppointments();
+
+            #region Setting up DataTable to bind with appointments table
+            var Appointments = Query.GetAppointments();
+
+            Appointments_DT = new DataTable();
+
+            Appointments_DT.Columns.Add("ChartNumber", typeof(string));
+            Appointments_DT.Columns.Add("PatientName", typeof(string));
+            Appointments_DT.Columns.Add("DoctorName", typeof(string));
+            Appointments_DT.Columns.Add("Specialty", typeof(string));
+            Appointments_DT.Columns.Add("NoShowUps", typeof(string));
+            Appointments_DT.Columns.Add("PatientStatus", typeof(string));
+            Appointments_DT.Columns.Add("Slot", typeof(string));
+            Appointments_DT.Columns.Add("DelayedBy", typeof(string));
+
+            Random random = new Random();
+            foreach (PatientAppointment Patient in Appointments)
+            {
+                DataRow NewDR = Appointments_DT.NewRow();
+
+                NewDR["ChartNumber"] = Patient.PatientInfo.ChartNumber;
+                NewDR["PatientName"] = Patient.PatientInfo.Name;
+                NewDR["DoctorName"] = Patient.Slot.DoctorInfo.Name;
+
+                NewDR["Specialty"] = Patient.Slot.DoctorInfo.Specialty;
+
+                NewDR["NoShowUps"] = Patient.PatientInfo.NoShowUps.ToString();
+                NewDR["PatientStatus"] = Patient.PatientStatus;
+                NewDR["Slot"] = Patient.Date.ToString("G");
+                NewDR["DelayedBy"] = random.Next(0, 40);
+            }
+            #endregion
+            this.AppointmentsGrid.DataContext = Appointments_DT.DefaultView;
             this.PatientSchedulingGrid.ItemsSource = Query.GetToBeScheduledPatients();
 
             this.OpenListGrid.ItemsSource = OpenList;
@@ -51,7 +86,7 @@ namespace SchedulingSystem
             this.SpecialityFilterAppointments.ItemsSource = SpecItems;
 
             this.ClinicFilterOpenList.ItemsSource = ClinicItems;
-            this.SpecialityFilterOpenList.ItemsSource = SpecItems;
+            this.SpecialityFilterOpenList.ItemsSource = SpecItems;            
         }
         
         // Details button click even handler
@@ -71,23 +106,20 @@ namespace SchedulingSystem
 
         private void ShowUpsOnly_Checked(object sender, RoutedEventArgs e)
         {
-            AppointmentsGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).DelayedBy > 0);
+            
+            AppointmentsGrid.ItemsSource = Appointments_DT.Select("[DelayedBy] > 0");            
         }
 
         private void ShowUpsOnly_Unchecked(object sender, RoutedEventArgs e)
         {
-            AppointmentsGrid.Items.Filter = null;
+            AppointmentsGrid.ItemsSource = Appointments_DT.Rows;
         }
 
         private void AddAppointmentToOpenList(object sender, RoutedEventArgs e)
         {
-            Appointment Patient = ((FrameworkElement)sender).DataContext as Appointment;
+            PatientAppointment Patient = ((FrameworkElement)sender).DataContext as PatientAppointment;
 
-            PatientToBeScheduled ToAdd = new PatientToBeScheduled();
-            ToAdd.PatientName = Patient.PatientName;
-            ToAdd.OldNew = false;
-
-            AddToOpenList PopupWindow = new AddToOpenList(ToAdd);
+            AddToOpenList PopupWindow = new AddToOpenList(Patient);
             PopupWindow.ShowDialog();
         }
 
@@ -97,7 +129,7 @@ namespace SchedulingSystem
             
             foreach(PatientAppointment appointment in OpenList)
             {
-                if (ToRemove.PatientInfo.Name == appointment.PatientInfo.Name)
+                if (ToRemove.PatientInfo.ChartNumber == appointment.PatientInfo.ChartNumber)
                 {
                     OpenList.Remove(appointment);
                     break;

@@ -43,27 +43,25 @@
         
         <WrapPanel Grid.Row="0" Grid.Column="0">
             <TextBlock Text="Patient:"/>
-            <TextBlock Name="TextBoxPatientName" Text="{Binding PatientName}"/>
+            <TextBlock Name="TextBoxPatientName" Text="{Binding Path=PatientInfo.Name}"/>
         </WrapPanel>
 
         <WrapPanel Grid.Row="1" Grid.Column="0">
             <TextBlock Text="Doctor:"/>
-            <ComboBox SelectedIndex="0">
-                <ComboBoxItem Content="Any" Width="80"/>
-            </ComboBox>
+            <ComboBox SelectedIndex="0" Text="Any" Name="cb_Doctor"/>
         </WrapPanel>
 
         <Button Grid.Row="2" Grid.Column="0" Content="Cancel" Width="70" HorizontalAlignment="Right"  VerticalAlignment="Center"/>
 
         <WrapPanel Grid.Row="0" Grid.Column="1">
             <TextBlock Text="Speciality"/>
-            <ComboBox SelectedIndex="0"/>
+            <ComboBox Text="Any" SelectedIndex="0" Name="cb_Specialty"/>
         </WrapPanel>
 
         <WrapPanel Grid.Row="1" Grid.Column="1">
             
             <TextBlock Text="Clinic"/>
-            <ComboBox SelectedIndex="0"/>
+            <ComboBox SelectedIndex="0" Text="Any" Name="cb_Clinic"/>
         </WrapPanel>
 
         <Button Grid.Row="2" Grid.Column="1" Content="Add" Width="70" HorizontalAlignment="Left" VerticalAlignment="Center"/>

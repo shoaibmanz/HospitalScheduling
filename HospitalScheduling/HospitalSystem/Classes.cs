@@ -60,14 +60,31 @@ namespace TestDesign {
 
         public static bool IsOldPatient(PatientAppointment Patient)
         {
+            int nAppointments = 0;
             foreach(PatientAppointment P in PatientAppointment.Data)
             {
-                if (P.PatientInfo.Name == Patient.PatientInfo.Name && P.Slot != Patient.Slot)
+                if (P.PatientInfo.ChartNumber == Patient.PatientInfo.ChartNumber)
                 {
-                    return true;
+                    nAppointments++;
                 }
             }
-            return false;
+
+            return nAppointments > 1;
+        }
+        
+        public static List<PatientAppointment> GetAppointments(string ChartNumber)
+        {
+            List<PatientAppointment> Appointments = new List<PatientAppointment>();
+
+            foreach (PatientAppointment P in PatientAppointment.Data)
+            {
+                if (P.PatientInfo.ChartNumber == ChartNumber)
+                {
+                    Appointments.Add(P);
+                }
+            }
+
+            return Appointments;
         }
     }
 
@@ -171,20 +188,23 @@ namespace TestDesign {
 
     public class Patient
     {
-        public Patient(string Name, string ChartNumber, string InsuranceName, string AttorneyName)
+        public Patient(string Name, string ChartNumber, string InsuranceName, string AttorneyName, int NoShowUps)
         {
             this.Name = Name;
             this.ChartNumber = ChartNumber;
             this.InsuranceName = InsuranceName;
             this.AttorneyName = AttorneyName;
             this.InsuranceInfo = new List<InsuranceRecord>();
+            this.NoShowUps = NoShowUps;
         }
 
         public string Name { get; set; }
         public string ChartNumber { get; set; }
         public string InsuranceName { get; set; }
         public string AttorneyName { get; set; }
+        public int NoShowUps { get; set; }
         public List<InsuranceRecord> InsuranceInfo { get; set; }
+
 
         public static ObservableCollection<Patient> Data;
         public static void GenerateData()
@@ -195,7 +215,8 @@ namespace TestDesign {
             Random random = new Random();
             foreach (string name in PatientNames)
             {
-                Patient P1 = new Patient(name, "xxx-xxx-xxx", "XYZ", "JKL");
+                int ChartNumber = random.Next(0, 1000000);
+                Patient P1 = new Patient(name, ChartNumber.ToString(), "XYZ", "JKL", random.Next(0, 5));
 
                 P1.InsuranceInfo.Add(new InsuranceRecord("Medical", random.Next(0, 4)));
                 P1.InsuranceInfo.Add(new InsuranceRecord("ACCU", random.Next(0, 4)));
@@ -233,7 +254,7 @@ namespace TestDesign {
             this.PatientStatus = PatientStatus;
             this.ToBeScheduled = ToBeScheduled;
         }
-
+        
         public Patient PatientInfo { get; set; }
         public ScheduledDoctor Slot { get; set; }
         public DateTime Date { get; set; }
@@ -274,6 +295,7 @@ namespace TestDesign {
         }
     }
 }
+
 
 namespace SchedulingSystem
 {

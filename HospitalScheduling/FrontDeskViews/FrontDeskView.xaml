@@ -74,14 +74,14 @@
 
                     <DataGrid Name="PatientSchedulingGrid" Padding="15" CanUserAddRows="false" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="None">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ChartNumber" Binding="{Binding ChartNumber}"/>
-                            <DataGridTextColumn Header="PatientName" Binding="{Binding PatientName}"/>
-                            <DataGridTextColumn Header="AccidentDate" Binding="{Binding AccidentDate}"/>
-                            <DataGridTextColumn Header="InsuranceName" Binding="{Binding InsuranceName}"/>
-                            <DataGridTextColumn Header="CaseType" Binding="{Binding CaseType}"/>
-                            <DataGridTextColumn Header="CaseStatus" Binding="{Binding CaseStatus}"/>
-                            <DataGridTextColumn Header="AttorneyName" Binding="{Binding AttorneyName}"/>
-                            <DataGridTextColumn Header="PatientStatus" Binding="{Binding PatientStatus}"/>
+                            <DataGridTextColumn Header="ChartNumber" Binding="{Binding Path='PatientInfo.ChartNumber'}"/>
+                            <DataGridTextColumn Header="PatientName" Binding="{Binding Path='PatientInfo.Name'}"/>
+                            <DataGridTextColumn Header="AccidentDate" Binding="{Binding Path='Date', StringFormat='{}{0:MM/dd/yyyy}'}"/>
+                            <DataGridTextColumn Header="InsuranceName" Binding="{Binding Path='PatientInfo.InsuranceName'}"/>
+                            <DataGridTextColumn Header="CaseType" Binding="{Binding Path='CaseType'}"/>
+                            <DataGridTextColumn Header="CaseStatus" Binding="{Binding Path='CaseStatus'}"/>
+                            <DataGridTextColumn Header="AttorneyName" Binding="{Binding Path='PatientInfo.AttorneyName'}"/>
+                            <DataGridTextColumn Header="PatientStatus" Binding="{Binding Path='PatientStatus'}"/>
                             <DataGridTemplateColumn Header="Details">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -113,17 +113,17 @@
                     <WrapPanel>
                         
                         <TextBlock Text="Speciality"/>
-                        <ComboBox Name="SpecialityFilterAppointments" SelectedItem="Any" SelectionChanged="SpecialityFilterAppointments_SelectionChanged">
+                        <ComboBox Name="SpecialityFilterAppointments" Text="Any" SelectionChanged="SpecialityFilterAppointments_SelectionChanged">
                           
                         </ComboBox>
                         
                         <TextBlock Text="Doctor"/>
-                        <ComboBox Name="DoctorFilterAppointments" SelectedItem="Any" SelectedIndex="0">
+                        <ComboBox Name="DoctorFilterAppointments" Text="Any">
                           
                         </ComboBox>
 
                         <TextBlock Text="Clinic"/>
-                        <ComboBox Name="ClinicFilterAppointments" SelectedItem="Any">
+                        <ComboBox Name="ClinicFilterAppointments" Text="Any">
                           
                         </ComboBox>
                         
@@ -135,11 +135,11 @@
                     <WrapPanel Margin="10 0 0 0">
                         <CheckBox Name="ShowUpsOnly" VerticalAlignment="Center" Content="No show ups only" Checked="ShowUpsOnly_Checked" Unchecked="ShowUpsOnly_Unchecked"/>
                     </WrapPanel>
-                    <DataGrid Padding="10" Margin="10 10 10 10" Name="AppointmentsGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" GridLinesVisibility="None">
+                    <DataGrid Padding="10" Margin="10 10 10 10" Name="AppointmentsGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" GridLinesVisibility="None" ItemsSource="{Binding}">
                         <DataGrid.Columns>
                             
                             
-                            <DataGridTextColumn Binding="{Binding ChartNumber}">
+                            <DataGridTextColumn Binding="{Binding Path='ChartNumber'}">
                                 <DataGridTextColumn.Header>
                                     <StackPanel>
                                         <TextBlock Text="Chart" Margin="0 0 0 0"/>
@@ -148,7 +148,7 @@
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
 
-                            <DataGridTextColumn Binding="{Binding PatientName}">
+                            <DataGridTextColumn Binding="{Binding Path='PatientName'}">
                                 <DataGridTextColumn.Header>
                                     <StackPanel>
                                         <TextBlock Text="Patient" Margin="0 0 0 0"/>
@@ -157,7 +157,7 @@
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
 
-                            <DataGridTextColumn Binding="{Binding DoctorName}">
+                            <DataGridTextColumn Binding="{Binding Path='DoctorName'}">
                                 <DataGridTextColumn.Header>
                                     <StackPanel>
                                         <TextBlock Text="Doctor" Margin="0 0 0 0"/>
@@ -166,9 +166,9 @@
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                             
-                            <DataGridTextColumn Header="Speciality" Binding="{Binding Speciality}"/>
+                            <DataGridTextColumn Header="Speciality" Binding="{Binding Path='Speciality'}"/>
                             
-                            <DataGridTextColumn Binding="{Binding NoShowUps}">
+                            <DataGridTextColumn Binding="{Binding Path='NoShowUps'}">
                                 <DataGridTextColumn.Header>
                                     <StackPanel>
                                         <TextBlock Text="No Show" Margin="0 0 0 0"/>
@@ -177,9 +177,9 @@
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
                             
-                            <DataGridTextColumn Header="Patient Status" Binding="{Binding PatientStatus}"/>
-                            <DataGridTextColumn Header="Slot" Binding="{Binding SlotTime}"/>
-                            <DataGridTextColumn Header="Delayed By" Binding="{Binding DelayedBy}"/>
+                            <DataGridTextColumn Header="Patient Status" Binding="{Binding Path='PatientStatus'}"/>
+                            <DataGridTextColumn Header="Slot" Binding="{Binding Path='SlotTime'}"/>
+                            <DataGridTextColumn Header="Delayed By" Binding="{Binding Path='DelayedBy'}"/>
 
                             <DataGridTemplateColumn  Visibility="{Binding Source={x:Reference ShowUpsOnly}, Path=IsChecked, Converter={StaticResource CheckBoxtoVisibility}}">
                                 <DataGridTemplateColumn.Header>
@@ -221,11 +221,6 @@
 
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
-                                <!--<Setter Property="Background">
-                                    <Setter.Value>
-                                        <SolidColorBrush Color="{Binding DelayedBy, Converter={StaticResource RowBackGroundConverter}}"/>
-                                    </Setter.Value>
-                                </Setter>-->
                                 <Setter Property="Margin" Value="10 10 10 10"/>
                             </Style>
                         </DataGrid.RowStyle>
