@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HospitalScheduling.SupervisorViews
+namespace HospitalScheduling
 {
     /// <summary>
     /// Interaction logic for AssignDoctor_Manual.xaml

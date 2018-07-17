@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"       
         xmlns:local="clr-namespace:HospitalScheduling"
         mc:Ignorable="d"
-        Title="SpecialityView" Height="600" Width="800" Background="Tan">
+        Title="SpecialityView" Height="600" Width="800" >
     <Window.Resources>
 
         <Style TargetType="{x:Type DataGridCell}">
