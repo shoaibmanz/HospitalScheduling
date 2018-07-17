@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HospitalScheduling.SupervisorViews
+namespace HospitalScheduling
 {
     /// <summary>
     /// Interaction logic for AssignDoctor.xaml
@@ -22,6 +22,15 @@ namespace HospitalScheduling.SupervisorViews
         public AssignDoctor()
         {
             InitializeComponent();
+        }
+
+        public AssignDoctor(string clinic , string speciality )
+        {
+
+            InitializeComponent();
+
+            txt_Clinic.Text = clinic;
+            txt_Speciality.Text = speciality;
         }
     }
 }

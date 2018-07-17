@@ -1,9 +1,9 @@
-﻿<Window x:Class="HospitalScheduling.SupervisorViews.AssignDoctor_Manual"
+﻿<Window x:Class="HospitalScheduling.AssignDoctor_Manual"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HospitalScheduling.SupervisorViews"
+        xmlns:local="clr-namespace:HospitalScheduling"
         mc:Ignorable="d"
         Title="AssignDoctor_Manual" Height="500" Width="450">
     <Grid>
@@ -50,7 +50,7 @@
                                 </Grid>
 
                                 <Grid Grid.Row="1">
-                                    <Button x:Name="btn_filterClinics" Width="80" Height="20" Content="Filter" Click="btn_filterClinics_Click"/>
+                                    <Button  Width="80" Height="20" Content="Filter"/>
                                 </Grid>
 
                             </Grid>
