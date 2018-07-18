@@ -64,7 +64,7 @@ namespace SchedulingSystem
 
             for (int i = 0; i < FrontDeskView.Appointments_DT.Rows.Count; ++i)
             {
-                if (FrontDeskView.Appointments_DT.Rows[i]["ID"] == dRow["ID"])
+                if ((int)FrontDeskView.Appointments_DT.Rows[i]["ID"] == (int)dRow["ID"])
                 {
                     FrontDeskView.Appointments_DT.Rows.RemoveAt(i);
                     break;

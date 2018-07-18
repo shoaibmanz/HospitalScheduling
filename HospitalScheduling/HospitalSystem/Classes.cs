@@ -217,11 +217,11 @@ namespace TestDesign {
 
             Random random = new Random();
 
-            DateTime now = DateTime.Now;
+            DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 5, 9, 0, 0);
             //DateTime Curr = new DateTime(now.Year, now.Month, now.Day - 15, )
             
             // creating 30 random entries
-            for (int i = 0; i < 40; ++i)
+            for (int i = 0; i < 50; ++i)
             {
                 int docIndex = random.Next(0, Doctor.Data.Count);
                 int clinicIndex = random.Next(0, Clinic.Data.Count);
@@ -230,7 +230,11 @@ namespace TestDesign {
                 Doctor _Doctor = Doctor.Data[docIndex];
 
                 Data.Add(new ScheduledDoctor(_Doctor, _Clinic, now, now.AddHours(6)));
-                now = now.AddDays(1);
+
+                if (i % 2 == 0)
+                    now.AddHours(8);
+                else
+                    now.AddHours(16);
             }
         }
     }
@@ -333,7 +337,7 @@ namespace TestDesign {
                 Patient P = Patient.Data[random.Next(0, Patient.Data.Count)];
                 ScheduledDoctor Slot = ScheduledDoctor.Data[random.Next(0, ScheduledDoctor.Data.Count)];
 
-                DateTime Date = Slot.From;
+                DateTime Date = Slot.From.AddMinutes(random.Next(0, 9) * 15);
                 int Duration = random.Next(0, 30);
 
                 string CaseStatus = CaseStatusStrings[random.Next(0, CaseStatusStrings.Length)];

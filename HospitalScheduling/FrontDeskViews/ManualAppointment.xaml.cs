@@ -19,7 +19,7 @@ namespace SchedulingSystem
     /// <summary>
     /// Interaction logic for PatientCalender.xaml
     /// </summary>
-    public partial class PatientCalender : Window
+    public partial class ManualAppointment : Window
     {
         private DataTable PatientTable;
         private List<PatientAppointment> patientAppointments;
@@ -27,13 +27,14 @@ namespace SchedulingSystem
         public PatientAppointment CurrentPatient { get; set; }
         public DateTime CurrentDate { get; set; }
 
-        public PatientCalender(PatientAppointment CurrentPatient)
+        public ManualAppointment(PatientAppointment CurrentPatient)
         {
             InitializeComponent();
             this.DataContext = this;
             this.CurrentDate = CurrentPatient.Date;
             this.CurrentPatient = CurrentPatient;
 
+        
             PatientTable = new DataTable();
             PatientTable.Columns.Add("Time", typeof(string));
             PatientTable.Columns.Add("Schedule", typeof(string));
@@ -54,35 +55,35 @@ namespace SchedulingSystem
 
             patientAppointments = Query.GetAppointments(CurrentPatient.PatientInfo.ChartNumber);
 
-            this.cb_DaySpeciality.ItemsSource = Query.GetSpecialties();
+            //this.cb_DaySpeciality.ItemsSource = Query.GetSpecialties();
 
             dg_dayView.DataContext = PatientTable.DefaultView;
         }
-        
+
 
         // Adds an item in the specialty list box upon combobox selection
         private void cb_DaySpeciality_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {         
+        {
             ComboBox SpecBox = (sender as ComboBox);
 
-            if (SpecBox.SelectedItem != null)
-            {
-                // do not allow the same item to be selected twice
-                foreach (string item in lb_SelectedSpec.Items)
-                {
-                    if (item == (string)SpecBox.SelectedItem)
-                        return;
-                }
+            //if (SpecBox.SelectedItem != null)
+            //{
+            //    // do not allow the same item to be selected twice
+            //    foreach (string item in lb_SelectedSpec.Items)
+            //    {
+            //        if (item == (string)SpecBox.SelectedItem)
+            //            return;
+            //    }
 
-                // add the new specialty to the list box
-                lb_SelectedSpec.Items.Add(SpecBox.SelectedItem);
+            //    // add the new specialty to the list box
+            //    lb_SelectedSpec.Items.Add(SpecBox.SelectedItem);
 
-                // populate the grid with this specialty
-                PopulateWithSpecialty((string)SpecBox.SelectedItem);
+            //    // populate the grid with this specialty
+            //    PopulateWithSpecialty((string)SpecBox.SelectedItem);
 
-                dg_dayView.DataContext = null;
-                dg_dayView.DataContext = PatientTable.DefaultView;
-            }
+            //    dg_dayView.DataContext = null;
+            //    dg_dayView.DataContext = PatientTable.DefaultView;
+            //}
         }
         private void PopulateWithSpecialty(string Specialty)
         {
@@ -106,16 +107,16 @@ namespace SchedulingSystem
         }
 
         // Removes an item from the specialty list box upon right click
-        private void MenuItem_Remove_Click(object sender, RoutedEventArgs e)
+        private void ClinicMenuItem_Remove_Click(object sender, RoutedEventArgs e)
         {
-            
+
             string ToRemove = (string)(sender as MenuItem).DataContext;
 
-            for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
+            for (int i = 0; i < lb_SelectedClinic.Items.Count; ++i)
             {
-                if (ToRemove == (string)lb_SelectedSpec.Items[i])
+                if (ToRemove == (string)lb_SelectedClinic.Items[i])
                 {
-                    lb_SelectedSpec.Items.RemoveAt(i);
+                    lb_SelectedClinic.Items.RemoveAt(i);
                     break;
                 }
             }
@@ -141,14 +142,14 @@ namespace SchedulingSystem
                 row["Schedule"] = "";
             }
 
-            for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
-            {
-                string specialty = (string)lb_SelectedSpec.Items[i];
+            //for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
+            //{
+            //    string specialty = (string)lb_SelectedSpec.Items[i];
 
-                PopulateWithSpecialty(specialty);
-            }
-            dg_dayView.DataContext = null;
-            dg_dayView.DataContext = PatientTable.DefaultView;
+            //    PopulateWithSpecialty(specialty);
+            //}
+            //dg_dayView.DataContext = null;
+            //dg_dayView.DataContext = PatientTable.DefaultView;
         }
 
         private void btn_nextDay_Clicked(object sender, RoutedEventArgs e)
@@ -162,14 +163,14 @@ namespace SchedulingSystem
                 row["Schedule"] = "";
             }
 
-            for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
-            {
-                string specialty = (string)lb_SelectedSpec.Items[i];
+            //for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
+            //{
+            //    string specialty = (string)lb_SelectedSpec.Items[i];
 
-                PopulateWithSpecialty(specialty);
-            }
-            dg_dayView.DataContext = null;
-            dg_dayView.DataContext = PatientTable.DefaultView;
+            //    PopulateWithSpecialty(specialty);
+            //}
+            //dg_dayView.DataContext = null;
+            //dg_dayView.DataContext = PatientTable.DefaultView;
         }
     }
 }
