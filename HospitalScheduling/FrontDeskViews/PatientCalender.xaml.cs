@@ -23,31 +23,39 @@ namespace SchedulingSystem
     {
         public DataTable PatientTable;
 
+        public List<PatientAppointment> patientAppointments;
         public PatientAppointment CurrentPatient;
         public PatientCalender(PatientAppointment CurrentPatient)
         {
             InitializeComponent();
-            
+            this.DataContext = CurrentPatient;
+            this.CurrentPatient = CurrentPatient;
+
             PatientTable = new DataTable();
             PatientTable.Columns.Add("Time", typeof(string));
+            PatientTable.Columns.Add("Schedule", typeof(string));
 
-            PatientTable.Columns.Add(CurrentPatient.PatientInfo.Name, typeof(string));
+            DateTime now = DateTime.Now;
+            DateTime CurrentTime = new DateTime(now.Year, now.Month, now.Day, 9, 0, 0);
 
-            var TimeStrings = Data.GetTimeStrings(9, 2);
-
-            foreach (string tStr in TimeStrings)
+            while (CurrentTime.Hour < 14)
             {
                 DataRow dRow = PatientTable.NewRow();
-                dRow["Time"] = tStr;
+
+                dRow["Time"] = CurrentTime.ToString("hh:mm tt");
+
                 PatientTable.Rows.Add(dRow);
+
+                CurrentTime = CurrentTime.AddMinutes(15);
             }
 
-            this.cb_DaySpeciality.ItemsSource = Data.GetSpecialities();
+
+            patientAppointments = new List<PatientAppointment>();
+            patientAppointments = Query.GetAppointments(CurrentPatient.PatientInfo.ChartNumber);
+
+            this.cb_DaySpeciality.ItemsSource = Query.GetSpecialties();
 
             dg_dayView.DataContext = PatientTable.DefaultView;
-            
-            
-            
         }
         
 
@@ -58,13 +66,16 @@ namespace SchedulingSystem
 
             if (SpecBox.SelectedItem != null)
             {
+                // do not allow the same item to be selected twice
                 foreach (string item in lb_SelectedSpec.Items)
                 {
                     if (item == (string)SpecBox.SelectedItem)
                         return;
                 }
 
+                // add the new specialty to the list box
                 lb_SelectedSpec.Items.Add(SpecBox.SelectedItem);
+                
             }
         }
 
@@ -82,7 +93,15 @@ namespace SchedulingSystem
                     break;
                 }
             }
+        }
 
+        private void dg_dayView_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextBlock Text = new TextBlock();
+            Text.HorizontalAlignment = HorizontalAlignment.Center;
+            Text.Text = "Patient " + CurrentPatient.PatientInfo.Name;
+
+            dg_dayView.Columns[1].Header = Text;
         }
     }
 }

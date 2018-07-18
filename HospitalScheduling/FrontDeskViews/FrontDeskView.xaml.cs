@@ -25,7 +25,7 @@ namespace SchedulingSystem
     {
         
         public static DataTable OpenList { get; set; }
-        DataTable Appointments_DT;
+        public static DataTable Appointments_DT { get; set; }
         public string ClerkName { get; set; }
 
 
@@ -129,6 +129,7 @@ namespace SchedulingSystem
 
             this.Hide();
             SchedulingWindow.ShowDialog();
+            this.RefreshGrids();
             this.Show();
         }
      
@@ -145,15 +146,14 @@ namespace SchedulingSystem
 
             this.Hide();
             SchedulingWindow.ShowDialog();
+            this.RefreshGrids();
             this.Show();
         }
         
         private void ShowUpsOnly_Checked(object sender, RoutedEventArgs e)
         {
             DataView dv = AppointmentsGrid.ItemsSource as DataView;
-            dv.RowFilter = "[DelayedBy] > 0"; 
-
-            
+            dv.RowFilter = "[DelayedBy] > 0";
         }
 
         private void ShowUpsOnly_Unchecked(object sender, RoutedEventArgs e)
@@ -172,8 +172,7 @@ namespace SchedulingSystem
             AddToOpenList PopupWindow = new AddToOpenList(SelectedPatient);
             PopupWindow.ShowDialog();
 
-            OpenListGrid.ItemsSource = null;
-            OpenListGrid.DataContext = OpenList.DefaultView;
+            RefreshGrids();
         }
 
         private void RemoveFromOpenList(object sender, RoutedEventArgs e)
@@ -183,8 +182,7 @@ namespace SchedulingSystem
             int index = OpenList.Rows.IndexOf(Selected);
             OpenList.Rows.RemoveAt(index);
 
-            OpenListGrid.ItemsSource = null;
-            OpenListGrid.DataContext = OpenList.DefaultView;
+            RefreshGrids();
         }
 
         private void SpecialityFilterAppointments_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -244,6 +242,17 @@ namespace SchedulingSystem
             }
         }
 
+        private void RefreshGrids()
+        {
+            this.AppointmentsGrid.DataContext = null;
+            this.AppointmentsGrid.DataContext = Appointments_DT.DefaultView;
+
+            this.PatientSchedulingGrid.DataContext = null;
+            this.PatientSchedulingGrid.ItemsSource = Query.GetToBeScheduledPatients();
+
+            this.OpenListGrid.DataContext = null;
+            this.OpenListGrid.DataContext = OpenList.DefaultView;
+        }
         private void ClinicFilterAppointments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 

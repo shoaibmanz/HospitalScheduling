@@ -7,6 +7,25 @@
         xmlns:local="clr-namespace:SchedulingSystem"
         mc:Ignorable="d"
         Title="PatientCalender" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="DataGrid">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+        </Style>
+
+
+        <DataTemplate x:Key="PatientColumnHeader">
+            <Grid>
+                <TextBox Text="{Binding Name}"/>
+            </Grid>    
+        </DataTemplate>
+        
+    </Window.Resources>
+    
     <Border>
         <Grid>
             <Grid.RowDefinitions>
@@ -50,8 +69,11 @@
                 <TabControl Grid.Column="0" Margin="5" TabStripPlacement="Left" SelectedIndex="0">
                     <!-- Day -->
                     <TabItem Header="Day" Height="50" TabIndex="0">
-                        <DataGrid x:Name="dg_dayView"  Padding="5" GridLinesVisibility="None" IsReadOnly="True" ItemsSource="{Binding}">
-                            
+                        <DataGrid x:Name="dg_dayView" ItemsSource="{Binding}" Loaded="dg_dayView_Loaded">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="" Binding="{Binding Time}" Width="80" CanUserSort="False"/>
+                                <DataGridTextColumn Binding="{Binding Schedule}" Width="*" CanUserSort="False" />
+                            </DataGrid.Columns>
                         </DataGrid>
                         
                     </TabItem>

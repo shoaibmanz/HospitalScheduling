@@ -21,7 +21,7 @@
                     </Grid.ColumnDefinitions>
                     <WrapPanel Grid.Column="0">
                         <TextBlock Text="Patient Name: " FontSize="20"/>
-                        <TextBlock Text="{Binding PatientName}" FontSize="20" Margin="20 0 0 0"/>
+                        <TextBlock Text="{Binding PatientInfo.Name}" FontSize="20" Margin="20 0 0 0"/>
                     </WrapPanel>
 
                     <WrapPanel Grid.Column="1" HorizontalAlignment="Right">

@@ -54,11 +54,35 @@ namespace SchedulingSystem
             dRow["DoctorName"] = CurrentPatient.Slot.DoctorInfo.Name;
             dRow["Specialty"] = CurrentPatient.Slot.DoctorInfo.Specialty;
             dRow["PatientStatus"] = CurrentPatient.PatientStatus;
-            dRow["WaitTime"] = random.Next(0, 45);
+            dRow["CheckedInTime"] = CurrentPatient.Date.ToString("hh:ss tt");
+            dRow["WaitTime"] = random.Next(0, 45).ToString();
             dRow["PatientsAhead"] = FrontDeskView.OpenList.Rows.Count == 0 ? "On Call" : FrontDeskView.OpenList.Rows.Count.ToString();
 
             FrontDeskView.OpenList.Rows.Add(dRow);
 
+            // remove from appointments row if exists
+
+            for (int i = 0; i < FrontDeskView.Appointments_DT.Rows.Count; ++i)
+            {
+                if (FrontDeskView.Appointments_DT.Rows[i]["ID"] == dRow["ID"])
+                {
+                    FrontDeskView.Appointments_DT.Rows.RemoveAt(i);
+                    break;
+                }
+            }
+            FrontDeskView.Appointments_DT.AcceptChanges();
+
+            // remove from appointments record
+            foreach (PatientAppointment Appointment in PatientAppointment.Data)
+            {
+                if (Appointment.ID == Convert.ToInt32(dRow["ID"]))
+                {
+                    PatientAppointment.Data.Remove(Appointment);
+                    break;
+                }
+            }
+
+            
             this.Close();
         }
     }

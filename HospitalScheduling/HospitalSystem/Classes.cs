@@ -10,23 +10,39 @@ namespace TestDesign {
 
     public static class Query
     { 
+        /// <summary>                
+        /// Returns a list of doctors in the hospital
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetDoctorNames()
         {
             List<string> names = Doctor.Data.Select(Doc => Doc.Name).ToList();
             return names;
         }
 
+        /// <summary>
+        /// Returns a list of Clinics in the hospital
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetClinicNames()
         {
             List<string> names = Clinic.Data.Select(Clinic => Clinic.Name).ToList();
             return names;
         }
 
+        /// <summary>
+        /// Returns a list of available Specialties in the hospital
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetSpecialties()
         {
             return Doctor.Specialties;
         }
 
+        /// <summary>
+        /// Returns a list of patients who are yet to be scheduled
+        /// </summary>
+        /// <returns></returns>
         public static List<PatientAppointment> GetToBeScheduledPatients()
         {
             List<PatientAppointment> Patients = new List<PatientAppointment>();
@@ -42,6 +58,10 @@ namespace TestDesign {
             return Patients;
         }
 
+        /// <summary>
+        /// Returns a list of apointments which are already scheduled
+        /// </summary>
+        /// <returns></returns>
         public static List<PatientAppointment> GetAppointments()
         {
 
@@ -58,6 +78,11 @@ namespace TestDesign {
             return Patients;
         }
 
+        /// <summary>
+        /// Checks and returns a bool based on if the given patient has visited the hospital before
+        /// </summary>
+        /// <param name="Patient"></param>
+        /// <returns></returns>
         public static bool IsOldPatient(PatientAppointment Patient)
         {
             int nAppointments = 0;
@@ -192,10 +217,11 @@ namespace TestDesign {
 
             Random random = new Random();
 
-            DateTime now = DateTime.Now.AddDays(-15);
+            DateTime now = DateTime.Now;
+            //DateTime Curr = new DateTime(now.Year, now.Month, now.Day - 15, )
             
             // creating 30 random entries
-            for (int i = 0; i < 30; ++i)
+            for (int i = 0; i < 40; ++i)
             {
                 int docIndex = random.Next(0, Doctor.Data.Count);
                 int clinicIndex = random.Next(0, Clinic.Data.Count);

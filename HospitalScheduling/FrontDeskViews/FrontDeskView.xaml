@@ -50,23 +50,21 @@
         </Style>
 
         <Style TargetType="DataGridRow">
-            <Setter Property="Margin" Value="5 5 5 5"/>
+            <Setter Property="Height" Value="42"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="LightGray"/>
-                    <Setter Property="Margin" Value="15 15 15 15"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-
         <Style TargetType="DataGrid">
-            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Padding" Value="5"/>
             <Setter Property="CanUserAddRows" Value="False"/>
             <Setter Property="AutoGenerateColumns" Value="False"/>
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="GridLinesVisibility" Value="None"/>
-        </Style>    
-        
+        </Style>
+
     </Window.Resources>
     
     <Grid>
@@ -107,7 +105,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Click="DetailsViewSchedulingGrid_Click">
-                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
+                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="20" Height="20"/>
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
                                                     <ContentPresenter Content="{TemplateBinding Content}"/>
@@ -219,7 +217,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Click="AddAppointmentToOpenList">
-                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
+                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="20" Height="20"/>
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
                                                     <ContentPresenter Content="{TemplateBinding Content}"/>
@@ -234,7 +232,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Click="DetailsViewAppointmentsGrid_Click">
-                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="25" Height="25"/>
+                                            <Image Source="Icons\DetailsButtonIcon.PNG" Width="20" Height="20"/>
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
                                                     <ContentPresenter Content="{TemplateBinding Content}"/>
@@ -325,7 +323,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Click="RemoveFromOpenList">
-                                            <Image Source="Icons\DeleteButtonIcon.jpg" Width="25" Height="25"/>
+                                            <Image Source="Icons\DeleteButtonIcon.jpg" Width="20" Height="20"/>
                                             <Button.Template>
                                                 <ControlTemplate TargetType="Button">
                                                     <ContentPresenter Content="{TemplateBinding Content}"/>
