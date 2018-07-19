@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TestDesign;
+
 
 namespace SchedulingSystem
 {
@@ -20,319 +23,176 @@ namespace SchedulingSystem
     /// </summary>
     public partial class FrontDeskView : Window
     {
+        
+        public static DataTable OpenList { get; set; }
+        public static DataTable Appointments_DT { get; set; }
+        public string ClerkName { get; set; }
 
-        ObservableCollection<PatientToBeScheduled> PatientList;
-        ObservableCollection<Appointment> Appointments;
-        ObservableCollection<Appointment> OpenList;
 
         public FrontDeskView(/*string ClerkName*/)
         {
-            PatientList = new ObservableCollection<PatientToBeScheduled>();
-            Appointments = new ObservableCollection<Appointment>();
-            OpenList = new ObservableCollection<Appointment>();
+
 
             InitializeComponent();
 
             this.ClerkName = ClerkName;
 
+            // set data source for DataGrids by querying from view model
+            #region Setting up DataTable to bind with appointments table
+            var Appointments = Query.GetAppointments();
 
-            #region Creating Dummy Data
+            Appointments_DT = new DataTable();
 
-            PatientToBeScheduled P1 = new PatientToBeScheduled()
+            Appointments_DT.Columns.Add("ID", typeof(int));
+            Appointments_DT.Columns.Add("ChartNumber", typeof(string));
+            Appointments_DT.Columns.Add("PatientName", typeof(string));
+            Appointments_DT.Columns.Add("DoctorName", typeof(string));
+            Appointments_DT.Columns.Add("Specialty", typeof(string));
+            Appointments_DT.Columns.Add("NoShowUps", typeof(string));
+            Appointments_DT.Columns.Add("PatientStatus", typeof(string));
+            Appointments_DT.Columns.Add("Slot", typeof(string));
+            Appointments_DT.Columns.Add("DelayedBy", typeof(string));
+
+            Random random = new Random();
+            foreach (PatientAppointment Patient in Appointments)
             {
-                ChartNumber = "1224124",
-                PatientName = "Ruben",
-                AccidentDate = "11-02-2017",
-                InsuranceName = "XYZ",
-                CaseType = "NoFault",
-                CaseStatus = "Open",
-                AttorneyName = "JKL",
-                PatientStatus = "Walk in",
-                OldNew = true
-            };
+                DataRow NewDR = Appointments_DT.NewRow();
 
-            Appointments.Add(new Appointment()
-            {
-                ChartNumber = "12321423",
-                PatientName = "Ruben",
-                DoctorName = "Dr. Adam",
-                Speciality = "Medical",
-                NoShowUps = 0,
-                PatientStatus = "Checked in",
-                SlotTime = "10:45 AM",
-                DelayedBy = 0,
-                SchedulingInfo = P1
+                NewDR["ID"] = Patient.ID;
+                NewDR["ChartNumber"] = Patient.PatientInfo.ChartNumber;
+                NewDR["PatientName"] = Patient.PatientInfo.Name;
+                NewDR["DoctorName"] = Patient.Slot.DoctorInfo.Name;
 
-            });
+                NewDR["Specialty"] = Patient.Slot.DoctorInfo.Specialty;
 
-            Appointments.Add(new Appointment()
-            {
-                ChartNumber = "64321423",
-                PatientName = "Marina",
-                DoctorName = "Dr. Adam",
-                Speciality = "Medical",
-                NoShowUps = 2,
-                PatientStatus = "Checked in",
-                SlotTime = "09:00 AM",
-                DelayedBy = 15,
-                SchedulingInfo = P1
-            }); 
+                NewDR["NoShowUps"] = Patient.PatientInfo.NoShowUps.ToString();
+                NewDR["PatientStatus"] = Patient.PatientStatus;
+                NewDR["Slot"] = Patient.Date.ToString("hh:mm tt");
+                NewDR["DelayedBy"] = random.Next(0, 40);
 
-            Appointments.Add(new Appointment()
-            {
-                ChartNumber = "65321423",
-                PatientName = "David",
-                DoctorName = "Dr. Azeem",
-                Speciality = "PT",
-                NoShowUps = 1,
-                PatientStatus = "Offline",
-                SlotTime = "09:30 AM",
-                DelayedBy = 0,
-                SchedulingInfo = P1
-            });
-
-            Appointments.Add(new Appointment()
-            {
-                ChartNumber = "12321423",
-                PatientName = "Thomas",
-                DoctorName = "Dr. Hattab",
-                Speciality = "ACCU",
-                NoShowUps = 2,
-                PatientStatus = "Offline",
-                SlotTime = "08:30 AM",
-                DelayedBy = 45,
-                SchedulingInfo = P1
-
-            });
-
-            OpenList.Add(new Appointment()
-            {
-                ChartNumber = "6434233",
-                PatientName = "Kurt",
-                DoctorName = "Dr. Adam",
-                Speciality = "Medical",
-                NoShowUps = 2,
-                PatientStatus = "Checked in",
-                SlotTime = "09:00 AM",
-                DelayedBy = 45,
-                PatientsAhead = 0     
-            });
-
-            OpenList.Add(new Appointment()
-            {
-                ChartNumber = "6434453",
-                PatientName = "David",
-                DoctorName = "Any",
-                Speciality = "Medical",
-                NoShowUps = 2,
-                PatientStatus = "Checked in",
-                SlotTime = "09:45 AM",
-                DelayedBy = 15,
-                PatientsAhead = 1
-            });
-
-            OpenList.Add(new Appointment()
-            {
-                ChartNumber = "6453433",
-                PatientName = "John",
-                DoctorName = "Dr. Azeem",
-                Speciality = "PT",
-                NoShowUps = 2,
-                PatientStatus = "Checked in",
-                SlotTime = "09:30 AM",
-                DelayedBy = 30,
-                PatientsAhead = 1
-            });
-
-            OpenList.Add(new Appointment()
-            {
-                ChartNumber = "343234233",
-                PatientName = "Richard",
-                DoctorName = "Dr. Hattab",
-                Speciality = "ACCU",
-                NoShowUps = 2,
-                PatientStatus = "Offline",
-                SlotTime = "08:30 AM",
-                DelayedBy = 90,
-                PatientsAhead = 10
-            });
-
-            P1.Insurance.Add(new InsuranceRecord()
-            {
-                Speciality = "Medical",
-                VisitsRemaining = 3
-            });
-
-            P1.Insurance.Add(new InsuranceRecord()
-            {
-                Speciality = "ACCU",
-                VisitsRemaining = 0
-            });
-
-            P1.Insurance.Add(new InsuranceRecord()
-            {
-                Speciality = "Physician",
-                VisitsRemaining = 1
-            });
-
-            P1.VisitHistory.Add(new Visit()
-            {
-                Date = "12-01-2017",
-                Time = "9:00am",
-                Duration = 15,
-                Speciality = "Medical",
-                DoctorName = "Dr. Adam",
-                ClinicName = "Gun Hill",
-            });
-
-            P1.VisitHistory.Add(new Visit()
-            {
-                Date = "12-06-2016",
-                Time = "11:00am",
-                Duration = 30,
-                Speciality = "Medical",
-                DoctorName = "Dr. Steele",
-                ClinicName = "Jamaica",
-            });
-            P1.VisitHistory.Add(new Visit()
-            {
-                Date = "12-9-2017",
-                Time = "3:00pm",
-                Duration = 15,
-                Speciality = "Medical",
-                DoctorName = "Dr. Adam",
-                ClinicName = "Gun Hill",
-            });
-            P1.VisitHistory.Add(new Visit()
-            {
-                Date = "12-01-2018",
-                Time = "12:00am",
-                Duration = 15,
-                Speciality = "Medical",
-                DoctorName = "Dr. Steele",
-                ClinicName = "ABC",
-            });
-
-            PatientList.Add(P1);
-
-
-            PatientList.Add(new PatientToBeScheduled()
-            {
-                ChartNumber = "424124",
-                PatientName = "Marina",
-                AccidentDate = "12-14-2017",
-                InsuranceName = "XYZ",
-                CaseType = "NoFault",
-                CaseStatus = "Open",
-                AttorneyName = "JKL",
-                PatientStatus = "Follow Up",
-                OldNew = true
-            });
-
-
-            PatientList.Add(new PatientToBeScheduled()
-            {
-                ChartNumber = "231432",
-                PatientName = "Shoaib",
-                AccidentDate = "12-06-2017",
-                InsuranceName = "XYZ",
-                CaseType = "NoFault",
-                CaseStatus = "Open",
-                AttorneyName = "JKL",
-                PatientStatus = "Rescheduled",
-                OldNew = false
-            });
+                Appointments_DT.Rows.Add(NewDR);
+            }
+            this.AppointmentsGrid.DataContext = Appointments_DT.DefaultView;
             #endregion
 
-            this.AppointmentsGrid.ItemsSource = Appointments;
-            this.PatientSchedulingGrid.ItemsSource = PatientList;
-            this.OpenListGrid.ItemsSource = OpenList;
+            // Populate patient scheduling grid with data
+            this.PatientSchedulingGrid.ItemsSource = Query.GetToBeScheduledPatients();
 
-            var ClinicItems = Data.GetClinicNames();
-            ClinicItems.Add("Any");
+            #region Setting up DataTable to bind with OpenList table
 
-            var SpecItems = Data.GetSpecialities();
-            SpecItems.Add("Any");
+            OpenList = new DataTable();
 
+            OpenList.Columns.Add("ID", typeof(int));
+            OpenList.Columns.Add("ChartNumber", typeof(string));
+            OpenList.Columns.Add("PatientName", typeof(string));
+            OpenList.Columns.Add("DoctorName", typeof(string));
+            OpenList.Columns.Add("Specialty", typeof(string));
+            OpenList.Columns.Add("PatientStatus", typeof(string));
+            OpenList.Columns.Add("CheckedInTime", typeof(string));
+            OpenList.Columns.Add("WaitTime", typeof(string));
+            OpenList.Columns.Add("PatientsAhead", typeof(string));
+            
+            this.OpenListGrid.DataContext = OpenList.DefaultView;
+
+            #endregion
+
+            // query clinic names
+            var ClinicItems = Query.GetClinicNames();
+
+            // query specialty names
+            var SpecItems = Query.GetSpecialties();
+
+            // query doctor names
+            var DocItems = Query.GetDoctorNames();
+
+            // Set combobox filters item source
             this.ClinicFilterAppointments.ItemsSource = ClinicItems;
             this.SpecialityFilterAppointments.ItemsSource = SpecItems;
+            this.DoctorFilterAppointments.ItemsSource = DocItems;
 
             this.ClinicFilterOpenList.ItemsSource = ClinicItems;
             this.SpecialityFilterOpenList.ItemsSource = SpecItems;
+            this.DoctorFilterOpenList.ItemsSource = DocItems;
         }
-        
 
-        public string ClerkName { get; set; }
+        // Details button click even handler
+        // Opens new window with information regarding patient  
+      
+        // For Scheduling Grid
+        private void DetailsViewSchedulingGrid_Click(object sender, RoutedEventArgs e)
+        {   
+            
+            PatientAppointment SelectedPatient = ((FrameworkElement)sender).DataContext as PatientAppointment;
 
-        private void DetailsView_Click(object sender, RoutedEventArgs e)
-        {
-            PatientToBeScheduled Patient = new PatientToBeScheduled();
-
-            // collect the patient object the user has selected
-            if (((FrameworkElement)sender).DataContext is PatientToBeScheduled)
-            {
-                Patient = ((FrameworkElement)sender).DataContext as PatientToBeScheduled;
-            }
-            else if (((FrameworkElement)sender).DataContext is Appointment)
-            {
-                Patient = (((FrameworkElement)sender).DataContext as Appointment).SchedulingInfo;
-            } 
-
-            // creating and displaying a new scheduling window based on the object
-            Window SchedulingWindow = new PatientScheduling(Patient);
+            // creating and displaying a new scheduling window based on the object selected
+            Window SchedulingWindow = new PatientScheduling(SelectedPatient);
 
             this.Hide();
             SchedulingWindow.ShowDialog();
+            this.RefreshGrids();
             this.Show();
         }
+     
+        // For Appointments Grid
+        private void DetailsViewAppointmentsGrid_Click(object sender, RoutedEventArgs e)
+        {
 
+            DataRow Selected = (((FrameworkElement)sender).DataContext as DataRowView).Row;
+
+            PatientAppointment SelectedPatient = Query.GetAppointment(Convert.ToInt32(Selected["ID"]));
+
+            // creating and displaying a new scheduling window based on the object selected
+            Window SchedulingWindow = new PatientScheduling(SelectedPatient);
+
+            this.Hide();
+            SchedulingWindow.ShowDialog();
+            this.RefreshGrids();
+            this.Show();
+        }
+        
         private void ShowUpsOnly_Checked(object sender, RoutedEventArgs e)
         {
-            AppointmentsGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).DelayedBy > 0);
+            DataView dv = AppointmentsGrid.ItemsSource as DataView;
+            dv.RowFilter = "[DelayedBy] > 0";
         }
 
         private void ShowUpsOnly_Unchecked(object sender, RoutedEventArgs e)
         {
-            AppointmentsGrid.Items.Filter = null;
+            DataView dv = AppointmentsGrid.ItemsSource as DataView;
+            dv.RowFilter = null;
         }
 
         private void AddAppointmentToOpenList(object sender, RoutedEventArgs e)
         {
-            Appointment Patient = ((FrameworkElement)sender).DataContext as Appointment;
+            
+            DataRow Selected = (((FrameworkElement)sender).DataContext as DataRowView).Row;
 
-            PatientToBeScheduled ToAdd = new PatientToBeScheduled();
-            ToAdd.PatientName = Patient.PatientName;
-            ToAdd.OldNew = false;
+            PatientAppointment SelectedPatient = Query.GetAppointment(Convert.ToInt32(Selected["ID"]));
 
-            AddToOpenList PopupWindow = new AddToOpenList(ToAdd);
+            AddToOpenList PopupWindow = new AddToOpenList(SelectedPatient);
             PopupWindow.ShowDialog();
+
+            RefreshGrids();
         }
 
         private void RemoveFromOpenList(object sender, RoutedEventArgs e)
         {
-            Appointment ToRemove = ((FrameworkElement)sender).DataContext as Appointment;
-            
-            foreach(Appointment appointment in OpenList)
-            {
-                if (ToRemove.ChartNumber == appointment.ChartNumber)
-                {
-                    OpenList.Remove(appointment);
-                    break;
-                }
-            }
+            DataRow Selected = (((FrameworkElement)sender).DataContext as DataRowView).Row;
+
+            int index = OpenList.Rows.IndexOf(Selected);
+            OpenList.Rows.RemoveAt(index);
+
+            RefreshGrids();
         }
 
         private void SpecialityFilterAppointments_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox Changed = (sender as ComboBox);
 
-            if ((string)Changed.SelectedItem != "Any")
+            if ((string)Changed.SelectedItem != null)
             {
-                AppointmentsGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).Speciality == (string)Changed.SelectedItem);
-            }
-            else
-            {
-                AppointmentsGrid.Items.Filter = null;
+                DataView dv = AppointmentsGrid.ItemsSource as DataView;
+                dv.RowFilter = String.Format("[Specialty] = '{0}'", (string)Changed.SelectedItem);
             }
         }
 
@@ -340,28 +200,62 @@ namespace SchedulingSystem
         {
             ComboBox Changed = (sender as ComboBox);
 
-            if ((string)Changed.SelectedItem != "Any")
+            if ((string)Changed.SelectedItem != null)
             {
-                OpenListGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).Speciality == (string)Changed.SelectedItem);
-            }
-            else
-            {
-                OpenListGrid.Items.Filter = null;
+                DataView dv = OpenListGrid.ItemsSource as DataView;
+                dv.RowFilter = String.Format("Specialty = '{0}'", (string)Changed.SelectedItem);
             }
         }
 
         private void ClinicFilterOpenList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Clinic does not exist in current grid!!
+
+            //ComboBox Changed = (sender as ComboBox);
+
+            //if ((string)Changed.SelectedItem != null)
+            //{
+            //    DataView dv = OpenListGrid.ItemsSource as DataView;
+            //    dv.RowFilter = String.Format("Clinic = '{0}'", (string)Changed.SelectedItem);
+            //}
+        }
+
+        private void DoctorFilterOpenList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
             ComboBox Changed = (sender as ComboBox);
 
-            if ((string)Changed.SelectedItem != "Any")
+            if ((string)Changed.SelectedItem != null)
             {
-                OpenListGrid.Items.Filter = new Predicate<object>(item => ((Appointment)item).ClinicName == (string)Changed.SelectedItem);
+                DataView dv = OpenListGrid.ItemsSource as DataView;
+                dv.RowFilter = String.Format("DoctorName = '{0}'", (string)Changed.SelectedItem);
             }
-            else
+        }
+
+        private void DoctorFilterAppointments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox Changed = (sender as ComboBox);
+
+            if ((string)Changed.SelectedItem != null)
             {
-                OpenListGrid.Items.Filter = null;
+                DataView dv = AppointmentsGrid.ItemsSource as DataView;
+                dv.RowFilter = String.Format("DoctorName = '{0}'", (string)Changed.SelectedItem);
             }
+        }
+
+        private void RefreshGrids()
+        {
+            this.AppointmentsGrid.DataContext = null;
+            this.AppointmentsGrid.DataContext = Appointments_DT.DefaultView;
+
+            this.PatientSchedulingGrid.DataContext = null;
+            this.PatientSchedulingGrid.ItemsSource = Query.GetToBeScheduledPatients();
+
+            this.OpenListGrid.DataContext = null;
+            this.OpenListGrid.DataContext = OpenList.DefaultView;
+        }
+        private void ClinicFilterAppointments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 

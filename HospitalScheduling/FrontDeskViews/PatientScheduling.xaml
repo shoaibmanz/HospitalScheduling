@@ -50,7 +50,7 @@
                 <StackPanel Grid.Column="0">
                     <WrapPanel>
                         <TextBlock Text="Patient Name:"/>
-                        <TextBox Name="PatientName" Text="{Binding PatientName}" Background="DarkGray" IsEnabled="False"/>
+                        <TextBox Name="PatientName" Text="{Binding Path='PatientInfo.Name'}" Background="DarkGray" IsEnabled="False"/>
                     </WrapPanel>
 
                     <RadioButton Name="NewPatient" Content="New Patient" HorizontalAlignment="Left" IsEnabled="False"/>

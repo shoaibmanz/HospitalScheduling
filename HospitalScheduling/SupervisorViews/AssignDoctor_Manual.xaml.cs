@@ -110,5 +110,10 @@ namespace HospitalScheduling
         {
             this.Close();
         }
+
+        private void btn_filterClinics_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
