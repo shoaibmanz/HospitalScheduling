@@ -9,11 +9,7 @@
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
 
         <StackPanel>
-            <TextBlock>
-            Schedule conformed
-            <LineBreak/>
-            Thank you!
-            </TextBlock>
+            <TextBlock Foreground="#FF03AA21"><Run Text="Schedule confirmed"/><LineBreak/><Run Text="Thank you!"/></TextBlock>
 
             <Button Content="Go to Panel" Margin="0 20 0 0" Click="GoToPanel_Click"/>
         </StackPanel>

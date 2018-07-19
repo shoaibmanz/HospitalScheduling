@@ -408,7 +408,7 @@ namespace SchedulingSystem
 
                 Button Butt = new Button();
 
-                Butt.Content = "Patient Sam";
+                Butt.Content = "Patient Ruben";
                 Butt.Width = AssignedWidth;
                 Butt.Click += Butt_Click;
                 Butt.Margin = new Thickness(10, 10, 10, 5);
@@ -457,7 +457,7 @@ namespace SchedulingSystem
 
                 Button Butt = new Button();
                 if(Time.Hour>12)
-                  Butt.Content = "Patient Sam";
+                  Butt.Content = "Patient Ruben";
                 else
                 {
                     Butt.Content = "Patient Marina";
@@ -599,18 +599,23 @@ namespace SchedulingSystem
         private void Butt_Click(object sender, RoutedEventArgs e)
         {
             Button s = sender as Button;
-            if(s.Content.ToString()=="Patient Sam")
+            if(s.Content.ToString()=="Patient Ruben")
             {
                 Random random = new Random(DateTime.Now.Second);
 
                 TestDesign.PatientAppointment patient = TestDesign.PatientAppointment.Data[random.Next(0, TestDesign.PatientAppointment.Data.Count)];
-
-                //PatientScheduling t = new PatientScheduling(patient);
-
+                patient.PatientInfo.Name = "Patiemt Ruben";
+                PatientScheduling t = new PatientScheduling(patient);
+                t.ShowDialog();
             }
             else if (s.Content.ToString()=="Patient Marina")
             {
-                MessageBox.Show("Marina");
+                Random random = new Random(DateTime.Now.Second);
+
+                TestDesign.PatientAppointment patient = TestDesign.PatientAppointment.Data[random.Next(0, TestDesign.PatientAppointment.Data.Count)];
+                patient.PatientInfo.Name = "Patiemt Marina";
+                PatientScheduling t = new PatientScheduling(patient);
+                t.ShowDialog();
             }
         }
     }
