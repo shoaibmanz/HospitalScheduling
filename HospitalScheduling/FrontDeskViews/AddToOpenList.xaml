@@ -48,20 +48,20 @@
 
         <WrapPanel Grid.Row="1" Grid.Column="0">
             <TextBlock Text="Doctor:"/>
-            <ComboBox SelectedIndex="0" Text="Any" Name="cb_Doctor"/>
+            <ComboBox Text="Any" IsReadOnly="True" IsEditable="True" Name="cb_Doctor"/>
         </WrapPanel>
 
         <Button Grid.Row="2" Grid.Column="0" Content="Cancel" Width="70" HorizontalAlignment="Right"  VerticalAlignment="Center" Click="Cancel_Click"/>
 
         <WrapPanel Grid.Row="0" Grid.Column="1">
             <TextBlock Text="Speciality"/>
-            <ComboBox Text="Any" SelectedIndex="0" Name="cb_Specialty"/>
+            <ComboBox Text="Any" IsReadOnly="True" IsEditable="True" Name="cb_Specialty"/>
         </WrapPanel>
 
         <WrapPanel Grid.Row="1" Grid.Column="1">
             
             <TextBlock Text="Clinic"/>
-            <ComboBox SelectedIndex="0" Text="Any" Name="cb_Clinic"/>
+            <ComboBox IsReadOnly="True" IsEditable="True" Text="Any" Name="cb_Clinic"/>
         </WrapPanel>
 
         <Button Grid.Row="2" Grid.Column="1" Content="Add" Width="70" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Add_Click"/>

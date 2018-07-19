@@ -27,6 +27,8 @@ namespace SchedulingSystem
         public PatientAppointment CurrentPatient { get; set; }
         public DateTime CurrentDate { get; set; }
 
+        public Dictionary<string, List<PatientAppointment>> DocAppointments;
+
         public ManualAppointment(PatientAppointment CurrentPatient)
         {
             InitializeComponent();
@@ -34,10 +36,14 @@ namespace SchedulingSystem
             this.CurrentDate = CurrentPatient.Date;
             this.CurrentPatient = CurrentPatient;
 
-        
+            DocAppointments = new Dictionary<string, List<PatientAppointment>>();
+
+
+            #region Setup DataTable with time and patient schedule field
+
             PatientTable = new DataTable();
             PatientTable.Columns.Add("Time", typeof(string));
-            PatientTable.Columns.Add("Schedule", typeof(string));
+            PatientTable.Columns.Add("Patient " + CurrentPatient.PatientInfo.Name, typeof(string));
 
             DateTime now = DateTime.Now;
             DateTime CurrentTime = new DateTime(now.Year, now.Month, now.Day, 9, 0, 0);
@@ -53,39 +59,51 @@ namespace SchedulingSystem
                 CurrentTime = CurrentTime.AddMinutes(15);
             } while (CurrentTime.Hour != 14);
 
-            patientAppointments = Query.GetAppointments(CurrentPatient.PatientInfo.ChartNumber);
-
-            //this.cb_DaySpeciality.ItemsSource = Query.GetSpecialties();
-
+            // bind to DataGrid
             dg_dayView.DataContext = PatientTable.DefaultView;
+
+            #endregion
+
+            // populate patient appointments list
+            patientAppointments = Query.GetAppointmentsByChartNumber(CurrentPatient.PatientInfo.ChartNumber);
+
+            this.cb_DayClinic.ItemsSource = Query.GetClinicNames();
+            this.cb_DayDoctor.ItemsSource = Query.GetDoctorNames();
+            this.cb_DaySpec.ItemsSource = Query.GetSpecialties();
+
         }
 
+        private void cb_DaySpec_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
-        // Adds an item in the specialty list box upon combobox selection
-        private void cb_DaySpeciality_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        }
+
+        // Adds an item in the clinic list box upon combobox selection
+        private void cb_DayClinic_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox SpecBox = (sender as ComboBox);
 
-            //if (SpecBox.SelectedItem != null)
-            //{
-            //    // do not allow the same item to be selected twice
-            //    foreach (string item in lb_SelectedSpec.Items)
-            //    {
-            //        if (item == (string)SpecBox.SelectedItem)
-            //            return;
-            //    }
+            if (SpecBox.SelectedItem != null)
+            {
+                // do not allow the same item to be selected twice
+                foreach (string item in lb_SelectedClinic.Items)
+                {
+                    if (item == (string)SpecBox.SelectedItem)
+                        return;
+                }
 
-            //    // add the new specialty to the list box
-            //    lb_SelectedSpec.Items.Add(SpecBox.SelectedItem);
+                // add the new  to the list box
+                lb_SelectedClinic.Items.Add(SpecBox.SelectedItem);
 
-            //    // populate the grid with this specialty
-            //    PopulateWithSpecialty((string)SpecBox.SelectedItem);
+                // populate the grid with this specialty
+                PopulateWithClinic((string)SpecBox.SelectedItem);
 
-            //    dg_dayView.DataContext = null;
-            //    dg_dayView.DataContext = PatientTable.DefaultView;
-            //}
+                dg_dayView.DataContext = null;
+                dg_dayView.DataContext = PatientTable.DefaultView;
+            }
         }
-        private void PopulateWithSpecialty(string Specialty)
+
+        private void PopulateWithClinic(string Specialty)
         {
             // find all appointments belonging to this specialty and add into the table
             foreach (PatientAppointment Appointment in patientAppointments)
@@ -98,12 +116,18 @@ namespace SchedulingSystem
                     {
                         if ((string)PatientTable.Rows[i]["Time"] == Appointment.Date.ToString("hh:mm tt"))
                         {
-                            PatientTable.Rows[i]["Schedule"] = Appointment.Slot.DoctorInfo.Name + " (" + Appointment.Slot.ClinicInfo.Name + ")";
+                            PatientTable.Rows[i][1] = Appointment.Slot.DoctorInfo.Name + " (" + Appointment.Slot.ClinicInfo.Name + ")";
                             break;
                         }
                     }
                 }
             }
+
+            for (int i = 2; i < PatientTable.Columns.Count; ++i)
+            {
+
+            }
+
         }
 
         // Removes an item from the specialty list box upon right click
@@ -122,13 +146,89 @@ namespace SchedulingSystem
             }
         }
 
+        // Removes an item from the doctor list box upon right click
+        private void MenuItemDoctor_Remove_Click(object sender, RoutedEventArgs e)
+        {
+
+            string ToRemove = (string)(sender as MenuItem).DataContext;
+
+            for (int i = 0; i < lb_SelectedDoctor.Items.Count; ++i)
+            {
+                if (ToRemove == (string)lb_SelectedDoctor.Items[i])
+                {
+                    lb_SelectedDoctor.Items.RemoveAt(i);
+                    PatientTable.Columns.Remove(ToRemove);
+                    break;
+                }
+            }
+            PatientTable.AcceptChanges();
+
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = PatientTable.DefaultView;
+        }
+
+        private void cb_DayDoctor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox SpecBox = (sender as ComboBox);
+
+            if (SpecBox.SelectedItem != null)
+            {
+                // do not allow the same item to be selected twice
+                foreach (string item in lb_SelectedDoctor.Items)
+                {
+                    if (item == (string)SpecBox.SelectedItem)
+                        return;
+                }
+
+                // add the new  to the list box
+                lb_SelectedDoctor.Items.Add(SpecBox.SelectedItem);
+
+                // populate the grid with this specialty
+                PopulateWithDoctor((string)SpecBox.SelectedItem);
+
+                dg_dayView.DataContext = null;
+                dg_dayView.DataContext = PatientTable.DefaultView;
+            }
+        }
+
+        void PopulateWithDoctor(string DocName)
+        {
+            // fetch a list containing every appointment this doctor has
+            var Appointments = Query.GetAppointmentsByDoctor(DocName);
+
+            DocAppointments.Add(DocName, Appointments);
+
+            PatientTable.Columns.Add(DocName, typeof(string));
+
+            foreach (var Appointment in Appointments)
+            {
+
+                if (Appointment.Date == CurrentDate)
+                {
+                    for (int i = 0; i < PatientTable.Rows.Count; ++i)
+                    {
+                        DataRow dRow = PatientTable.Rows[i];
+
+                        if (Appointment.Date.ToString("hh:mm tt") == (string)dRow["Time"])
+                        {
+                            dRow[DocName] = Appointment.PatientInfo.Name;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = PatientTable.DefaultView;
+        }
+
         private void dg_dayView_Loaded(object sender, RoutedEventArgs e)
         {
-            TextBlock Text = new TextBlock();
-            Text.HorizontalAlignment = HorizontalAlignment.Center;
-            Text.Text = "Patient " + CurrentPatient.PatientInfo.Name;
+            //TextBlock Text = new TextBlock();
+            //Text.HorizontalAlignment = HorizontalAlignment.Center;
+            //Text.Text = "Patient " + CurrentPatient.PatientInfo.Name;
 
-            dg_dayView.Columns[1].Header = Text;
+            //dg_dayView.Columns[1].Header = Text;
         }
 
         private void btn_prevDay_Clicked(object sender, RoutedEventArgs e)
@@ -139,7 +239,7 @@ namespace SchedulingSystem
             for (int i = 0; i < PatientTable.Rows.Count; ++i)
             {
                 var row = PatientTable.Rows[i];
-                row["Schedule"] = "";
+                row["Patient " + CurrentPatient.PatientInfo.Name] = "";
             }
 
             //for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
@@ -160,7 +260,7 @@ namespace SchedulingSystem
             for (int i = 0; i < PatientTable.Rows.Count; ++i)
             {
                 var row = PatientTable.Rows[i];
-                row["Schedule"] = "";
+                row["Patient " + CurrentPatient.PatientInfo.Name] = "";
             }
 
             //for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)

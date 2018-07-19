@@ -102,7 +102,7 @@ namespace TestDesign {
         /// </summary>
         /// <param name="ChartNumber"> Unique identifier for the patient </param>
         /// <returns> History of appointments </returns>
-        public static List<PatientAppointment> GetAppointments(string ChartNumber)
+        public static List<PatientAppointment> GetAppointmentsByChartNumber(string ChartNumber)
         {
             List<PatientAppointment> Appointments = new List<PatientAppointment>();
 
@@ -111,6 +111,21 @@ namespace TestDesign {
                 if (P.PatientInfo.ChartNumber == ChartNumber)
                 {
                     Appointments.Add(P);
+                }
+            }
+
+            return Appointments;
+        }
+
+        public static List<PatientAppointment> GetAppointmentsByDoctor(string DocName)
+        {
+            List<PatientAppointment> Appointments = new List<PatientAppointment>();
+
+            foreach (PatientAppointment Appointment in PatientAppointment.Data)
+            {
+                if (Appointment.Slot.DoctorInfo.Name == DocName)
+                {
+                    Appointments.Add(Appointment);
                 }
             }
 
@@ -134,6 +149,8 @@ namespace TestDesign {
 
             return null;
         }
+
+
     }
 
     public class Doctor
@@ -338,7 +355,7 @@ namespace TestDesign {
                 ScheduledDoctor Slot = ScheduledDoctor.Data[random.Next(0, ScheduledDoctor.Data.Count)];
 
                 DateTime Date = Slot.From.AddMinutes(random.Next(0, 9) * 15);
-                int Duration = random.Next(0, 30);
+                int Duration = random.Next(1, 3) * 15;
 
                 string CaseStatus = CaseStatusStrings[random.Next(0, CaseStatusStrings.Length)];
                 string CaseType = CaseTypeStrings[random.Next(0, CaseTypeStrings.Length)];
@@ -516,7 +533,7 @@ namespace SchedulingSystem
         public PatientToBeScheduled SchedulingInfo { get; set; }
 
         
-        //public static ObservableCollection<Appointment> GetAppointments()
+        //public static ObservableCollection<Appointment> GetAppointmentsByChartNumber()
         //{
         //    #region Query Appointment data from database
         //    return new ObservableCollection<Appointment>();

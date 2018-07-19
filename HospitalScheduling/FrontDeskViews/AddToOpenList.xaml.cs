@@ -51,8 +51,8 @@ namespace SchedulingSystem
             dRow["ID"] = CurrentPatient.ID;
             dRow["ChartNumber"] = CurrentPatient.PatientInfo.ChartNumber;
             dRow["PatientName"] = CurrentPatient.PatientInfo.Name;
-            dRow["DoctorName"] = CurrentPatient.Slot.DoctorInfo.Name;
-            dRow["Specialty"] = CurrentPatient.Slot.DoctorInfo.Specialty;
+            dRow["DoctorName"] = cb_Doctor.Text;
+            dRow["Specialty"] = cb_Specialty.Text;
             dRow["PatientStatus"] = CurrentPatient.PatientStatus;
             dRow["CheckedInTime"] = CurrentPatient.Date.ToString("hh:ss tt");
             dRow["WaitTime"] = random.Next(0, 45).ToString();

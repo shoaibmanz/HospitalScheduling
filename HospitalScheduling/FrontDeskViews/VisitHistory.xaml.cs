@@ -30,7 +30,7 @@ namespace SchedulingSystem
             this.CurrentPatient = CurrentPatient;
             this.DataContext = CurrentPatient;
 
-            var Appointments = Query.GetAppointments(CurrentPatient.PatientInfo.ChartNumber);
+            var Appointments = Query.GetAppointmentsByChartNumber(CurrentPatient.PatientInfo.ChartNumber);
 
             HistoryDT = new DataTable();
 
@@ -63,6 +63,12 @@ namespace SchedulingSystem
 
             this.Close();
 
+        }
+
+        private void ComboBox_Clinic_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataView dv = HistoryTable.ItemsSource as DataView;
+            dv.RowFilter = String.Format("[Clinic] = {0}", (string)ComboBox_Clinic.SelectedItem);
         }
     }
 }

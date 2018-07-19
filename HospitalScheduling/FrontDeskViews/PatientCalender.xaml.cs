@@ -52,7 +52,7 @@ namespace SchedulingSystem
                 CurrentTime = CurrentTime.AddMinutes(15);
             } while (CurrentTime.Hour != 14);
 
-            patientAppointments = Query.GetAppointments(CurrentPatient.PatientInfo.ChartNumber);
+            patientAppointments = Query.GetAppointmentsByChartNumber(CurrentPatient.PatientInfo.ChartNumber);
 
             this.cb_DaySpeciality.ItemsSource = Query.GetSpecialties();
 

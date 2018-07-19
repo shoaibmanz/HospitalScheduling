@@ -60,10 +60,10 @@
                 <TabControl Grid.Column="0" Margin="5" TabStripPlacement="Left" SelectedIndex="0">
                     <!-- Day -->
                     <TabItem Header="Day" Height="50" TabIndex="0">
-                        <DataGrid x:Name="dg_dayView" ItemsSource="{Binding}" Loaded="dg_dayView_Loaded">
+                        <DataGrid x:Name="dg_dayView" ItemsSource="{Binding}" Loaded="dg_dayView_Loaded" AutoGenerateColumns="True">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="" Binding="{Binding Time}" Width="80" CanUserSort="False"/>
-                                <DataGridTextColumn Binding="{Binding Schedule}" Width="*" CanUserSort="False" />
+                                <!--<DataGridTextColumn Header="" Binding="{Binding Time}" Width="80" CanUserSort="False"/>
+                                <DataGridTextColumn Binding="{Binding Schedule}" Width="*" CanUserSort="False" />-->
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -103,7 +103,7 @@
                                 <Label Content="{Binding}" >
                                     <Label.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Remove" Click="MenuItem_Remove_Click"/>
+                                            <MenuItem Header="Remove" Click="MenuItemDoctor_Remove_Click"/>
                                         </ContextMenu>
                                     </Label.ContextMenu>
                                 </Label>

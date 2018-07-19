@@ -60,7 +60,7 @@ namespace SchedulingSystem
             AddToOpenList OpenListWindow = new AddToOpenList(CurrentPatient);
 
             OpenListWindow.ShowDialog();
-
+            this.Close();
         }
 
         private void FindBestAppointment_Click(object sender, RoutedEventArgs e)
@@ -74,7 +74,7 @@ namespace SchedulingSystem
 
         private void ManualAppointment_Click(object sender, RoutedEventArgs e)
         {
-            PatientCalender CalandarWindow = new PatientCalender(CurrentPatient);
+            ManualAppointment CalandarWindow = new ManualAppointment(CurrentPatient);
             this.Hide();
             CalandarWindow.ShowDialog();
             this.Show();
