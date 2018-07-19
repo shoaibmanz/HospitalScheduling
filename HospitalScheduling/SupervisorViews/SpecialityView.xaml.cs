@@ -13,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SchedulingSystem;
+using System.Data;
 
 namespace HospitalScheduling
 {
@@ -20,10 +22,10 @@ namespace HospitalScheduling
     /// Interaction logic for SpecialityView.xaml
     /// </summary>
     /// 
-    
+
     public partial class SpecialityView : Window
     {
-        /* A list to hold available specialities */
+        /* A list to hold all specialities */
         public List<string> specialities = new List<string>()
         {
             "Medical",
@@ -31,7 +33,8 @@ namespace HospitalScheduling
             "PT",
             "Chiro"
         };
-        /* A list to hold available clinics */
+
+        /* A list to hold all clinics */
         public List<Clinic> clinics = new List<Clinic>()
         {
             new Clinic ("Jamaica", "Asia", "051-2563254", "info@clinic6.com"),
@@ -39,7 +42,24 @@ namespace HospitalScheduling
             new Clinic("Brazil", "Islamabad", "051-2563254", "info@clinic6.com")
         };
 
+        /* A list to hold all doctors*/
+        public List<Doc> doctors = new List<Doc>()
+        {
+            new Doc("John", "", "", "","ACCU"),
+            new Doc("Shoaib", "", "", "","Medical"),
+            new Doc("Ahsan", "", "","", "Medical"),
+            new Doc("Haris", "", "", "", "PT"),
+            new Doc("Tom", "", "", "", "Chiro"),
+        };
+
+
+        public bool SPECIALITYvsCLINIC = true;
+
         DateTime currentDate = System.DateTime.Now;
+
+
+        public DataTable Calender_DataTable = new DataTable();
+
 
         public ObservableCollection<SpecialityList> specialityListBox = new ObservableCollection<SpecialityList>();
         public ObservableCollection<ClinicList> clinicsListBox = new ObservableCollection<ClinicList>();
@@ -55,55 +75,25 @@ namespace HospitalScheduling
             cmb_SpecialityDropdown.ItemsSource = specialities;
             lb_SpecialityList.ItemsSource = specialityListBox;
 
+            Calender_DataTable.Columns.Add("INDEX");
+
+
+            // Add Clinics to Clinic List Box
             foreach (var item in clinics)
             {
                 clinicsListBox.Add(new ClinicList(false, item));
 
-                /* Bind each bool to visibility in DataGrid */
-                DataGridTextColumn textColumn = new DataGridTextColumn();
-                textColumn.Header = item.Name;
-                textColumn.Binding = new Binding(item.Name);
-                textColumn.Visibility = Visibility.Hidden;
-
-                dg_dayView.Columns.Add(textColumn);
 
 
 
-
-
-                //Binding binding = new Binding
-                //{
-                //    Source = clinicsListBox.Last().IS_ClinicCheckBoxEnabled,
-
-                //    //binding.Path = new PropertyPath(clinicsListBox.Last().IS_ClinicCheckBoxEnabled);
-
-
-                //    Converter = new BoolToVisibleOrHidden(),
-                //    Mode = BindingMode.OneWay
-                //};        // <----
-
-                //SetBinding(DataGridColumn.VisibilityProperty, binding);
-
-
-
-                //dg_dayView.Columns.Last.SetBinding(UIElement.VisibilityProperty, binding);
-
-                //comboBox.SetBinding(UIElement.VisibilityProperty, binding);
-
-
-
-                /*
-                if (!visibility)
-                    textColumn.Visibility = System.Windows.Visibility.Collapsed;
-                */
-
-
-                // ADD COLUMN
-                //addDataGridColumn(item.Name, false);
-
-                // ADD COLUMN
-                //addDataGridColumn(item.Name, false);
             }
+
+
+
+
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
+
+
 
             lb_clinicsListBox.ItemsSource = clinicsListBox;
         }
@@ -122,10 +112,11 @@ namespace HospitalScheduling
                 {
                     specialityListBox.Insert(0, (new SpecialityList(true, selectedSpec)));
 
-
-
                     // -----------------------------
-                    //addDataGridColumn(selectedSpec);
+                    if (SPECIALITYvsCLINIC)
+                        addDataGridRow(selectedSpec);
+                    else
+                        addDataGridColumn(selectedSpec);
                 }
 
 
@@ -136,59 +127,74 @@ namespace HospitalScheduling
 
 
 
-        private void addDataGridColumn(string header, bool visibility)
+        private void addDataGridColumn(string header)
         {
+            if (Calender_DataTable.Columns.Contains(header) == false)
+                Calender_DataTable.Columns.Add(header, typeof(string));
 
-            DataGridTextColumn textColumn = new DataGridTextColumn();
-            textColumn.Header = header;
-            textColumn.Binding = new Binding(header);
+            // Refresh context of dataGrid
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
+        }
 
-            /*
-            Binding binding = new Binding()
+        private void removeDataGridColumn(string header)
+        {
+            if (Calender_DataTable.Columns.Contains(header))
+                Calender_DataTable.Columns.Remove(header);
+
+            // Refresh context of dataGrid
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
+        }
+
+        private void addDataGridRow(string rowString)
+        {
+            DataRow dRow = Calender_DataTable.NewRow();
+            dRow["INDEX"] = rowString;
+            Calender_DataTable.Rows.Add(dRow);
+
+            // Refresh context of dataGrid
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
+        }
+
+        private void removeDataGridRow(string header)
+        {
+            for (int i = Calender_DataTable.Rows.Count - 1; i >= 0; i--)
             {
-                ElementName = cbShowPower,
-                Path = new PropertyPath("IsChecked"),
-                Converter = new BoolToVisibleOrHidden();
-                Mode = BindingMode.OneWay;
-            };
-            
+                DataRow dr = Calender_DataTable.Rows[i];
+                if (dr["INDEX"].ToString() == header)
+                    dr.Delete();
+            }
 
-            comboBox.SetBinding(UIElement.VisibilityProperty, binding);
-            */
-
-            /*
-            if (!visibility)
-                textColumn.Visibility = System.Windows.Visibility.Collapsed;
-            */
-            dg_dayView.Columns.Add(textColumn);
-
-
-
-            //dg_dayView.Items.Add(new DataGridHeaderStruct(true, header));
-
-            // TODO add VS check
-
-
-            /*
-            DataGridTemplateColumn newColumn = new DataGridTemplateColumn();
-            newColumn.Header = new DataGridHeaderStruct(true , header);
-            
-            dg_dayView.Columns.Add(newColumn);
-            
-
-            /*
-            DataGridTextColumn textColumn = new DataGridTextColumn();
-            textColumn.Header = new DataGridHeaderStruct(true, header);
-            textColumn.Binding = new Binding(header);
-            dg_dayView.Columns.Add(textColumn);
-            */
+            // Refresh context of dataGrid
+            dg_dayView.DataContext = null;
+            dg_dayView.DataContext = Calender_DataTable.DefaultView;
         }
 
-        private void addDataGridRow()
+
+        private void DataGridCell_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            DataGridCell cell = sender as DataGridCell;
+            if (cell == null || cell.IsEditing || cell.IsReadOnly)
+                return;
 
+            // Get Row and Column 
+            MessageBox.Show(cell.Column.Header.ToString());
+
+            DataGridRow row = sender as DataGridRow;
+            MessageBox.Show(Calender_DataTable.Rows[(sender as DataGridRow).GetIndex()]["INDEX"].ToString());
+            
+            
+            
+
+            // Open Window ..
+            //AssignDoctor window_AssignDoctor = new AssignDoctor("Clinic", "PT");
+            //window_AssignDoctor.ShowDialog();
+
+            //this.
+            //MessageBox.Show(cell.Content.ToString());
         }
-
 
 
         private void btn_nextDay_Click(object sender, RoutedEventArgs e)
@@ -226,57 +232,64 @@ namespace HospitalScheduling
             }
         }
 
+
         private void CheckBox_Checked_ShowClinic(object sender, RoutedEventArgs e)
         {
             if (sender is CheckBox)
             {
-                foreach (DataGridTextColumn Column in dg_dayView.Columns)
-                {
-                    if (Column.Header == ((CheckBox)sender).Content)
-                    {
-                        Column.Visibility = Visibility.Visible;
-                        return;
-                    }
-                }
+                // Add to DataTable
+                if (SPECIALITYvsCLINIC)
+                    addDataGridColumn(((CheckBox)sender).Content.ToString());
+                else
+                    addDataGridRow(((CheckBox)sender).Content.ToString());
+
             }
+
+
         }
-        private void CheckBox_Checked_HideClinic(object sender, RoutedEventArgs e)
+        private void CheckBox_Unchecked_HideClinic(object sender, RoutedEventArgs e)
         {
             if (sender is CheckBox)
             {
-                foreach (DataGridTextColumn Column in dg_dayView.Columns)
-                {
-                    if (Column.Header == ((CheckBox)sender).Content)
-                    {
-                        Column.Visibility = Visibility.Hidden;
-                        return;
-                    }
-                }
+                // Remove from DataTable
+                if (SPECIALITYvsCLINIC)
+                    removeDataGridColumn(((CheckBox)sender).Content.ToString());
+                else
+                    removeDataGridRow(((CheckBox)sender).Content.ToString());          
             }
+
+
         }
-    }
 
-
-    public class DataGridHeaderStruct : INotifyPropertyChanged
-    {
-        public bool checkBox { get; set; }
-        public string headerText { get; set; }
-
-        public DataGridHeaderStruct(bool _checkbox, string _text)
+        private void CheckBox_Checked_ShowSpeciality(object sender, RoutedEventArgs e)
         {
-            checkBox = _checkbox;
-            headerText = _text;
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
+            if (sender is CheckBox)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
+                // Add to DataTable
+                if (SPECIALITYvsCLINIC)
+                    addDataGridRow(((CheckBox)sender).Content.ToString());
+                else
+                    addDataGridColumn(((CheckBox)sender).Content.ToString());
+
             }
         }
+
+        private void CheckBox_Unchecked_HideSpeciality(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox)
+            {
+                // Remove from DataTable
+                if (SPECIALITYvsCLINIC)
+                    removeDataGridRow(((CheckBox)sender).Content.ToString());
+                else
+                    removeDataGridColumn(((CheckBox)sender).Content.ToString());
+            }
+        }
+
     }
 
+
+    /*
     public class ComboBoxtoVisibilityConverter : IValueConverter
     {
 
@@ -299,6 +312,7 @@ namespace HospitalScheduling
             return new object();
         }
     }
+    */
 
     public class SpecialityList : INotifyPropertyChanged
     {
@@ -326,6 +340,7 @@ namespace HospitalScheduling
         }
     }
 
+    
     public class ClinicList : INotifyPropertyChanged
     {
         private bool isEnabled = false;
@@ -370,27 +385,8 @@ namespace HospitalScheduling
             }
         }
     }
-    /* Data -- Class */
-    public partial class Clinic
-    {
-        public string name;
-        public string address;
-        public string phone;
-        public string email;
-
-        public string Name { get; set; }
-
-        public Clinic(string name, string address, string phone, string email)
-        {
-            this.Name = name;
-            this.address = address;
-            this.email = email;
-            this.phone = phone;
-
-        }
-    };
-
-
+ 
+/*
     class BoolToVisibleOrHidden : IValueConverter
     {
         #region Constructors
@@ -421,4 +417,6 @@ namespace HospitalScheduling
         }
         #endregion
     }
+*/
+
 }

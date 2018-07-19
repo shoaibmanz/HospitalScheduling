@@ -1,0 +1,103 @@
+﻿<Window x:Class="HospitalScheduling.AssignDoctor_Manual"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HospitalScheduling"
+        mc:Ignorable="d"
+        Title="AssignDoctor_Manual" Height="500" Width="450">
+    <Grid>
+        <GroupBox Header="Assign Doctor">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition />
+                    <RowDefinition Height="0.2*"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Doctor Filer + Number of Doctors -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <GroupBox Header="Clinic Filter">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="0.5*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Margin="25,05,0,0">
+                                        <TextBlock Text="Name" />
+                                        <TextBlock Text="Area" Margin="0,5,0,0"/>
+                                        <TextBlock Text="Address" Margin="0,5,0,0"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="0,5,10,0">
+                                        <TextBox />
+                                        <TextBox Margin="0,3,0,0"/>
+                                        <TextBox  Margin="0,3,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <Button  Width="80" Height="20" Content="Filter"/>
+                                </Grid>
+
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <StackPanel Height="20" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
+                            <TextBlock Text="Number of Doctors: "/>
+                        <TextBox Width="25" Height="20"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                
+                <!-- Swap Doctors-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Left Listbox -->
+                    <Grid Grid.Column="0" Margin="10">
+                        <ListBox>
+                            
+                        </ListBox>
+                    </Grid>
+                    <!-- Buttons -->
+                    <Grid Grid.Column="1" >
+                        <StackPanel VerticalAlignment="Center">
+                            <Button Height="20" Margin="0,0,0,15"/>
+                            <Button Height="20"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <!-- Right Listbox -->
+                    <Grid Grid.Column="2" Margin="10">
+                        <ListBox>
+
+                        </ListBox>
+                    </Grid>
+                </Grid>
+
+                <!-- OK Button -->
+                <Button Grid.Row="2" Width="100" Height="30" Content="Done"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

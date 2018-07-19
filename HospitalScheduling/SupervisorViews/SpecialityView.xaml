@@ -6,9 +6,18 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"       
         xmlns:local="clr-namespace:HospitalScheduling"
         mc:Ignorable="d"
-        Title="SpecialityView" Height="600" Width="800" Background="Tan">
+        Title="SpecialityView" Height="600" Width="800" >
     <Window.Resources>
 
+        <Style TargetType="{x:Type DataGridCell}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"></Setter>
+                </Trigger>
+            </Style.Triggers>
+
+            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown"/>
+        </Style>
         <!--
         
         <local:ComboBoxtoVisibilityConverter x:Key="ComboBoxtoVisibility"/>
@@ -85,7 +94,11 @@
 
                         <DataGrid x:Name="dg_dayView" AutoGenerateColumns="True" CanUserAddRows="False" ItemsSource="{Binding}">
                             
+                            
                             <!--
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown"/>
+                            </Style>
                             <DataGrid.Resources>
 
                                 <Style TargetType="{x:Type DataGridColumnHeader}">

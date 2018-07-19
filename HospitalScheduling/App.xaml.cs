@@ -13,5 +13,16 @@ namespace HospitalScheduling
     /// </summary>
     public partial class App : Application
     {
+        App()
+        {
+            // generating random test data
+
+            TestDesign.Clinic.GenerateData();
+            TestDesign.Doctor.GenerateData();
+            TestDesign.Patient.GenerateData();
+            TestDesign.ScheduledDoctor.GenerateData();
+            TestDesign.PatientAppointment.GenerateData();
+
+        }
     }
 }
