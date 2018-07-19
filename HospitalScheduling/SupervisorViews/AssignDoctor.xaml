@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"    
         xmlns:local="clr-namespace:HospitalScheduling"
         mc:Ignorable="d"
         Title="AssignDoctor" Height="500" Width="450" >
@@ -59,7 +60,14 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Start: " Padding="60,0,0,0"/>
-                            <TextBox Grid.Column="1" Width="100"/>
+                            <ComboBox ItemsSource="{Binding TimeList}" SelectedValue="{Binding StartTime}" Grid.Column="1" >
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=. , StringFormat=t}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
                         </Grid>
 
                         <!-- End Time -->
@@ -69,13 +77,20 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="End: " Padding="60,0,0,0"/>
-                            <TextBox Grid.Column="1" Width="100"/>
+                          
+                            <ComboBox ItemsSource="{Binding TimeList}" SelectedValue="{Binding EndTime}" Grid.Column="1" >
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=. , StringFormat=t}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </Grid>
                     </Grid>
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Number of Doctors: " Margin="30,0,0,0"/>
-                        <TextBox Width="25" Margin="4,0,0,0" />
+                        <TextBox x:Name="txt_NumberofDocs" Text="{Binding NumberOfDocs, Mode=TwoWay}" Width="25" Margin="4,0,0,0" />
 
                     </StackPanel>
 
@@ -85,9 +100,9 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <CheckBox Content="Automatically Assign" IsChecked="True" HorizontalAlignment="Center" />
-                        <Button Grid.Column="1" Content="Manual Assign" Width="150"/>
+                        <CheckBox x:Name="cbx_AutoAssign" IsChecked="{Binding AutomaticAppointment}" Content="Automatically Assign" HorizontalAlignment="Center" Checked="cbx_AutoAssign_Checked" Unchecked="cbx_AutoAssign_Unchecked"/>
 
+                        <Button x:Name="btn_manualAppointment" IsEnabled="False" Grid.Column="1" Content="Manual Assign" Width="150" Click="btn_manualAppointment_Click"/>
 
                     </Grid>
 
@@ -102,14 +117,14 @@
                             </Grid.ColumnDefinitions>
                             <Border BorderBrush="#FF0E0D0D" BorderThickness="0,0,1,0" Margin="0,0,20,0">
                                 <StackPanel Margin="15,5,0,0">
-                                    <RadioButton Content="Daily"/>
-                                    <RadioButton Content="Weekly"/>
-                                    <RadioButton Content="Monthly"/>
+                                    <RadioButton x:Name="rbtn_Daily" GroupName="RecurrenceTime" Content="Daily" Checked="rbtn_Daily_Checked"/>
+                                    <RadioButton x:Name="rbtn_Weekly" GroupName="RecurrenceTime" Content="Weekly" Checked="rbtn_Weekly_Checked"/>
+                                    <RadioButton x:Name="rbtn_Monthly" GroupName="RecurrenceTime" Content="Monthly" Checked="rbtn_Monthly_Checked"/>
                                 </StackPanel>
                             </Border>
                             <Grid Grid.Column="1">
                                 <Grid>
-                                    <Border Panel.ZIndex="0"  >
+                                    <Border x:Name="grid_WeeklyCheckboxes" Panel.ZIndex="0" Visibility="Hidden">
 
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -133,8 +148,8 @@
                                         </Grid>
 
                                     </Border>
-                                    <Border Panel.ZIndex="1" Visibility="Collapsed">
-                                        <ComboBox Width="150" Height="25" SelectedIndex="0">
+                                    <Border x:Name="grid_MonthlyDropdown" Panel.ZIndex="1" Visibility="Hidden">
+                                        <ComboBox x:Name="cmb_monthlyDropdownRecurrence" Width="150" Height="25" SelectedIndex="0">
                                             <ComboBoxItem Content="Monthly on day 16"></ComboBoxItem>
                                             <ComboBoxItem Content="Monthly on third Monday "></ComboBoxItem>
                                         </ComboBox>
@@ -165,14 +180,14 @@
                                 </Grid>
                                 <Grid Grid.Row="2">
                                     <StackPanel  Orientation="Horizontal">
-                                        <RadioButton Content="Repeat for  "/>
+                                        <RadioButton GroupName="RecurrenceRange" Content="Repeat for  "/>
                                         <TextBox Width="25"/>
                                         <TextBlock Text="  occurances" />
                                     </StackPanel>
                                 </Grid>
                                 <Grid Grid.Row="3">
                                 <StackPanel  Orientation="Horizontal">
-                                        <RadioButton Content="Ends on "/>
+                                        <RadioButton GroupName="RecurrenceRange" Content="Ends on "/>
                                         <DatePicker />
                                     </StackPanel>
                                 </Grid>

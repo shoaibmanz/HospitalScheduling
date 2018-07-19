@@ -60,7 +60,7 @@
                     <Grid Grid.Column="1">
                         <StackPanel Height="20" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
                             <TextBlock Text="Number of Doctors: "/>
-                        <TextBox Width="25" Height="20"/>
+                        <TextBox x:Name="txt_DocNumber" IsEnabled="False" Width="25" Height="20"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -75,28 +75,36 @@
                     
                     <!-- Left Listbox -->
                     <Grid Grid.Column="0" Margin="10">
-                        <ListBox>
-                            
+                        <ListBox x:Name="lb_doctorsOnLeft">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding name}"></CheckBox>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                         </ListBox>
                     </Grid>
                     <!-- Buttons -->
                     <Grid Grid.Column="1" >
                         <StackPanel VerticalAlignment="Center">
-                            <Button Height="20" Margin="0,0,0,15"/>
-                            <Button Height="20"/>
+                            <Button Content="Assign" Height="20" Margin="0,0,0,15" Click="Assign_Button_Click"/>
+                            <Button Content="Remove" Height="20" Click="Remove_Button_Click"/>
                         </StackPanel>
                     </Grid>
                     
                     <!-- Right Listbox -->
                     <Grid Grid.Column="2" Margin="10">
-                        <ListBox>
-
+                        <ListBox x:Name="lb_doctorsOnRight">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding name}"></CheckBox>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                         </ListBox>
                     </Grid>
                 </Grid>
 
                 <!-- OK Button -->
-                <Button Grid.Row="2" Width="100" Height="30" Content="Done"/>
+                <Button Grid.Row="2" Width="100" Height="30" Content="Done" Click="Done_Button_Click"/>
             </Grid>
         </GroupBox>
     </Grid>

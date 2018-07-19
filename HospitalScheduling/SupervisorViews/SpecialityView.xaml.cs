@@ -43,7 +43,7 @@ namespace HospitalScheduling
         };
 
         /* A list to hold all doctors*/
-        public List<Doc> doctors = new List<Doc>()
+        public static List<Doc> doctors = new List<Doc>()
         {
             new Doc("John", "", "", "","ACCU"),
             new Doc("Shoaib", "", "", "","Medical"),
@@ -175,23 +175,44 @@ namespace HospitalScheduling
 
         private void DataGridCell_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            
             DataGridCell cell = sender as DataGridCell;
-            if (cell == null || cell.IsEditing || cell.IsReadOnly)
+            if (cell == null || cell.IsEditing )
                 return;
 
-            // Get Row and Column 
-            MessageBox.Show(cell.Column.Header.ToString());
 
-            DataGridRow row = sender as DataGridRow;
-            MessageBox.Show(Calender_DataTable.Rows[(sender as DataGridRow).GetIndex()]["INDEX"].ToString());
-            
-            
-            
+            // Get Row and Column  https://blog.scottlogic.com/2008/12/02/wpf-datagrid-detecting-clicked-cell-and-row.html
+            int rowIndex = dg_dayView.Items.IndexOf(dg_dayView.CurrentItem);
 
-            // Open Window ..
-            //AssignDoctor window_AssignDoctor = new AssignDoctor("Clinic", "PT");
-            //window_AssignDoctor.ShowDialog();
 
+            //MessageBox.Show(Calender_DataTable.Rows[]["INDEX"].ToString());
+            string clinic, speciality;
+
+            if ( SPECIALITYvsCLINIC )
+            {
+                clinic = cell.Column.Header.ToString();
+                speciality = Calender_DataTable.Rows[rowIndex]["INDEX"].ToString();
+            }
+            else
+            {
+                clinic = Calender_DataTable.Rows[rowIndex]["INDEX"].ToString();
+                speciality = cell.Column.Header.ToString();
+            }
+
+
+            if ( clinic != "INDEX" && speciality != "INDEX" )
+            {
+                //---------------------------------------------------------------------------------------
+                ObservableCollection<Doc> doctorsOfSpec = new ObservableCollection<Doc>();
+                for (int i = 0; i < doctors.Count; ++i)
+                    if (doctors[i].Speciality == speciality)
+                        doctorsOfSpec.Add(doctors[i]);
+
+                
+                // Open Window ..
+                AssignDoctor window_AssignDoctor = new AssignDoctor(clinic, speciality, doctorsOfSpec);
+                window_AssignDoctor.ShowDialog();
+            }
             //this.
             //MessageBox.Show(cell.Content.ToString());
         }
