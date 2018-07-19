@@ -168,7 +168,7 @@ namespace SchedulingSystem
 
             AddClinic.Items.Add(Global.Clinic_list[8].Name);
             AddClinic.Items.Add(Global.Clinic_list[9].Name);
-            AddClinic.Items.Add(Global.Clinic_list[10].Name);
+           // AddClinic.Items.Add(Global.Clinic_list[10].Name);
 
 
             AppointmentInfo = new ObservableCollection<GridData>();
@@ -227,7 +227,6 @@ namespace SchedulingSystem
                 c1 = "Available"
             });
             WeeklyGrid.ItemsSource = AppointmentInfo;
-           
 
         }
 
@@ -336,16 +335,188 @@ namespace SchedulingSystem
             ReportUnav.ShowDialog();
             this.Show();
         }
+        public void show_jamaica()
+        {
+            DailyRap.Children.Clear();
+            DateTime now = DateTime.Now;
 
+            DateTime Time = new DateTime(now.Year, now.Month, now.Day, 9, 0, 0);
+
+            int AssignedWidth = (int)((DailyRap.ActualWidth - 100) / 4);
+            while (Time.Hour < 16)
+            {
+
+                StackPanel SP = new StackPanel();
+                Border border = new Border();
+                border.BorderThickness = new Thickness(1);
+                border.Child = SP;
+                border.BorderBrush = new SolidColorBrush(Colors.Black);
+
+                SP.HorizontalAlignment = HorizontalAlignment.Center;
+                if (Time.Hour <= 11 || (Time.Hour <= 11 && Time.Minute <= 30))
+                    SP.Background = new SolidColorBrush(Colors.LightGreen);
+                TextBlock Text = new TextBlock();
+                Text.Text = "              " + Time.ToString("hh:mm tt");
+                Text.Width = AssignedWidth;
+
+                Button Butt = new Button();
+
+                Butt.Content = "Patient Marina";
+                Butt.Width = AssignedWidth;
+                Butt.Click += Butt_Click;
+                Butt.Margin = new Thickness(10, 10, 10, 5);
+                if (Time.Hour == 9 && Time.Minute == 15)
+                    Butt.Visibility = Visibility.Visible;
+                else
+                {
+                    Butt.Visibility = Visibility.Collapsed;
+                    Text.Margin = new Thickness(0, 0, 20, 30);
+
+                }
+                SP.Children.Add(Text);
+                SP.Children.Add(Butt);
+
+                DailyRap.Children.Add(border);
+
+                Time = Time.AddMinutes(15.0);
+            }
+        }
+
+      public void Show_GunHill()
+        {
+            DailyRap.Children.Clear();
+            DateTime now = DateTime.Now;
+
+            DateTime Time = new DateTime(now.Year, now.Month, now.Day, 9, 0, 0);
+
+            int AssignedWidth = (int)((DailyRap.ActualWidth - 100) / 4);
+            while (Time.Hour < 16)
+            {
+
+                StackPanel SP = new StackPanel();
+                Border border = new Border();
+                border.BorderThickness = new Thickness(1);
+                border.Child = SP;
+                border.BorderBrush = new SolidColorBrush(Colors.Black);
+
+                SP.HorizontalAlignment = HorizontalAlignment.Center;
+                if (Time.Hour > 13 )
+                    SP.Background = new SolidColorBrush(Colors.Yellow);
+                TextBlock Text = new TextBlock();
+                Text.Text = "              " + Time.ToString("hh:mm tt");
+                Text.Width = AssignedWidth;
+
+                Button Butt = new Button();
+
+                Butt.Content = "Patient Sam";
+                Butt.Width = AssignedWidth;
+                Butt.Click += Butt_Click;
+                Butt.Margin = new Thickness(10, 10, 10, 5);
+                if (Time.Hour == 14 && Time.Minute == 15)
+                    Butt.Visibility = Visibility.Visible;
+                else
+                {
+                    Butt.Visibility = Visibility.Collapsed;
+                    Text.Margin = new Thickness(0, 0, 20, 30);
+
+                }
+                SP.Children.Add(Text);
+                SP.Children.Add(Butt);
+
+                DailyRap.Children.Add(border);
+
+                Time = Time.AddMinutes(15.0);
+            }
+        }
+        public void show_both()
+        {
+            DailyRap.Children.Clear();
+            DateTime now = DateTime.Now;
+
+            DateTime Time = new DateTime(now.Year, now.Month, now.Day, 9, 0, 0);
+
+            int AssignedWidth = (int)((DailyRap.ActualWidth - 100) / 4);
+            while (Time.Hour < 16)
+            {
+
+                StackPanel SP = new StackPanel();
+                Border border = new Border();
+                border.BorderThickness = new Thickness(1);
+                border.Child = SP;
+                border.BorderBrush = new SolidColorBrush(Colors.Black);
+
+                SP.HorizontalAlignment = HorizontalAlignment.Center;
+                if (Time.Hour > 13)
+                    SP.Background = new SolidColorBrush(Colors.Yellow);
+               else if  (Time.Hour <= 11 || (Time.Hour <= 11 && Time.Minute <= 30))
+                    SP.Background = new SolidColorBrush(Colors.LightGreen);
+
+                TextBlock Text = new TextBlock();
+                Text.Text = "              " + Time.ToString("hh:mm tt");
+                Text.Width = AssignedWidth;
+
+                Button Butt = new Button();
+                if(Time.Hour>12)
+                  Butt.Content = "Patient Sam";
+                else
+                {
+                    Butt.Content = "Patient Marina";
+                }
+
+                Butt.Width = AssignedWidth;
+                Butt.Click += Butt_Click;
+                Butt.Margin = new Thickness(10, 10, 10, 5);
+                if (Time.Hour == 14 && Time.Minute == 15)
+                    Butt.Visibility = Visibility.Visible;
+                else if (Time.Hour==9 && Time.Minute==15)
+                {
+                    Butt.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    Butt.Visibility = Visibility.Collapsed;
+                    Text.Margin = new Thickness(0, 0, 20, 30);
+
+                }
+                SP.Children.Add(Text);
+                SP.Children.Add(Butt);
+
+                DailyRap.Children.Add(border);
+
+                Time = Time.AddMinutes(15.0);
+            }
+        }
         private void AddClinic_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+          
             if (AddClinic.SelectedIndex >= 0)
             {
+               
 
                 int index = ClinicListBox.Items.IndexOf(AddClinic.SelectedValue.ToString());
                 if (index < 0)
                 {
                     ClinicListBox.Items.Add(AddClinic.SelectedValue.ToString());
+
+                    if (ClinicListBox.Items.Count== 1)
+                    {
+                        if(AddClinic.SelectedValue.ToString()=="Jamaica")
+                         show_jamaica();
+                        else
+                        {
+                            Show_GunHill();
+                        }
+                    }
+                    else if(ClinicListBox.Items.Count == 2)
+                    {
+                        show_both();
+                    }
+                    else if (ClinicListBox.Items.Count < 1)
+                    {
+                        DailyRap.Children.Clear();
+                    }
+                    
+
                     AddClinic.SelectedIndex = -1;
                 }
 
@@ -363,6 +534,23 @@ namespace SchedulingSystem
             if (ClinicListBox.SelectedIndex >= 0)
             {
                 ClinicListBox.Items.RemoveAt(ClinicListBox.SelectedIndex);
+                if (ClinicListBox.Items.Count < 1)
+                {
+                    DailyRap.Children.Clear();
+                }
+                else if (ClinicListBox.Items.Count >= 1)
+                {
+                    DailyRap.Children.Clear();
+                    if (ClinicListBox.Items[0].ToString() == "Jamaica")
+                    {
+                        show_jamaica();
+
+                    }
+                    else
+                    {
+                        Show_GunHill();
+                    }
+                }
             }
         }
 
@@ -400,6 +588,30 @@ namespace SchedulingSystem
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
            
+        }
+
+        private void DailyRap_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+            
+        }
+
+        private void Butt_Click(object sender, RoutedEventArgs e)
+        {
+            Button s = sender as Button;
+            if(s.Content.ToString()=="Patient Sam")
+            {
+                Random random = new Random(DateTime.Now.Second);
+
+                TestDesign.PatientAppointment patient = TestDesign.PatientAppointment.Data[random.Next(0, TestDesign.PatientAppointment.Data.Count)];
+
+                //PatientScheduling t = new PatientScheduling(patient);
+
+            }
+            else if (s.Content.ToString()=="Patient Marina")
+            {
+                MessageBox.Show("Marina");
+            }
         }
     }
 }
