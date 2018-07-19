@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TestDesign;
 
 namespace SchedulingSystem
 {
@@ -20,22 +21,24 @@ namespace SchedulingSystem
     public partial class PatientScheduling : Window
     {
 
-        PatientToBeScheduled CurrentPatient;
-        public PatientScheduling(PatientToBeScheduled CurrentPatient)
+        public PatientAppointment CurrentPatient { get; set; }
+        public PatientScheduling(PatientAppointment CurrentPatient)
         {
             InitializeComponent();
             this.CurrentPatient = CurrentPatient;
             this.DataContext = this.CurrentPatient;
 
-            if (CurrentPatient.OldNew) {
-                NewPatient.IsChecked = true;
+
+            if (Query.IsOldPatient(CurrentPatient)) {
+                ReturningPatient.IsChecked = true;                
             }
             else {
-                ReturningPatient.IsChecked = true;
+                NewPatient.IsChecked = true;
             }
 
-            InsuranceInfo.ItemsSource = CurrentPatient.Insurance;
+            InsuranceInfo.ItemsSource = CurrentPatient.PatientInfo.InsuranceInfo;
         }
+
 
         private void CurrApointments_Click(object sender, RoutedEventArgs e)
         {
@@ -50,7 +53,6 @@ namespace SchedulingSystem
             VisitHistory VisitHistoryWindow = new VisitHistory(CurrentPatient);
 
             VisitHistoryWindow.ShowDialog();
-
         }
 
         private void AddToOpenList_Click(object sender, RoutedEventArgs e)
@@ -58,7 +60,7 @@ namespace SchedulingSystem
             AddToOpenList OpenListWindow = new AddToOpenList(CurrentPatient);
 
             OpenListWindow.ShowDialog();
-
+            this.Close();
         }
 
         private void FindBestAppointment_Click(object sender, RoutedEventArgs e)
@@ -72,7 +74,7 @@ namespace SchedulingSystem
 
         private void ManualAppointment_Click(object sender, RoutedEventArgs e)
         {
-            PatientCalender CalandarWindow = new PatientCalender(CurrentPatient);
+            ManualAppointment CalandarWindow = new ManualAppointment(CurrentPatient);
             this.Hide();
             CalandarWindow.ShowDialog();
             this.Show();

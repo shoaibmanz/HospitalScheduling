@@ -57,6 +57,9 @@
     <Compile Include="FrontDeskViews\AddToOpenList.xaml.cs">
       <DependentUpon>AddToOpenList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FrontDeskViews\ManualAppointment.xaml.cs">
+      <DependentUpon>ManualAppointment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FrontDeskViews\PatientCalender.xaml.cs">
       <DependentUpon>PatientCalender.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FrontDeskViews\FrontDeskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FrontDeskViews\ManualAppointment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

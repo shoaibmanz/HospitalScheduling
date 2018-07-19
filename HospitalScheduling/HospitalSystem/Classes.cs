@@ -4,29 +4,153 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-
+using System.Data;
 
 namespace TestDesign {
 
     public static class Query
-    {
+    { 
+        /// <summary>                
+        /// Returns a list of doctors in the hospital
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetDoctorNames()
         {
             List<string> names = Doctor.Data.Select(Doc => Doc.Name).ToList();
             return names;
         }
 
+        /// <summary>
+        /// Returns a list of Clinics in the hospital
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetClinicNames()
         {
             List<string> names = Clinic.Data.Select(Clinic => Clinic.Name).ToList();
             return names;
         }
 
+        /// <summary>
+        /// Returns a list of available Specialties in the hospital
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GetSpecialties()
         {
             return Doctor.Specialties;
         }
+
+        /// <summary>
+        /// Returns a list of patients who are yet to be scheduled
+        /// </summary>
+        /// <returns></returns>
+        public static List<PatientAppointment> GetToBeScheduledPatients()
+        {
+            List<PatientAppointment> Patients = new List<PatientAppointment>();
+
+            foreach (PatientAppointment P in PatientAppointment.Data)
+            {
+                if (P.ToBeScheduled)
+                {
+                    Patients.Add(P);
+                }
+            }
+
+            return Patients;
+        }
+
+        /// <summary>
+        /// Returns a list of apointments which are already scheduled
+        /// </summary>
+        /// <returns></returns>
+        public static List<PatientAppointment> GetAppointments()
+        {
+
+            List<PatientAppointment> Patients = new List<PatientAppointment>();
+
+            foreach (PatientAppointment P in PatientAppointment.Data)
+            {
+                if (!P.ToBeScheduled)
+                {
+                    Patients.Add(P);
+                }
+            }
+
+            return Patients;
+        }
+
+        /// <summary>
+        /// Checks and returns a bool based on if the given patient has visited the hospital before
+        /// </summary>
+        /// <param name="Patient"></param>
+        /// <returns></returns>
+        public static bool IsOldPatient(PatientAppointment Patient)
+        {
+            int nAppointments = 0;
+            foreach(PatientAppointment P in PatientAppointment.Data)
+            {
+                if (P.PatientInfo.ChartNumber == Patient.PatientInfo.ChartNumber)
+                {
+                    nAppointments++;
+                }
+            }
+
+            return nAppointments > 1;
+        }
         
+        /// <summary>
+        /// Fetches the appointment history for a given patient
+        /// </summary>
+        /// <param name="ChartNumber"> Unique identifier for the patient </param>
+        /// <returns> History of appointments </returns>
+        public static List<PatientAppointment> GetAppointmentsByChartNumber(string ChartNumber)
+        {
+            List<PatientAppointment> Appointments = new List<PatientAppointment>();
+
+            foreach (PatientAppointment P in PatientAppointment.Data)
+            {
+                if (P.PatientInfo.ChartNumber == ChartNumber)
+                {
+                    Appointments.Add(P);
+                }
+            }
+
+            return Appointments;
+        }
+
+        public static List<PatientAppointment> GetAppointmentsByDoctor(string DocName)
+        {
+            List<PatientAppointment> Appointments = new List<PatientAppointment>();
+
+            foreach (PatientAppointment Appointment in PatientAppointment.Data)
+            {
+                if (Appointment.Slot.DoctorInfo.Name == DocName)
+                {
+                    Appointments.Add(Appointment);
+                }
+            }
+
+            return Appointments;
+        }
+
+        /// <summary>
+        /// Searches for and returns an appointment given the appointment ID
+        /// </summary>
+        /// <param name="ID"> ID of the appointment to fetch </param>
+        /// <returns> Appointment object of the required ID.. returns NULL if not found </returns>
+        public static PatientAppointment GetAppointment(int ID)
+        {
+            foreach (PatientAppointment Appointment in PatientAppointment.Data)
+            {
+                if (Appointment.ID == ID)
+                {
+                    return Appointment;
+                }
+            }
+
+            return null;
+        }
+
+
     }
 
     public class Doctor
@@ -110,10 +234,11 @@ namespace TestDesign {
 
             Random random = new Random();
 
-            DateTime now = DateTime.Now.AddDays(-15);
+            DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 5, 9, 0, 0);
+            //DateTime Curr = new DateTime(now.Year, now.Month, now.Day - 15, )
             
             // creating 30 random entries
-            for (int i = 0; i < 30; ++i)
+            for (int i = 0; i < 50; ++i)
             {
                 int docIndex = random.Next(0, Doctor.Data.Count);
                 int clinicIndex = random.Next(0, Clinic.Data.Count);
@@ -122,27 +247,34 @@ namespace TestDesign {
                 Doctor _Doctor = Doctor.Data[docIndex];
 
                 Data.Add(new ScheduledDoctor(_Doctor, _Clinic, now, now.AddHours(6)));
-                now = now.AddDays(1);
+
+                if (i % 2 == 0)
+                    now.AddHours(8);
+                else
+                    now.AddHours(16);
             }
         }
     }
 
     public class Patient
     {
-        public Patient(string Name, string ChartNumber, string InsuranceName, string AttorneyName)
+        public Patient(string Name, string ChartNumber, string InsuranceName, string AttorneyName, int NoShowUps)
         {
             this.Name = Name;
             this.ChartNumber = ChartNumber;
             this.InsuranceName = InsuranceName;
             this.AttorneyName = AttorneyName;
             this.InsuranceInfo = new List<InsuranceRecord>();
+            this.NoShowUps = NoShowUps;
         }
 
         public string Name { get; set; }
         public string ChartNumber { get; set; }
         public string InsuranceName { get; set; }
         public string AttorneyName { get; set; }
+        public int NoShowUps { get; set; }
         public List<InsuranceRecord> InsuranceInfo { get; set; }
+
 
         public static ObservableCollection<Patient> Data;
         public static void GenerateData()
@@ -150,10 +282,12 @@ namespace TestDesign {
             Data = new ObservableCollection<Patient>();
             string[] PatientNames = { "Ruben", "Mirana", "David", "Thomas", "Kurt", "John", "Richard" };
 
-            Random random = new Random();
+            Random random = new Random(DateTime.Now.Second);
+
             foreach (string name in PatientNames)
             {
-                Patient P1 = new Patient(name, "xxx-xxx-xxx", "XYZ", "JKL");
+                int ChartNumber = random.Next(0, 1000000);
+                Patient P1 = new Patient(name, ChartNumber.ToString(), "XYZ", "JKL", random.Next(0, 5));
 
                 P1.InsuranceInfo.Add(new InsuranceRecord("Medical", random.Next(0, 4)));
                 P1.InsuranceInfo.Add(new InsuranceRecord("ACCU", random.Next(0, 4)));
@@ -180,7 +314,7 @@ namespace TestDesign {
 
     public class PatientAppointment {
 
-        public PatientAppointment(Patient PatientInfo, ScheduledDoctor slot, DateTime date, int duration, string status, string type, string PatientStatus, bool ToBeScheduled)
+        public PatientAppointment(int ID, Patient PatientInfo, ScheduledDoctor slot, DateTime date, int duration, string status, string type, string PatientStatus, bool ToBeScheduled)
         {
             this.PatientInfo = PatientInfo;
             this.Slot = slot;
@@ -190,8 +324,10 @@ namespace TestDesign {
             this.CaseType = type;
             this.PatientStatus = PatientStatus;
             this.ToBeScheduled = ToBeScheduled;
+            this.ID = ID;
         }
 
+        public int ID { get; set; }
         public Patient PatientInfo { get; set; }
         public ScheduledDoctor Slot { get; set; }
         public DateTime Date { get; set; }
@@ -211,15 +347,15 @@ namespace TestDesign {
             string[] PatientStatusStrings = { "Walk in", "Follow Up", "Rescheduled" };
 
 
-            Random random = new Random();
+            Random random = new Random(DateTime.Now.Second);
 
             for (int i = 0; i < 30; ++i)
             {
                 Patient P = Patient.Data[random.Next(0, Patient.Data.Count)];
                 ScheduledDoctor Slot = ScheduledDoctor.Data[random.Next(0, ScheduledDoctor.Data.Count)];
 
-                DateTime Date = Slot.From;
-                int Duration = random.Next(0, 30);
+                DateTime Date = Slot.From.AddMinutes(random.Next(0, 9) * 15);
+                int Duration = random.Next(1, 3) * 15;
 
                 string CaseStatus = CaseStatusStrings[random.Next(0, CaseStatusStrings.Length)];
                 string CaseType = CaseTypeStrings[random.Next(0, CaseTypeStrings.Length)];
@@ -227,11 +363,12 @@ namespace TestDesign {
 
                 bool ToBeScheduled = random.Next(0, 2) == 0 ? true : false;
 
-                Data.Add(new PatientAppointment(P, Slot, Date, Duration, CaseStatus, CaseType, PatientStatus, ToBeScheduled));
+                Data.Add(new PatientAppointment(random.Next(0, 10000000), P, Slot, Date, Duration, CaseStatus, CaseType, PatientStatus, ToBeScheduled));
             }
         }
     }
 }
+
 
 namespace SchedulingSystem
 {
@@ -396,7 +533,7 @@ namespace SchedulingSystem
         public PatientToBeScheduled SchedulingInfo { get; set; }
 
         
-        //public static ObservableCollection<Appointment> GetAppointments()
+        //public static ObservableCollection<Appointment> GetAppointmentsByChartNumber()
         //{
         //    #region Query Appointment data from database
         //    return new ObservableCollection<Appointment>();
