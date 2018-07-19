@@ -23,9 +23,10 @@ namespace SchedulingSystem
     {
         private DataTable PatientTable;
         private List<PatientAppointment> patientAppointments;
-
+        private List<SpecialtyColor> Specialties;
         public PatientAppointment CurrentPatient { get; set; }
         public DateTime CurrentDate { get; set; }
+        
 
         public PatientCalender(PatientAppointment CurrentPatient)
         {
@@ -54,12 +55,16 @@ namespace SchedulingSystem
 
             patientAppointments = Query.GetAppointmentsByChartNumber(CurrentPatient.PatientInfo.ChartNumber);
 
-            this.cb_DaySpeciality.ItemsSource = Query.GetSpecialties();
+
+            Color[] colors = { Colors.Red, Colors.Pink, Colors.LightBlue, Colors.GreenYellow, Colors.ForestGreen, Colors.Yellow, Colors.LightCyan, Colors.LightGray };
+
+            int i = 0;
+            Specialties = Query.GetSpecialties().Select(Spec => new SpecialtyColor(Spec, colors[i++])).ToList();
+            this.cb_DaySpeciality.ItemsSource = Specialties;
 
             dg_dayView.DataContext = PatientTable.DefaultView;
         }
         
-
         // Adds an item in the specialty list box upon combobox selection
         private void cb_DaySpeciality_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {         
@@ -68,17 +73,17 @@ namespace SchedulingSystem
             if (SpecBox.SelectedItem != null)
             {
                 // do not allow the same item to be selected twice
-                foreach (string item in lb_SelectedSpec.Items)
+                foreach (SpecialtyColor item in lb_SelectedSpec.Items)
                 {
-                    if (item == (string)SpecBox.SelectedItem)
+                    if (item.Specialty == SpecBox.SelectedItem.ToString())
                         return;
                 }
 
                 // add the new specialty to the list box
-                lb_SelectedSpec.Items.Add(SpecBox.SelectedItem);
+                lb_SelectedSpec.Items.Add(Specialties.Find(Item => Item.Specialty == SpecBox.SelectedItem.ToString()));
 
                 // populate the grid with this specialty
-                PopulateWithSpecialty((string)SpecBox.SelectedItem);
+                PopulateWithSpecialty(SpecBox.SelectedItem.ToString());
 
                 dg_dayView.DataContext = null;
                 dg_dayView.DataContext = PatientTable.DefaultView;
@@ -89,13 +94,13 @@ namespace SchedulingSystem
             // find all appointments belonging to this specialty and add into the table
             foreach (PatientAppointment Appointment in patientAppointments)
             {
-                if (Appointment.Date == CurrentDate && Appointment.Slot.DoctorInfo.Specialty == Specialty)
+                if (Appointment.Date.ToString("MMMM dd, yyyy") == CurrentDate.ToString("MMMM dd, yyyy") && Appointment.Slot.DoctorInfo.Specialty == Specialty)
                 {
                     // this appointment should be filled in
                     // find the slot time it should occupy
                     for (int i = 0; i < PatientTable.Rows.Count; ++i)
                     {
-                        if ((string)PatientTable.Rows[i]["Time"] == Appointment.Date.ToString("hh:mm tt"))
+                        if ((string)PatientTable.Rows[i][0] == Appointment.Date.ToString("hh:mm tt"))
                         {
                             PatientTable.Rows[i]["Schedule"] = Appointment.Slot.DoctorInfo.Name + " (" + Appointment.Slot.ClinicInfo.Name + ")";
                             break;
@@ -109,11 +114,11 @@ namespace SchedulingSystem
         private void MenuItem_Remove_Click(object sender, RoutedEventArgs e)
         {
             
-            string ToRemove = (string)(sender as MenuItem).DataContext;
+            string ToRemove = (sender as MenuItem).DataContext.ToString();
 
             for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
             {
-                if (ToRemove == (string)lb_SelectedSpec.Items[i])
+                if (ToRemove == ((SpecialtyColor)lb_SelectedSpec.Items[i]).Specialty)
                 {
                     lb_SelectedSpec.Items.RemoveAt(i);
                     break;
@@ -143,7 +148,7 @@ namespace SchedulingSystem
 
             for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
             {
-                string specialty = (string)lb_SelectedSpec.Items[i];
+                string specialty = ((SpecialtyColor)lb_SelectedSpec.Items[i]).Specialty;
 
                 PopulateWithSpecialty(specialty);
             }
@@ -156,6 +161,7 @@ namespace SchedulingSystem
             CurrentDate = CurrentDate.AddDays(1);
             DateText.Text = CurrentDate.ToString("MMMM dd, yyyy");
 
+            // clearing out all previous fields in the table
             for (int i = 0; i < PatientTable.Rows.Count; ++i)
             {
                 var row = PatientTable.Rows[i];
@@ -164,12 +170,29 @@ namespace SchedulingSystem
 
             for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
             {
-                string specialty = (string)lb_SelectedSpec.Items[i];
+                string specialty = ((SpecialtyColor)lb_SelectedSpec.Items[i]).Specialty;
 
                 PopulateWithSpecialty(specialty);
             }
+
             dg_dayView.DataContext = null;
             dg_dayView.DataContext = PatientTable.DefaultView;
         }
     }
+    public class SpecialtyColor
+    {
+        public string Specialty { get; set; }
+        public Brush Color { get; set; }
+        public SpecialtyColor(string Specialty, Color color)
+        {
+            this.Specialty = Specialty;
+            this.Color = new SolidColorBrush(color);
+        }
+
+        public override string ToString()
+        {
+            return Specialty;
+        }
+    }
+    
 }

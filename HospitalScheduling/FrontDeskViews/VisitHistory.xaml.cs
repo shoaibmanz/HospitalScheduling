@@ -56,6 +56,7 @@ namespace SchedulingSystem
             }
 
             HistoryTable.ItemsSource = HistoryDT.DefaultView;
+            ComboBox_Clinic.ItemsSource = Query.GetClinicNames();
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -68,7 +69,7 @@ namespace SchedulingSystem
         private void ComboBox_Clinic_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataView dv = HistoryTable.ItemsSource as DataView;
-            dv.RowFilter = String.Format("[Clinic] = {0}", (string)ComboBox_Clinic.SelectedItem);
+            dv.RowFilter = String.Format("[Clinic] = '{0}'", (string)ComboBox_Clinic.SelectedItem);
         }
     }
 }
