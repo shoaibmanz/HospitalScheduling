@@ -48,7 +48,7 @@
             <Border BorderThickness="0,0,0,1" BorderBrush="#FF1F1C1C">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Calender View" FontWeight="Bold" Width="100" HorizontalAlignment="Left"/>
-                    <ComboBox Width="150" SelectedIndex="0">
+                    <ComboBox Width="150" SelectedIndex="0" SelectionChanged="ComboBox_View_SelectionChanged">
                         <ComboBoxItem Content="Speciality Vs Clinic"/>
                         <ComboBoxItem Content="Clinic Vs Speciality"/>
 
@@ -142,7 +142,14 @@
                                 </DataGridTemplateColumn.HeaderTemplate>
                             </DataGridTemplateColumn>
                             -->
+                            <DataGrid.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem Header="Copy" Click="MenuItemClick"/>
+                                    <MenuItem Header="Cut" Click="MenuItemClick" />
+                                    <MenuItem Header="Paste" Click="MenuItemClick" />
 
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
 
 
 

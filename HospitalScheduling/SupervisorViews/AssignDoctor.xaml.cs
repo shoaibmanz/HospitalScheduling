@@ -44,6 +44,7 @@ namespace HospitalScheduling
         }
         public bool AutomaticAppointment { get; set; }
         public int NumberOfDocs { get; set; }
+        public ObservableCollection<Doc> AppointedDocs { get; set; }
 
 
         private ObservableCollection<Doc> doctors;
@@ -71,7 +72,7 @@ namespace HospitalScheduling
             AutomaticAppointment = true;
             btn_manualAppointment = new Button();
             doctors = _docs;
-            NumberOfDocs = 0;
+            NumberOfDocs = 1;
             
             InitializeComponent();
 
@@ -119,7 +120,8 @@ namespace HospitalScheduling
             AssignDoctor_Manual window = new AssignDoctor_Manual(doctors,NumberOfDocs );
             window.ShowDialog();
 
-            ObservableCollection<Doc> appointedDoctors = window.doctorsRight;
+            // get appointed doctors
+            AppointedDocs = window.doctorsRight;
 
         }
 
@@ -131,6 +133,11 @@ namespace HospitalScheduling
                 date = date.AddDays(1);
 
             return (int)Math.Truncate((double)date.Subtract(beginningOfMonth).TotalDays / 7f) + 1;
+        }
+
+        private void Confirm_Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

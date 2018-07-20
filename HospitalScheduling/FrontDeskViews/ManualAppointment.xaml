@@ -57,23 +57,33 @@
                     <ColumnDefinition Width="132"/>
                 </Grid.ColumnDefinitions>
                 <!-- Table Data-->
-                <TabControl Grid.Column="0" Margin="5" TabStripPlacement="Left" SelectedIndex="0">
-                    <!-- Day -->
-                    <TabItem Header="Day" Height="50" TabIndex="0">
-                        <DataGrid x:Name="dg_dayView" ItemsSource="{Binding}" Loaded="dg_dayView_Loaded" AutoGenerateColumns="True">
-                            <DataGrid.Columns>
-                                <!--<DataGridTextColumn Header="" Binding="{Binding Time}" Width="80" CanUserSort="False"/>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TabControl Grid.Column="0" Margin="5" TabStripPlacement="Left" SelectedIndex="0">
+                        <!-- Day -->
+                        <TabItem Header="Day" Height="50" TabIndex="0">
+                            <DataGrid x:Name="dg_dayView" ItemsSource="{Binding}" Loaded="dg_dayView_Loaded" AutoGenerateColumns="True">
+                                <DataGrid.Columns>
+                                    <!--<DataGridTextColumn Header="" Binding="{Binding Time}" Width="80" CanUserSort="False"/>
                                 <DataGridTextColumn Binding="{Binding Schedule}" Width="*" CanUserSort="False" />-->
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                    </TabItem>
-                    <!-- Week -->
-                    <TabItem Header="Week" Height="50" TabIndex="1"/>
-                    <!-- Month -->
-                    <TabItem Header="Month" Height="50" TabIndex="2"/>
+                        </TabItem>
+                        <!-- Week -->
+                        <TabItem Header="Week" Height="50" TabIndex="1"/>
+                        <!-- Month -->
+                        <TabItem Header="Month" Height="50" TabIndex="2"/>
 
-                </TabControl>
+                    </TabControl>
+
+                    <WrapPanel Grid.Row="1">
+                        <Button Content="Done" Height="25" Width="70" Margin="60 10 10 0" Click="Done_Click"/>
+                    </WrapPanel>
+                </Grid>
 
                 <StackPanel Grid.Column="1" Margin="10 0 10 0">
                     <ComboBox Name="cb_DayClinic" SelectionChanged="cb_DayClinic_SelectionChanged" Text="Add Clinic" IsReadOnly="True" IsEditable="True" />

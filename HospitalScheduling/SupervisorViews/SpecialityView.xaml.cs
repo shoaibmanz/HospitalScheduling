@@ -52,6 +52,21 @@ namespace HospitalScheduling
             new Doc("Tom", "", "", "", "Chiro"),
         };
 
+        struct Clipboard
+        {
+            public bool valid;
+            public string startDate, endDate;
+            public List<string> Doctors;
+
+            public Clipboard(bool _valid)
+            {
+                valid = _valid;
+                startDate = endDate = "";
+                Doctors = new List<string>();
+            }
+        }
+
+        private Clipboard clipboard;
 
         public bool SPECIALITYvsCLINIC = true;
 
@@ -67,6 +82,9 @@ namespace HospitalScheduling
 
         public SpecialityView()
         {
+            clipboard = new Clipboard(false);
+            
+
             InitializeComponent();
 
             DataContext = this;
@@ -200,7 +218,7 @@ namespace HospitalScheduling
             }
 
 
-            if ( clinic != "INDEX" && speciality != "INDEX" )
+            if (clinic != "INDEX" && speciality != "INDEX")
             {
                 //---------------------------------------------------------------------------------------
                 ObservableCollection<Doc> doctorsOfSpec = new ObservableCollection<Doc>();
@@ -208,13 +226,172 @@ namespace HospitalScheduling
                     if (doctors[i].Speciality == speciality)
                         doctorsOfSpec.Add(doctors[i]);
 
-                
+
                 // Open Window ..
                 AssignDoctor window_AssignDoctor = new AssignDoctor(clinic, speciality, doctorsOfSpec);
                 window_AssignDoctor.ShowDialog();
+
+                ObservableCollection<Doc> appointedDocs = window_AssignDoctor.AppointedDocs;
+                if (appointedDocs == null)
+                    appointedDocs = new ObservableCollection<Doc>();
+
+
+                if ( window_AssignDoctor.AutomaticAppointment )
+                {
+                    if (appointedDocs.Count != 0 )
+                        appointedDocs.Clear();
+
+                    for (int i = 0; i < window_AssignDoctor.NumberOfDocs; ++i)
+                        appointedDocs.Add(doctorsOfSpec[(new Random()).Next(0, doctorsOfSpec.Count)]);
+                }
+
+                string toWrite = window_AssignDoctor.StartTime.ToString("t") + " to " + window_AssignDoctor.EndTime.ToString("t") + "\n"; 
+
+
+                for (int i = 0; i < appointedDocs.Count; ++i)
+                    toWrite += "Dr." + appointedDocs[i].name + " ";
+
+                Calender_DataTable.Rows[rowIndex][cell.Column.Header.ToString()] = toWrite;
+
+
+
             }
             //this.
             //MessageBox.Show(cell.Content.ToString());
+        }
+
+        public void MenuItemClick(object sender, RoutedEventArgs e)
+        {
+            RoutedEventArgs args = e as RoutedEventArgs;
+            MenuItem item = args.OriginalSource as MenuItem;
+            string header = item.Header.ToString();
+
+            //WeeklyGrid.CurrentCell
+            if (header == "Copy" || header == "Cut")
+            {
+                int index = dg_dayView.SelectedIndex;
+                string col = dg_dayView.CurrentCell.Column.Header.ToString();
+
+                if (col != "INDEX" )
+                { 
+                    string ToCopy = Calender_DataTable.Rows[index][col].ToString();
+
+                    if (ToCopy != "")
+                    {
+                        string[] chars = ToCopy.Split(' ','\n');
+
+                        clipboard.startDate = chars[0] + " " +chars[1];
+                        clipboard.endDate = chars[3] + " " + chars[4];
+                        if (clipboard.Doctors.Count != 0)
+                            clipboard.Doctors.Clear();
+
+                        Console.WriteLine("Doctor: " + chars[5]);
+                        for (int i = 4; i < chars.Count(); ++i)
+                            clipboard.Doctors.Add(chars[i]);
+
+                        clipboard.valid = true;
+
+                        Console.WriteLine("Copied To Clipboard Success!");
+                    }
+
+                    
+                }
+                /*
+                int i = WeeklyGrid.CurrentCell.Column.DisplayIndex;
+                switch (i)
+                {
+                    case 1:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c1;
+                        break;
+                    case 2:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c2;
+                        break;
+
+                    case 3:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c3;
+                        break;
+                    case 4:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c4;
+                        break;
+                    case 5:
+                        Global.arg1 = ((GridData)WeeklyGrid.CurrentCell.Item).c5;
+                        break;
+                       } */
+
+                if (header == "Cut")
+                {
+                    /*
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c1 = "";
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c2 = "";
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c3 = "";
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c4 = "";
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c5 = "";
+                    */
+                }
+
+            }
+            else if (header == "Paste")
+            {
+                int index = dg_dayView.SelectedIndex;
+                string col = dg_dayView.CurrentCell.Column.Header.ToString();
+
+                if (col != "INDEX")
+                {
+
+                    if (clipboard.valid)
+                    {
+                        string toWrite = clipboard.startDate + " to " + clipboard.endDate + "\n";
+
+                        string spec;
+
+                        if (SPECIALITYvsCLINIC)
+                            spec = Calender_DataTable.Rows[index]["INDEX"].ToString();
+                        else
+                            spec = col;
+
+                        for ( int i = 0; i < doctors.Count(); ++i )
+                            if ( doctors[i].Speciality == spec )
+                            {
+                                toWrite += "Dr." + doctors[i].name + " ";
+                                Console.WriteLine("Attack!!!!");
+                                //if (i >= clipboard.Doctors.Count())
+                                    //break;
+                            }
+
+                        Calender_DataTable.Rows[index][col] = toWrite; 
+                    }
+
+
+                }
+                /*
+            int i = WeeklyGrid.CurrentCell.Column.DisplayIndex;
+
+            switch (i)
+            {
+                case 1:
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c1 = Global.arg1;
+                    break;
+                case 2:
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c2 = Global.arg1;
+                    break;
+
+                case 3:
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c3 = Global.arg1;
+                    break;
+                case 4:
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c4 = Global.arg1;
+                    break;
+                case 5:
+                    ((GridData)WeeklyGrid.CurrentCell.Item).c5 = Global.arg1;
+                    break;
+            }
+            */
+
+            }
+            else if (header == "Cut")
+            {
+
+            }
         }
 
 
@@ -307,6 +484,14 @@ namespace HospitalScheduling
             }
         }
 
+        private void ComboBox_View_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cmb = sender as ComboBox;
+            if (cmb.SelectedIndex == 0)
+                SPECIALITYvsCLINIC = true;
+            else
+                SPECIALITYvsCLINIC = false;
+        }
     }
 
 

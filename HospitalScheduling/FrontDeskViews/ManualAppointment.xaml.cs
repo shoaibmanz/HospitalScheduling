@@ -70,7 +70,6 @@ namespace SchedulingSystem
             this.cb_DayClinic.ItemsSource = Query.GetClinicNames();
             this.cb_DayDoctor.ItemsSource = Query.GetDoctorNames();
             this.cb_DaySpec.ItemsSource = Query.GetSpecialties();
-
         }
 
         private void cb_DaySpec_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -103,12 +102,12 @@ namespace SchedulingSystem
             }
         }
 
-        private void PopulateWithClinic(string Specialty)
+        private void PopulateWithClinic(string ClinicName)
         {
             // find all appointments belonging to this specialty and add into the table
             foreach (PatientAppointment Appointment in patientAppointments)
             {
-                if (Appointment.Date == CurrentDate && Appointment.Slot.DoctorInfo.Specialty == Specialty)
+                if (Appointment.Date.ToString("MMMM dd, yyyy") == CurrentDate.ToString("MMMM dd, yyyy") && Appointment.Slot.ClinicInfo.Name == ClinicName)
                 {
                     // this appointment should be filled in
                     // find the slot time it should occupy
@@ -217,7 +216,7 @@ namespace SchedulingSystem
                     }
                 }
             }
-
+                
             dg_dayView.DataContext = null;
             dg_dayView.DataContext = PatientTable.DefaultView;
         }
@@ -271,6 +270,11 @@ namespace SchedulingSystem
             //}
             //dg_dayView.DataContext = null;
             //dg_dayView.DataContext = PatientTable.DefaultView;
+        }
+
+        private void Done_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
