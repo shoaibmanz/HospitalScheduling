@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HospitalScheduling;
 
 namespace SchedulingSystem
 {
@@ -47,7 +48,9 @@ namespace SchedulingSystem
             switch ((string)RoleCombobox.SelectedValue)
             {
                 case "Supervisor":
-                   
+                    SpecialityView win_spec = new SpecialityView();
+                    win_spec.Show();
+                    this.Close();
                     break;
                 case "Doctor":
                     MainWindow win = new MainWindow();
