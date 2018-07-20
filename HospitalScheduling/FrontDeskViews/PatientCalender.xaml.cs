@@ -38,6 +38,7 @@ namespace SchedulingSystem
             PatientTable = new DataTable();
             PatientTable.Columns.Add("Time", typeof(string));
             PatientTable.Columns.Add("Schedule", typeof(string));
+            PatientTable.Columns.Add("Color", typeof(Brush));
 
             DateTime now = DateTime.Now;
             DateTime CurrentTime = new DateTime(now.Year, now.Month, now.Day, 9, 0, 0);
@@ -83,18 +84,18 @@ namespace SchedulingSystem
                 lb_SelectedSpec.Items.Add(Specialties.Find(Item => Item.Specialty == SpecBox.SelectedItem.ToString()));
 
                 // populate the grid with this specialty
-                PopulateWithSpecialty(SpecBox.SelectedItem.ToString());
+                PopulateWithSpecialty((SpecialtyColor)SpecBox.SelectedItem);
 
                 dg_dayView.DataContext = null;
                 dg_dayView.DataContext = PatientTable.DefaultView;
             }
         }
-        private void PopulateWithSpecialty(string Specialty)
+        private void PopulateWithSpecialty(SpecialtyColor Specialty)
         {
             // find all appointments belonging to this specialty and add into the table
             foreach (PatientAppointment Appointment in patientAppointments)
             {
-                if (Appointment.Date.ToString("MMMM dd, yyyy") == CurrentDate.ToString("MMMM dd, yyyy") && Appointment.Slot.DoctorInfo.Specialty == Specialty)
+                if (Appointment.Date.ToString("MMMM dd, yyyy") == CurrentDate.ToString("MMMM dd, yyyy") && Appointment.Slot.DoctorInfo.Specialty == Specialty.Specialty)
                 {
                     // this appointment should be filled in
                     // find the slot time it should occupy
@@ -103,6 +104,7 @@ namespace SchedulingSystem
                         if ((string)PatientTable.Rows[i][0] == Appointment.Date.ToString("hh:mm tt"))
                         {
                             PatientTable.Rows[i]["Schedule"] = Appointment.Slot.DoctorInfo.Name + " (" + Appointment.Slot.ClinicInfo.Name + ")";
+                            PatientTable.Rows[i]["Color"] = Specialty.Color;
                             break;
                         }
                     }
@@ -144,11 +146,12 @@ namespace SchedulingSystem
             {
                 var row = PatientTable.Rows[i];
                 row["Schedule"] = "";
+                row["Color"] = null;
             }
 
             for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
             {
-                string specialty = ((SpecialtyColor)lb_SelectedSpec.Items[i]).Specialty;
+                var specialty = (SpecialtyColor)lb_SelectedSpec.Items[i];
 
                 PopulateWithSpecialty(specialty);
             }
@@ -166,11 +169,12 @@ namespace SchedulingSystem
             {
                 var row = PatientTable.Rows[i];
                 row["Schedule"] = "";
+                row["Color"] = null;
             }
 
             for (int i = 0; i < lb_SelectedSpec.Items.Count; ++i)
             {
-                string specialty = ((SpecialtyColor)lb_SelectedSpec.Items[i]).Specialty;
+                var specialty = (SpecialtyColor)lb_SelectedSpec.Items[i];
 
                 PopulateWithSpecialty(specialty);
             }

@@ -63,6 +63,11 @@
                     <!-- Day -->
                     <TabItem Header="Day" Height="50" TabIndex="0">
                         <DataGrid x:Name="dg_dayView" ItemsSource="{Binding}" Loaded="dg_dayView_Loaded">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Background" Value="{Binding Color}"/>
+                                </Style>
+                            </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="" Binding="{Binding Time}" Width="80" CanUserSort="False"/>
                                 <DataGridTextColumn Binding="{Binding Schedule}" Width="*" CanUserSort="False">
@@ -85,9 +90,14 @@
 
 
                     <ListBox Name="lb_SelectedSpec" Height="120" ItemsSource="{Binding}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Background" Value="{Binding Color}"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding Specialty}" Background="{Binding Color}">
+                                <Label Content="{Binding Specialty}">
                                     <Label.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Header="Remove" Click="MenuItem_Remove_Click"/>
