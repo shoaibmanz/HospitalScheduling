@@ -31,6 +31,65 @@
             <Label Content="Date" Margin="30,40,0,95.6" FontWeight="Bold"/>
             <DatePicker Margin="0,40,0,106.8"/>
         </StackPanel>
+        <DataGrid Grid.Row="0" Padding="10" Margin="10,80,10,10" Name="OpenListGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" GridLinesVisibility="None">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ChartNumber}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel>
+                            <TextBlock Text="Chart" Margin="0 0 0 0"/>
+                            <TextBlock Text="Number" Margin="0 0 0 0"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding PatientName}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel>
+                            <TextBlock Text="Patient" Margin="0 0 0 0"/>
+                            <TextBlock Text="Name" Margin="0 0 0 0"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding DoctorName}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel>
+                            <TextBlock Text="Doctor" Margin="0 0 0 0"/>
+                            <TextBlock Text="Name" Margin="0 0 0 0"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Speciality" Binding="{Binding Speciality}"/>
+                <DataGridTextColumn Header="Patient Status" Binding="{Binding PatientStatus}"/>
+                <DataGridTextColumn Header="Checked In Time" Binding="{Binding SlotTime}"/>
+                <DataGridTextColumn Header="Wait Time" Binding="{Binding DelayedBy}"/>
+                <DataGridTextColumn Header="Patients Ahead" Binding="{Binding PatientsAhead}"/>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel>
+                            <TextBlock HorizontalAlignment="Center" Text="Remove From" Margin="0 0 0 0"/>
+                            <TextBlock HorizontalAlignment="Center" Text="List" Margin="0 0 0 0"/>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="RemoveFromOpenList">
+                                <Image Source="FrontDeskViews\Icons\DeleteButtonIcon.jpg" Width="25" Height="25"/>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <ContentPresenter Content="{TemplateBinding Content}"/>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
         <Button Content="Back"  VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="30" Width="100" Margin="30" Click="Button_Click"/>
     </Grid>
 </Window>

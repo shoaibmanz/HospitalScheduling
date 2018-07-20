@@ -1,0 +1,14 @@
+{
+  "name": "HospitalScheduling",
+  "description": "Project",
+  "main": "App.xaml",
+  "dependencies": {},
+  "excludedData": [
+    "Private:*",
+    "*password*"
+  ],
+  "toolVersion": "18.2",
+  "projectVersion": "1.0.6768.22474",
+  "packOptions": {},
+  "runtimeOptions": {}
+}

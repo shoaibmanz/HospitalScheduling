@@ -8,8 +8,18 @@
         Title="Doctor" Height="537.6" Width="829.6">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.New" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute" />
+        
+        
     </Window.CommandBindings>
-    
+    <Window.Resources>
+
+        <DataTemplate x:Key="DailyItem">
+            <StackPanel>
+                <TextBlock Text="{Binding Time}"/>
+                <Button Content="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <GroupBox HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="3">
@@ -36,11 +46,17 @@
         <TabControl x:Name="DoctorTab" Margin="0,0,129,0" SelectionChanged="DoctorTab_SelectionChanged"  >
             <!--for daily-->
             <TabItem x:Name="DailyTab" Header="Daily">
-                <Grid >
+                <StackPanel >
                     <DatePicker HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Label Content="Dr. Adam" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 40 0 0" Background="Gray" Width="650" FontWeight="Bold" HorizontalContentAlignment="Center" />
+                    <Label Content="Dr. Adam" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 10 0 0" Background="Gray" Width="650" FontWeight="Bold" HorizontalContentAlignment="Center" />
 
-                </Grid>
+                    <Border Padding="10">
+                        <WrapPanel Name="DailyRap" Loaded="DailyRap_Loaded">
+                            
+                        </WrapPanel>
+                    </Border>
+                    
+                </StackPanel>
             </TabItem>
             <!--for weekly-->
 
