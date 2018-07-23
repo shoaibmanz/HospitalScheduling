@@ -492,6 +492,13 @@ namespace HospitalScheduling
             else
                 SPECIALITYvsCLINIC = false;
         }
+
+        private void LogOut_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowLogin window = new MainWindowLogin();
+            window.Show();
+            this.Close();
+        }
     }
 
 

@@ -39,12 +39,12 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <!-- Top pane -->
-        <Grid Height="20" VerticalAlignment="Top">
+        <Grid Height="25" VerticalAlignment="Top">
             <Border BorderThickness="0,0,0,1" BorderBrush="#FF1F1C1C">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Calender View" FontWeight="Bold" Width="100" HorizontalAlignment="Left"/>
@@ -54,7 +54,9 @@
 
                     </ComboBox>
                     <TextBlock Text="Role:" Margin="30,0,0,0" FontWeight="Bold" />
-                    <TextBlock Text="Bind to login wala page" Margin="10,0,0,0"/>
+                    <TextBlock Text="Supervisor" Margin="10,0,0,0"/>
+
+                    <Button x:Name="LogOut_Button" Margin="320,0,0,0"  Width="100" Content="Log Out" Click="LogOut_Button_Click"></Button>
                 </StackPanel>
 
             </Border>
