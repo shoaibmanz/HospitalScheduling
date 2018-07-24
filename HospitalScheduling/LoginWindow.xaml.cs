@@ -58,7 +58,7 @@ namespace SchedulingSystem
                     this.Close();
                     break;
                 case "Front Desk":
-                    FrontDeskView NewWindow = new FrontDeskView(/*LoginBox.Text*/);
+                    FrontDeskView NewWindow = new FrontDeskView(LoginBox.Text);
                     NewWindow.Show();
                     this.Close(); 
                     break;

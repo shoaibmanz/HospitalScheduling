@@ -29,12 +29,12 @@ namespace SchedulingSystem
         public string ClerkName { get; set; }
 
 
-        public FrontDeskView(/*string ClerkName*/)
+        public FrontDeskView(string ClerkName)
         {
 
-
+            
             InitializeComponent();
-
+            this.DataContext = this;
             this.ClerkName = ClerkName;
 
             // set data source for DataGrids by querying from view model

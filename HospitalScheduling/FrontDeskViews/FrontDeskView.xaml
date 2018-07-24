@@ -74,7 +74,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Content="Front Desk View"/>
-
+        <Label Grid.Row="0" Name="WelcomeText" Content="{Binding Path=ClerkName}"  HorizontalAlignment="Right"/>
         <TabControl Grid.Row="1">
           
             <!-- Patient Schedule Queue View -->
