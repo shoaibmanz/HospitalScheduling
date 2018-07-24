@@ -17,9 +17,11 @@ namespace Tests
         
         public void SetupApp()
         {
-            string outputDir = @"C:\Users\Shoaib\Desktop\HospitalScheduling\HospitalScheduling\bin\Debug\HospitalScheduling.exe";
+            
+            string outputDir = new DirectoryInfo(Assembly.GetExecutingAssembly().Location).Parent.FullName;
+            string app_path = outputDir + @"\HospitalScheduling.exe.lnk";
 
-            application = TestStack.White.Application.Launch(outputDir);
+            application = TestStack.White.Application.Launch(app_path);
             //Window mainWindow = application.GetWindow("LoginWindow");
         }
 
