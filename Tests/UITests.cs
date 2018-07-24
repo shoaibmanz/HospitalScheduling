@@ -87,21 +87,35 @@ namespace HospitalSchedulingTests
             tabControl.SelectTabPage("Appointments");
 
             CheckBox ShowUpsFilter = mainWindow.Get<CheckBox>(SearchCriteria.ByAutomationId("ShowUpsOnly"));
+            ShowUpsFilter.Click();
             Grid = mainWindow.Get<ListView>(SearchCriteria.ByAutomationId("AppointmentsGrid"));
 
-            index = 3;
-            foreach (var row in Grid.Rows)
+            int testedRows = 0;
+            while (Grid.Rows.Count >= 0 && testedRows < 7)
             {
-                var DetailsButton = mainWindow.Get<Button>(SearchCriteria.Indexed(index++));
+                var OpenListButton = mainWindow.Get<Button>(SearchCriteria.Indexed(5));
 
-                DetailsButton.Click();
 
-                PatientWindow = application.GetWindow("PatientScheduling");
-                TextBox name = PatientWindow.Get<TextBox>(SearchCriteria.ByAutomationId("PatientName"));
+                OpenListButton.Click();
 
-                Assert.AreEqual(name.Text, row.Cells["PatientName"].Text);
+                PatientWindow = application.GetWindow("AddToOpenList");
 
-                PatientWindow.Close();
+                string Name = PatientWindow.Get<Label>(SearchCriteria.ByAutomationId("TextBoxPatientName")).Text;
+
+                Assert.AreEqual(Name, Grid.Rows[0].Cells[1].Text);
+
+                Button Add = PatientWindow.Get<Button>(SearchCriteria.ByText("Add"));
+                Add.Click();
+
+                tabControl.SelectTabPage("Open List");
+
+                var OpenListGrid = mainWindow.Get<ListView>(SearchCriteria.ByAutomationId("OpenListGrid"));
+
+                var NewRow = OpenListGrid.Rows[testedRows++];
+
+                Assert.AreEqual(Name, NewRow.Cells[1].Text);
+
+                tabControl.SelectTabPage("Appointments");
             }
 
             application.Close();
