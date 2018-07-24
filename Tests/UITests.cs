@@ -33,9 +33,10 @@ namespace HospitalSchedulingTests
 
         public void SetupApp()
         {
-            string outputDir = @"C:\Users\Shoaib\Desktop\HospitalScheduling\HospitalScheduling\bin\Debug\HospitalScheduling.exe";
+            string outputDir = new DirectoryInfo(Assembly.GetExecutingAssembly().Location).Parent.FullName;
+            string app_path = outputDir + @"\HospitalScheduling.exe.lnk";
 
-            application = TestStack.White.Application.Launch(outputDir);
+            application = TestStack.White.Application.Launch(app_path);
             //Window mainWindow = application.GetWindow("LoginWindow");
         }
 
@@ -120,5 +121,28 @@ namespace HospitalSchedulingTests
 
             application.Close();
         }
+
+
+        [TestMethod]
+        public void Supervisor_Test()
+        {
+            SetupApp();
+            Window mainWindow = application.GetWindow("Login Window");
+
+            ComboBox cb_Roles = mainWindow.Get<ComboBox>(SearchCriteria.ByAutomationId("RoleCombobox"));
+            cb_Roles.Select("Supervisor");
+
+            Button loginBtn = mainWindow.Get<Button>(SearchCriteria.ByText("OK"));
+            loginBtn.Click();
+
+            mainWindow = application.GetWindow("SpecialityView");
+
+            Label date = mainWindow.Get<Label>(SearchCriteria.ByAutomationId("txt_date"));
+
+            Assert.AreEqual(date.Text, DateTime.Now.ToString("MMMM dd, yyyy"));
+
+            
+        }
+
     }
 }
